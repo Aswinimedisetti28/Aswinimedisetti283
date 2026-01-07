@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Input | MelodyMist - Express Your Emotion</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------- GOLD & DARK THEME ----------------- */
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f6e7b4;
+      --gold-soft: rgba(212, 175, 55, 0.1);
+      --success: #2ecc71;
+      --success-dark: #27ae60;
+      --danger: #e74c3c;
+      --danger-dark: #c0392b;
+      --info: #3498db;
+      --info-dark: #2980b9;
+      --white: #ffffff;
+      --darker: #0a0a0a;
+      --dark: #0f0f0f;
+      --light-dark: #1a1a1a;
+      --glass: rgba(255, 255, 255, 0.88);
+      --glass-dark: rgba(26, 26, 26, 0.95);
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-gold: 0 12px 40px rgba(212, 175, 55, 0.2);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ----------------- GLOBAL STYLES ----------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Animated Gradient Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      animation: gradientShift 15s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    /* Particle Animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: particleFloat 15s infinite linear;
+      opacity: 0.3;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dark);
+    }
+
+    /* ----------------- HEADER ----------------- */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px) saturate(180%);
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+      animation: logoShine 3s infinite;
+      border-radius: 16px;
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-text h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      margin-left: 40px;
+    }
+
+    .nav-links a {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a i {
+      font-size: 1.1rem;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::before {
+      width: 70%;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .nav-links a.active::before {
+      width: 70%;
+    }
+
+    /* Auth area */
+    .auth-area {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ghost::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 40%, rgba(212, 175, 55, 0.15) 50%, transparent 60%);
+      animation: buttonShine 3s infinite;
+      z-index: -1;
+    }
+
+    .btn-ghost:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 255, 255, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .user-pill {
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .user-pill:hover::before {
+      left: 100%;
+    }
+
+    .user-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 40px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+  
+
+    /* ----------------- MAIN CONTENT ----------------- */
+    .main-content {
+      min-height: calc(100vh - 140px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .mood-container {
+      max-width: 800px;
+      width: 100%;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 25px;
+      padding: 60px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      box-shadow: var(--shadow-deep);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mood-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+
+    .welcome-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .welcome-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .welcome-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Input Method Selector */
+    .method-selector {
+      margin-bottom: 30px;
+    }
+
+    .method-label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .method-label i {
+      color: var(--gold);
+    }
+
+    .method-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .method-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .method-option {
+      position: relative;
+    }
+
+    .method-input {
+      display: none;
+    }
+
+    .method-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      height: 100%;
+    }
+
+    .method-input:checked + .method-card {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+    }
+
+    .method-icon {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .method-input:checked + .method-card .method-icon {
+      transform: scale(1.2);
+    }
+
+    .method-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .method-desc {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Text Input Area */
+    .input-section {
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .input-label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-label i {
+      color: var(--gold);
+    }
+
+    .text-input {
+      width: 100%;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-radius: 15px;
+      color: var(--white);
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      transition: all 0.3s ease;
+      min-height: 150px;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .text-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Voice Input Area */
+    .voice-section {
+      display: none;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .voice-container {
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      border: 2px dashed rgba(212, 175, 55, 0.3);
+    }
+
+    .voice-icon {
+      font-size: 4rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .voice-status {
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .voice-timer {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .voice-controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    /* Face Input Area */
+    .face-section {
+      display: none;
+      margin-bottom: 30px;
+    }
+
+    .camera-container {
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      border: 2px dashed rgba(212, 175, 55, 0.3);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .camera-preview {
+      width: 100%;
+      max-width: 500px;
+      height: 300px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      margin: 0 auto 20px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    #videoElement {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .camera-placeholder {
+      font-size: 4rem;
+      color: rgba(212, 175, 55, 0.5);
+    }
+
+    .camera-controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .capture-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .capture-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .capture-preview {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+    }
+
+    .capture-actions {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 576px) {
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+
+    .btn-detect {
+      flex: 1;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--success), var(--success-dark));
+      color: var(--white);
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+    }
+
+    .btn-detect::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-detect:hover::before {
+      left: 100%;
+    }
+
+    .btn-detect:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(46, 204, 113, 0.4);
+    }
+
+    .btn-secondary {
+      padding: 20px 30px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .btn-danger {
+      padding: 20px 30px;
+      border-radius: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border: 2px solid rgba(231, 76, 60, 0.3);
+      color: #e74c3c;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(231, 76, 60, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(231, 76, 60, 0.2);
+    }
+
+    /* Voice Recording Styles */
+    .recording {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ----------------- ENHANCED FOOTER ----------------- */
+    footer.site-footer {
+      border-top: 3px solid var(--gold);
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.98) 0%, 
+        rgba(10, 10, 10, 0.95) 100%);
+      padding: 60px 0 30px;
+      position: relative;
+    }
+
+    footer.site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, 
+        var(--gold), 
+        var(--gold-dark), 
+        var(--gold), 
+        var(--gold-dark));
+      animation: borderFlow 3s linear infinite;
+    }
+
+    @keyframes borderFlow {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      gap: 50px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .footer-block {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .footer-logo {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .footer-logo .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+    }
+
+    .footer-logo .logo i {
+      font-size: 24px;
+      color: var(--white);
+    }
+
+    .footer-logo-text h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-logo-text p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 8px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .dev-credit {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      margin-top: 25px;
+      line-height: 1.6;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 15px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-links a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+      transform-origin: top;
+    }
+
+    .footer-links a:hover::before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(10px);
+    }
+
+    .footer-links a i {
+      color: var(--gold);
+      width: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-links a:hover i {
+      transform: scale(1.2);
+    }
+
+    .footer-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--white);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+
+    .socials {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .socials a {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.1), 
+        rgba(255, 255, 255, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .socials a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .socials a:hover::before {
+      opacity: 1;
+    }
+
+    .socials a i {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .socials a:hover i {
+      color: var(--white);
+    }
+
+    .socials a:hover {
+      transform: translateY(-5px) rotate(5deg);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .copyright::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ----------------- RESPONSIVE ----------------- */
+    @media (max-width: 1200px) {
+      .mood-container {
+        padding: 50px;
+      }
+      
+      .welcome-title {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .mood-container {
+        padding: 40px;
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mood-container {
+        padding: 30px;
+      }
+      
+      .welcome-title {
+        font-size: 2rem;
+      }
+      
+      .welcome-subtitle {
+        font-size: 1rem;
+      }
+      
+      .method-icon {
+        font-size: 2.2rem;
+      }
+      
+      .nav-inner {
+        padding: 12px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-content {
+        padding: 20px 15px;
+      }
+      
+      .mood-container {
+        padding: 25px;
+      }
+      
+      .welcome-title {
+        font-size: 1.8rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .footer-inner {
+        padding: 0 20px;
+      }
+      
+      .camera-preview {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- HEADER -->
+  <header class="topbar" role="banner">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="logo" aria-hidden="true">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="brand-text">
+          <h1>MelodyMist</h1>
+          <p>Emotion-Driven Music</p>
+        </div>
+      </a>
+
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="/home"><i class="fas fa-home"></i> Home</a>
+        <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="/features"><i class="fas fa-star"></i> Features</a>
+        <a href="/index" class="active"><i class="fas fa-heart"></i> Mood Input</a>
+        <a href="/history"><i class="fas fa-history"></i> History</a>
+        <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+        <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+
+      <div class="auth-area">
+        <a href="/community" class="btn-ghost">
+          <i class="fas fa-users"></i> Community
+        </a>
+        <div class="user-pill">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ session['username'] }}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="mood-container">
+      <!-- Welcome Section -->
+      <div class="welcome-section">
+        <h1 class="welcome-title">
+          <i class="fas fa-heart"></i>
+          Hi {{ session['username'] }}!
+        </h1>
+        <p class="welcome-subtitle">
+          Express your current mood through text, voice, or facial expression. 
+          We'll analyze it and play the perfect music for your emotions.
+        </p>
+      </div>
+
+      <form method="POST" action="/detect" id="moodForm">
+        <!-- Input Method Selector -->
+        <div class="method-selector">
+          <div class="method-label">
+            <i class="fas fa-mouse-pointer"></i>
+            Select Input Method
+          </div>
+          <div class="method-options">
+            <div class="method-option">
+              <input type="radio" id="method-text" name="input_method" value="text" class="method-input" checked>
+              <label for="method-text" class="method-card">
+                <span class="method-icon">📝</span>
+                <span class="method-name">Text</span>
+                <span class="method-desc">Type how you feel</span>
+              </label>
+            </div>
+
+            <div class="method-option">
+              <input type="radio" id="method-voice" name="input_method" value="voice" class="method-input">
+              <label for="method-voice" class="method-card">
+                <span class="method-icon">🎤</span>
+                <span class="method-name">Voice</span>
+                <span class="method-desc">Speak your feelings</span>
+              </label>
+            </div>
+
+            <div class="method-option">
+              <input type="radio" id="method-face" name="input_method" value="face" class="method-input">
+              <label for="method-face" class="method-card">
+                <span class="method-icon">📷</span>
+                <span class="method-name">Face</span>
+                <span class="method-desc">Capture expression</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Input Section -->
+        <div class="input-section" id="textSection">
+          <div class="input-label">
+            <i class="fas fa-keyboard"></i>
+            How are you feeling?
+          </div>
+          <textarea 
+            class="text-input" 
+            name="text_input" 
+            placeholder="Describe your mood in detail... 
+Examples:
+• I'm feeling excited and energetic today!
+• It's been a stressful day at work.
+• Just relaxing and feeling peaceful.
+• Feeling nostalgic and a bit sentimental."></textarea>
+        </div>
+
+        <!-- Voice Input Section -->
+        <div class="voice-section" id="voiceSection">
+          <div class="voice-container">
+            <div class="voice-icon">
+              <i class="fas fa-microphone"></i>
+            </div>
+            <div class="voice-status" id="voiceStatus">
+              Click start to record your voice
+            </div>
+            <div class="voice-timer" id="voiceTimer">00:00</div>
+            <div class="voice-controls">
+              <button type="button" class="btn-ghost" id="startRecording">
+                <i class="fas fa-play"></i> Start
+              </button>
+              <button type="button" class="btn-danger" id="stopRecording" disabled>
+                <i class="fas fa-stop"></i> Stop
+              </button>
+            </div>
+            <input type="hidden" name="voice_input" id="voiceInput">
+          </div>
+        </div>
+
+        <!-- Face Input Section -->
+        <div class="face-section" id="faceSection">
+          <div class="camera-container">
+            <div class="camera-preview">
+              <video id="videoElement" autoplay></video>
+              <div class="camera-placeholder">
+                <i class="fas fa-camera"></i>
+              </div>
+            </div>
+            
+            <div class="camera-controls">
+              <button type="button" class="btn-ghost" id="startCamera">
+                <i class="fas fa-camera"></i> Start Camera
+              </button>
+              <button type="button" class="btn-secondary" id="capturePhoto" disabled>
+                <i class="fas fa-camera-retro"></i> Capture
+              </button>
+              <button type="button" class="btn-danger" id="stopCamera" disabled>
+                <i class="fas fa-stop"></i> Stop
+              </button>
+            </div>
+            
+            <div class="capture-overlay" id="captureOverlay">
+              <img id="capturedImage" class="capture-preview" alt="Captured photo">
+              <div class="capture-actions">
+                <button type="button" class="btn-ghost" id="retakePhoto">
+                  <i class="fas fa-redo"></i> Retake
+                </button>
+                <button type="button" class="btn-detect" id="usePhoto">
+                  <i class="fas fa-check"></i> Use This
+                </button>
+              </div>
+            </div>
+            
+            <input type="hidden" name="face_input" id="faceInput">
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button type="submit" class="btn-detect">
+            <i class="fas fa-music"></i>
+            Detect Mood & Play Music
+          </button>
+          <a href="/history" class="btn-secondary">
+            <i class="fas fa-history"></i>
+            View History
+          </a>
+          <a href="/logout" class="btn-danger">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-block">
+        <div class="footer-logo">
+          <div class="logo" aria-hidden="true">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="footer-logo-text">
+            <h3>MelodyMist</h3>
+            <p>Emotion-Driven Music Experience</p>
+          </div>
+        </div>
+        
+        <p class="dev-credit">
+          Built with ❤️ by passionate developers • 
+          <span>Your emotions shape your music • Every mood matters</span>
+        </p>
+        
+        <div class="socials">
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Quick Links</h4>
+        <div class="footer-links" role="navigation" aria-label="Footer links">
+          <a href="/home"><i class="fas fa-home"></i> Home</a>
+          <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+          <a href="/features"><i class="fas fa-star"></i> Features</a>
+          <a href="/index" class="active"><i class="fas fa-heart"></i> Mood Input</a>
+          <a href="/history"><i class="fas fa-history"></i> History</a>
+          <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+          <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Mood Analysis</h4>
+        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+          Our AI analyzes your emotions to create the perfect playlist for your current mood.
+        </p>
+        
+        <div class="footer-links">
+          <a href="#">
+            <i class="fas fa-brain"></i> How It Works
+          </a>
+          <a href="#">
+            <i class="fas fa-headphones"></i> Sample Playlists
+          </a>
+          <a href="#">
+            <i class="fas fa-chart-line"></i> Mood Trends
+          </a>
+          <a href="#">
+            <i class="fas fa-question-circle"></i> Help & Tips
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      © <span id="footer-year"></span> MelodyMist — Your Emotions, Your Music | 
+      <a href="/privacy" style="color: var(--gold); font-weight: 600;">Privacy Policy</a> | 
+      <a href="/terms" style="color: var(--gold); font-weight: 600;">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Set current year in footer
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 100 + 50;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = Math.random() * 10 + 15;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${x}%`;
+        particle.style.top = `${y}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Input Method Switching
+    const methodInputs = document.querySelectorAll('.method-input');
+    const textSection = document.getElementById('textSection');
+    const voiceSection = document.getElementById('voiceSection');
+    const faceSection = document.getElementById('faceSection');
+    
+    methodInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        // Hide all sections
+        textSection.style.display = 'none';
+        voiceSection.style.display = 'none';
+        faceSection.style.display = 'none';
+        
+        // Stop any active media
+        stopCamera();
+        stopRecording();
+        
+        // Show selected section
+        switch(this.value) {
+          case 'text':
+            textSection.style.display = 'block';
+            break;
+          case 'voice':
+            voiceSection.style.display = 'block';
+            break;
+          case 'face':
+            faceSection.style.display = 'block';
+            break;
+        }
+      });
+    });
+    
+    // Voice Recording Functionality
+    let mediaRecorder;
+    let audioChunks = [];
+    let recordingTimer;
+    let recordingTime = 0;
+    
+    const startRecordingBtn = document.getElementById('startRecording');
+    const stopRecordingBtn = document.getElementById('stopRecording');
+    const voiceStatus = document.getElementById('voiceStatus');
+    const voiceTimer = document.getElementById('voiceTimer');
+    const voiceInput = document.getElementById('voiceInput');
+    
+    async function startRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        
+        mediaRecorder.ondataavailable = event => {
+          audioChunks.push(event.data);
+        };
+        
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          
+          // Convert blob to base64 for form submission
+          const reader = new FileReader();
+          reader.readAsDataURL(audioBlob);
+          reader.onloadend = () => {
+            voiceInput.value = reader.result;
+          };
+          
+          // Update UI
+          voiceStatus.textContent = 'Recording saved! Ready to analyze.';
+          voiceStatus.style.color = '#2ecc71';
+          voiceInput.value = 'audio_data'; // In production, this would be the actual audio data
+        };
+        
+        mediaRecorder.start();
+        audioChunks = [];
+        
+        // Start timer
+        recordingTime = 0;
+        recordingTimer = setInterval(() => {
+          recordingTime++;
+          const minutes = Math.floor(recordingTime / 60).toString().padStart(2, '0');
+          const seconds = (recordingTime % 60).toString().padStart(2, '0');
+          voiceTimer.textContent = `${minutes}:${seconds}`;
+        }, 1000);
+        
+        // Update UI
+        startRecordingBtn.disabled = true;
+        stopRecordingBtn.disabled = false;
+        voiceStatus.textContent = 'Recording... Speak now!';
+        voiceStatus.style.color = '#e74c3c';
+        voiceStatus.classList.add('recording');
+        
+      } catch (err) {
+        console.error('Error accessing microphone:', err);
+        voiceStatus.textContent = 'Microphone access denied. Please allow microphone permission.';
+        voiceStatus.style.color = '#e74c3c';
+      }
+    }
+    
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        clearInterval(recordingTimer);
+        
+        // Stop all audio tracks
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        
+        // Update UI
+        startRecordingBtn.disabled = false;
+        stopRecordingBtn.disabled = true;
+        voiceStatus.classList.remove('recording');
+      }
+    }
+    
+    startRecordingBtn.addEventListener('click', startRecording);
+    stopRecordingBtn.addEventListener('click', stopRecording);
+    
+    // Camera Functionality
+    const videoElement = document.getElementById('videoElement');
+    const startCameraBtn = document.getElementById('startCamera');
+    const capturePhotoBtn = document.getElementById('capturePhoto');
+    const stopCameraBtn = document.getElementById('stopCamera');
+    const captureOverlay = document.getElementById('captureOverlay');
+    const capturedImage = document.getElementById('capturedImage');
+    const retakePhotoBtn = document.getElementById('retakePhoto');
+    const usePhotoBtn = document.getElementById('usePhoto');
+    const faceInput = document.getElementById('faceInput');
+    
+    let stream = null;
+    
+    async function startCamera() {
+      try {
+        // Request camera access
+        stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            facingMode: 'user' 
+          } 
+        });
+        
+        videoElement.srcObject = stream;
+        videoElement.style.display = 'block';
+        
+        // Hide placeholder
+        document.querySelector('.camera-placeholder').style.display = 'none';
+        
+        // Update UI
+        startCameraBtn.disabled = true;
+        capturePhotoBtn.disabled = false;
+        stopCameraBtn.disabled = false;
+        
+      } catch (err) {
+        console.error('Error accessing camera:', err);
+        showNotification('Camera access denied. Please allow camera permission.', 'warning');
+      }
+    }
+    
+    function stopCamera() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        videoElement.srcObject = null;
+        videoElement.style.display = 'none';
+        
+        // Show placeholder
+        document.querySelector('.camera-placeholder').style.display = 'block';
+        
+        // Update UI
+        startCameraBtn.disabled = false;
+        capturePhotoBtn.disabled = true;
+        stopCameraBtn.disabled = true;
+        
+        // Hide capture overlay if visible
+        captureOverlay.classList.remove('active');
+      }
+    }
+    
+    function capturePhoto() {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      
+      const context = canvas.getContext('2d');
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      
+      // Display captured photo
+      capturedImage.src = canvas.toDataURL('image/jpeg');
+      captureOverlay.classList.add('active');
+      
+      // Store base64 image for form submission
+      faceInput.value = canvas.toDataURL('image/jpeg');
+    }
+    
+    function retakePhoto() {
+      captureOverlay.classList.remove('active');
+    }
+    
+    function usePhoto() {
+      // Keep the photo and hide overlay
+      captureOverlay.classList.remove('active');
+      showNotification('Photo captured! Ready for mood analysis.', 'success');
+    }
+    
+    startCameraBtn.addEventListener('click', startCamera);
+    capturePhotoBtn.addEventListener('click', capturePhoto);
+    stopCameraBtn.addEventListener('click', stopCamera);
+    retakePhotoBtn.addEventListener('click', retakePhoto);
+    usePhotoBtn.addEventListener('click', usePhoto);
+    
+    // Form Validation
+    const moodForm = document.getElementById('moodForm');
+    
+    moodForm.addEventListener('submit', function(e) {
+      const selectedMethod = document.querySelector('input[name="input_method"]:checked').value;
+      let isValid = true;
+      
+      switch(selectedMethod) {
+        case 'text':
+          const textInput = document.querySelector('textarea[name="text_input"]');
+          if (!textInput.value.trim()) {
+            showNotification('Please enter some text about your mood.', 'warning');
+            isValid = false;
+          }
+          break;
+          
+        case 'voice':
+          if (voiceInput.value === '') {
+            showNotification('Please record your voice first.', 'warning');
+            isValid = false;
+          }
+          break;
+          
+        case 'face':
+          if (faceInput.value === '') {
+            showNotification('Please capture a photo first.', 'warning');
+            isValid = false;
+          }
+          break;
+      }
+      
+      if (!isValid) {
+        e.preventDefault();
+      }
+    });
+    
+    // Notification function
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 30px;
+          right: 30px;
+          padding: 20px 25px;
+          background: ${type === 'success' ? 'linear-gradient(135deg, #2ecc71, #27ae60)' : 
+            type === 'warning' ? 'linear-gradient(135deg, #f39c12, #e67e22)' : '#ff4757'};
+          color: white;
+          border-radius: 15px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+          z-index: 10000;
+          font-weight: 600;
+          animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          backdrop-filter: blur(10px);
+          border: 1px solid ${type === 'success' ? 'rgba(46, 204, 113, 0.3)' : 
+            type === 'warning' ? 'rgba(243, 156, 18, 0.3)' : 'rgba(255, 71, 87, 0.3)'};
+        ">
+          <i class="fas ${type === 'success' ? 'fa-check-circle' : 
+            type === 'warning' ? 'fa-exclamation-triangle' : 'fa-exclamation-circle'}" 
+             style="font-size: 1.5rem;"></i>
+          <div>${message}</div>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            document.body.removeChild(notification);
+          }
+        }, 400);
+      }, 5000);
+      
+      // Add keyframes for animation
+      if (!document.getElementById('notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+          @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+          @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+    
+    // Add parallax effect to header
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('header.topbar');
+      const scrolled = window.pageYOffset;
+      
+      if (scrolled > 50) {
+        header.style.backdropFilter = 'blur(15px) saturate(200%)';
+        header.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.95) 100%)';
+        header.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+      } else {
+        header.style.backdropFilter = 'blur(10px) saturate(180%)';
+        header.style.background = 'linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%)';
+        header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+      }
+    });
+    
+    // Initialize with text method selected
+    document.addEventListener('DOMContentLoaded', function() {
+      textSection.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

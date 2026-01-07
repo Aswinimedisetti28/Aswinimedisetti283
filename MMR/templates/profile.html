@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile | MelodyMist</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Bootstrap + Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --gold:#d4af37;
+  --accent:#ffcc66;
+  --glass:rgba(255,255,255,.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:
+    radial-gradient(circle at top,#1b1b1b,#050505 60%),
+    linear-gradient(135deg,#0a0a0a,#121212);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* 🎵 Animated music glow */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(212,175,55,.15),transparent 40%),
+    radial-gradient(circle at 80% 60%,rgba(255,204,102,.12),transparent 45%);
+  animation:floatGlow 10s infinite alternate;
+  z-index:-1;
+}
+
+@keyframes floatGlow{
+  from{opacity:.6}
+  to{opacity:1}
+}
+
+/* MAIN */
+.profile-wrapper{
+  max-width:1100px;
+  margin:60px auto;
+  padding:20px;
+}
+
+.profile-card{
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(212,175,55,.25);
+  border-radius:30px;
+  padding:45px;
+  box-shadow:0 40px 90px rgba(0,0,0,.6);
+  animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:none}
+}
+
+/* HEADER */
+.profile-header{
+  display:flex;
+  gap:35px;
+  align-items:center;
+  padding-bottom:35px;
+  border-bottom:1px solid rgba(212,175,55,.25);
+}
+
+/* Avatar */
+.avatar{
+  position:relative;
+  width:150px;
+}
+
+.avatar img{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid var(--gold);
+  transition:.4s;
+}
+
+.avatar:hover img{
+  transform:scale(1.05);
+  box-shadow:0 0 40px rgba(212,175,55,.6);
+}
+
+.avatar label{
+  position:absolute;
+  bottom:5px;
+  right:5px;
+  background:linear-gradient(135deg,var(--gold),#ffdf8b);
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  color:#000;
+}
+
+.avatar input{display:none}
+
+/* User */
+.user-main h2{
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.user-main p{
+  opacity:.75;
+}
+
+.badge-gold{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--gold),#ffdf8b);
+  color:#000;
+  padding:6px 16px;
+  border-radius:20px;
+  font-weight:600;
+  font-size:.85rem;
+}
+
+/* GRID */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  margin-top:45px;
+}
+
+.info-box{
+  background:rgba(0,0,0,.45);
+  border-radius:22px;
+  padding:28px;
+  border:1px solid rgba(212,175,55,.2);
+  transition:.4s;
+  position:relative;
+  overflow:hidden;
+}
+
+.info-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(212,175,55,.15),transparent);
+  opacity:0;
+  transition:.4s;
+}
+
+.info-box:hover::before{opacity:1}
+.info-box:hover{
+  transform:translateY(-8px) scale(1.02);
+}
+
+.info-box i{
+  font-size:2rem;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+
+.info-title{
+  font-size:.85rem;
+  opacity:.7;
+}
+
+.info-value{
+  font-size:1.2rem;
+  font-weight:700;
+}
+
+/* ACTIONS */
+.actions{
+  margin-top:45px;
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),#ffdf8b);
+  border:none;
+  color:#000;
+  font-weight:700;
+  padding:14px 34px;
+  border-radius:30px;
+}
+
+.btn-gold:hover{
+  box-shadow:0 0 30px rgba(212,175,55,.6);
+}
+
+/* EDIT PANEL */
+.edit-panel{
+  display:none;
+  animation:fadeUp .6s ease;
+}
+
+.edit-panel.show{display:block}
+
+.form-control,select{
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(212,175,55,.3);
+  color:#fff;
+  border-radius:15px;
+}
+
+.form-control:focus,select:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,175,55,.25);
+}
+
+.logout{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#e74c3c,#c0392b);
+  color:#fff;
+  padding:14px 30px;
+  border-radius:30px;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="profile-wrapper">
+  <div class="profile-card">
+
+    <!-- HEADER -->
+    <div class="profile-header">
+      <div class="avatar">
+        <img id="avatarPreview" src="https://i.pravatar.cc/300">
+
+        <label>
+          <i class="fas fa-camera"></i>
+          <input type="file" accept="image/*" onchange="previewAvatar(event)">
+        </label>
+      </div>
+
+      <div class="user-main">
+        <h2>{{ username }}</h2>
+        <span class="badge-gold">{{ account_type }} Account</span>
+        <p class="mt-2">{{ email }}</p>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="info-grid">
+      <div class="info-box"><i class="fas fa-calendar"></i><div class="info-title">Joined</div><div class="info-value">{{ joined }}</div></div>
+      <div class="info-box"><i class="fas fa-music"></i><div class="info-title">Favorite Genre</div><div class="info-value">{{ favorite_genre }}</div></div>
+      <div class="info-box"><i class="fas fa-smile"></i><div class="info-title">Top Mood</div><div class="info-value">{{ top_mood }}</div></div>
+      <div class="info-box"><i class="fas fa-fire"></i><div class="info-title">Streak</div><div class="info-value">{{ streak }} Days</div></div>
+      <div class="info-box"><i class="fas fa-brain"></i><div class="info-title">AI Accuracy</div><div class="info-value">{{ accuracy }}</div></div>
+      <div class="info-box"><i class="fas fa-clock"></i><div class="info-title">Last Login</div><div class="info-value">{{ last_login }}</div></div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="btn-gold" onclick="toggleEdit()">
+        <i class="fas fa-user-edit"></i> Edit Profile
+      </button>
+
+      <div class="edit-panel" id="editPanel">
+        <form action="/edit-profile" method="POST" class="row g-3">
+          <div class="col-md-6">
+            <input type="email" name="email" value="{{ email }}" class="form-control" placeholder="Email">
+          </div>
+          <div class="col-md-6">
+            <select name="favorite_genre" class="form-control">
+              <option {{ 'selected' if favorite_genre=='Lo-Fi' }}>Lo-Fi</option>
+              <option {{ 'selected' if favorite_genre=='Pop' }}>Pop</option>
+              <option {{ 'selected' if favorite_genre=='Rock' }}>Rock</option>
+              <option {{ 'selected' if favorite_genre=='Classical' }}>Classical</option>
+              <option {{ 'selected' if favorite_genre=='Jazz' }}>Jazz</option>
+            </select>
+          </div>
+          <div class="col-12 text-end">
+            <button class="btn-gold">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <a href="/logout" class="logout">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function previewAvatar(e){
+  const r=new FileReader();
+  r.onload=()=>avatarPreview.src=r.result;
+  r.readAsDataURL(e.target.files[0]);
+}
+
+function toggleEdit(){
+  document.getElementById("editPanel").classList.toggle("show");
+}
+</script>
+
+</body>
+</html>

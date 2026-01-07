@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features | MelodyMist - Emotion-Driven Music AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------- GOLD & DARK THEME ----------------- */
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f6e7b4;
+      --gold-soft: rgba(212, 175, 55, 0.1);
+      --white: #ffffff;
+      --darker: #0a0a0a;
+      --dark: #0f0f0f;
+      --light-dark: #1a1a1a;
+      --muted: rgba(255, 255, 255, 0.6);
+      --glass: rgba(255, 255, 255, 0.88);
+      --glass-dark: rgba(26, 26, 26, 0.95);
+      --glass-border: rgba(212, 175, 55, 0.15);
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-gold: 0 12px 40px rgba(212, 175, 55, 0.2);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ----------------- GLOBAL STYLES ----------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+
+    /* Animated Gradient Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      animation: gradientShift 15s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    /* Particle Animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: particleFloat 15s infinite linear;
+      opacity: 0.3;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dark);
+    }
+
+    /* ----------------- HEADER ----------------- */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px) saturate(180%);
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+      animation: logoShine 3s infinite;
+      border-radius: 16px;
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-text h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      margin-left: 40px;
+    }
+
+    .nav-links a {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a i {
+      font-size: 1.1rem;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::before {
+      width: 70%;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .nav-links a.active::before {
+      width: 70%;
+    }
+
+    /* Auth area */
+    .auth-area {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ghost::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 40%, rgba(212, 175, 55, 0.15) 50%, transparent 60%);
+      animation: buttonShine 3s infinite;
+      z-index: -1;
+    }
+
+    .btn-ghost:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 255, 255, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .user-pill {
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .user-pill:hover::before {
+      left: 100%;
+    }
+
+    .user-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 40px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    /* ----------------- HERO SECTION ----------------- */
+    .hero-section {
+      padding: 180px 20px 100px;
+      text-align: center;
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 900;
+      margin-bottom: 30px;
+      line-height: 1.1;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(135deg, 
+        var(--gold) 0%, 
+        var(--gold-light) 25%, 
+        var(--gold) 50%, 
+        var(--gold-light) 75%, 
+        var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .hero-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 800px;
+      margin: 50px auto 60px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Floating Tech Icons */
+    .tech-icons-container {
+      position: relative;
+      height: 200px;
+      margin: 80px 0;
+    }
+
+    .tech-icon {
+      position: absolute;
+      font-size: 2.8rem;
+      color: var(--gold);
+      opacity: 0;
+      filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
+      animation: iconFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes iconFloat {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.9;
+      }
+      90% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-150px) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .tech-icon:nth-child(1) { left: 5%; animation-delay: 0s; }
+    .tech-icon:nth-child(2) { left: 15%; animation-delay: 1s; }
+    .tech-icon:nth-child(3) { left: 25%; animation-delay: 2s; }
+    .tech-icon:nth-child(4) { left: 35%; animation-delay: 3s; }
+    .tech-icon:nth-child(5) { left: 45%; animation-delay: 4s; }
+    .tech-icon:nth-child(6) { left: 55%; animation-delay: 5s; }
+    .tech-icon:nth-child(7) { left: 65%; animation-delay: 6s; }
+    .tech-icon:nth-child(8) { left: 75%; animation-delay: 7s; }
+    .tech-icon:nth-child(9) { left: 85%; animation-delay: 8s; }
+
+    /* ----------------- CURRENT FEATURES SECTION ----------------- */
+    .features-section {
+      padding: 120px 20px;
+      position: relative;
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.9) 0%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    }
+
+    .features-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 80px;
+      position: relative;
+      color: var(--white);
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark), var(--gold));
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 700px;
+      margin: -50px auto 60px;
+      line-height: 1.6;
+    }
+
+    /* Feature Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 20px;
+      padding: 40px 35px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      box-shadow: var(--shadow-soft);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-deep);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .feature-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .feature-badge i {
+      font-size: 1.1rem;
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      font-size: 28px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .feature-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+      animation: iconShine 3s infinite;
+    }
+
+    @keyframes iconShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .feature-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .feature-desc {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 25px;
+      font-size: 1rem;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tech-tag {
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .tech-tag:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ----------------- UPCOMING FEATURES SECTION ----------------- */
+    .upcoming-section {
+      padding: 120px 20px;
+      position: relative;
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+    }
+
+    .upcoming-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 1400px;
+      margin: 80px auto 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, 
+        transparent 0%, 
+        var(--gold) 20%, 
+        var(--gold) 80%, 
+        transparent 100%);
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 80px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-item:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-content {
+      width: 45%;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 20px;
+      padding: 35px 40px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-gold);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.2rem;
+      box-shadow: 
+        0 4px 15px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      z-index: 2;
+    }
+
+    .upcoming-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(52, 152, 219, 0.15);
+      color: #3498db;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .upcoming-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .upcoming-desc {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-development {
+      background: rgba(241, 196, 15, 0.15);
+      color: #f1c40f;
+    }
+
+    .status-planning {
+      background: rgba(155, 89, 182, 0.15);
+      color: #9b59b6;
+    }
+
+    .status-research {
+      background: rgba(46, 204, 113, 0.15);
+      color: #2ecc71;
+    }
+
+    /* ----------------- TECH STACK SECTION ----------------- */
+    .tech-section {
+      padding: 120px 20px;
+      position: relative;
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.9) 0%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 80px auto 0;
+    }
+
+    .tech-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 20px;
+      padding: 40px 35px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .tech-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-gold);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .tech-card-icon {
+      font-size: 3.5rem;
+      color: var(--gold);
+      margin-bottom: 25px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .tech-card:hover .tech-card-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .tech-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--white);
+    }
+
+    .tech-card-desc {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* ----------------- ENHANCED FOOTER ----------------- */
+    footer.site-footer {
+      margin-top: 120px;
+      border-top: 3px solid var(--gold);
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.98) 0%, 
+        rgba(10, 10, 10, 0.95) 100%);
+      padding: 80px 0 40px;
+      position: relative;
+    }
+
+    footer.site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, 
+        var(--gold), 
+        var(--gold-dark), 
+        var(--gold), 
+        var(--gold-dark));
+      animation: borderFlow 3s linear infinite;
+    }
+
+    @keyframes borderFlow {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      gap: 50px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .footer-block {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .footer-logo {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .footer-logo .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+    }
+
+    .footer-logo .logo i {
+      font-size: 24px;
+      color: var(--white);
+    }
+
+    .footer-logo-text h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-logo-text p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 8px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .dev-credit {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      margin-top: 25px;
+      line-height: 1.6;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 15px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-links a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+      transform-origin: top;
+    }
+
+    .footer-links a:hover::before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(10px);
+    }
+
+    .footer-links a i {
+      color: var(--gold);
+      width: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-links a:hover i {
+      transform: scale(1.2);
+    }
+
+    .footer-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--white);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+
+    .socials {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .socials a {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.1), 
+        rgba(255, 255, 255, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .socials a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .socials a:hover::before {
+      opacity: 1;
+    }
+
+    .socials a i {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .socials a:hover i {
+      color: var(--white);
+    }
+
+    .socials a:hover {
+      transform: translateY(-5px) rotate(5deg);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .newsletter {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+      position: relative;
+    }
+
+    .newsletter input {
+      flex: 1;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--white);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .newsletter input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .copyright::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ----------------- RESPONSIVE ----------------- */
+    @media (max-width: 1200px) {
+      .hero-title {
+        font-size: 3.8rem;
+      }
+      
+      .section-title {
+        font-size: 3rem;
+      }
+      
+      .timeline::before {
+        left: 30px;
+      }
+      
+      .timeline-item {
+        flex-direction: row !important;
+        margin-left: 60px;
+      }
+      
+      .timeline-content {
+        width: calc(100% - 80px);
+      }
+      
+      .timeline-marker {
+        left: 30px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3.2rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      }
+      
+      .tech-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .section-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .feature-card {
+        padding: 30px 25px;
+      }
+      
+      .timeline-content {
+        padding: 25px 30px;
+      }
+      
+      .nav-inner {
+        padding: 12px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-section {
+        padding: 120px 15px 80px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+        margin: 30px auto 40px;
+      }
+      
+      .tech-icons-container {
+        height: 150px;
+        margin: 40px 0;
+      }
+      
+      .tech-icon {
+        font-size: 2rem;
+      }
+      
+      .features-section, .upcoming-section, .tech-section {
+        padding: 60px 15px;
+      }
+      
+      .feature-card, .timeline-content, .tech-card {
+        padding: 25px 20px;
+      }
+      
+      .feature-title, .upcoming-title {
+        font-size: 1.3rem;
+      }
+      
+      .btn-ghost, .user-pill {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+      
+      .footer-inner {
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- HEADER -->
+  <header class="topbar" role="banner">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="logo" aria-hidden="true">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="brand-text">
+          <h1>MelodyMist</h1>
+          <p>Emotion-Driven Music</p>
+        </div>
+      </a>
+
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="/home"><i class="fas fa-home"></i> Home</a>
+        <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="/features" class="active"><i class="fas fa-star"></i> Features</a>
+        <a href="/index"><i class="fas fa-play-circle"></i> Action</a>
+        <a href="/history"><i class="fas fa-history"></i> History</a>
+        <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+        <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+
+      <div class="auth-area">
+        <a href="/community" class="btn-ghost">
+          <i class="fas fa-users"></i> Community
+        </a>
+        <a href="/profile" class="user-pill">
+          <i class="fas fa-user-circle"></i> Profile
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="hero-title animate__animated animate__fadeInDown">
+      Cutting-Edge <span>Features</span>
+    </h1>
+    
+    <p class="hero-subtitle animate__animated animate__fadeInUp">
+      Discover the revolutionary technology powering MelodyMist's emotion-driven music experience. 
+      From real-time AI analysis to seamless platform integrations.
+    </p>
+    
+    <!-- Floating Tech Icons -->
+    <div class="tech-icons-container">
+      <div class="tech-icon"><i class="fab fa-python"></i></div>
+      <div class="tech-icon"><i class="fab fa-react"></i></div>
+      <div class="tech-icon"><i class="fas fa-brain"></i></div>
+      <div class="tech-icon"><i class="fas fa-database"></i></div>
+      <div class="tech-icon"><i class="fab fa-node-js"></i></div>
+      <div class="tech-icon"><i class="fas fa-cloud"></i></div>
+      <div class="tech-icon"><i class="fas fa-microchip"></i></div>
+      <div class="tech-icon"><i class="fas fa-robot"></i></div>
+      <div class="tech-icon"><i class="fab fa-aws"></i></div>
+    </div>
+  </section>
+
+  <!-- CURRENT FEATURES SECTION -->
+  <section class="features-section" aria-labelledby="current-features">
+    <h2 id="current-features" class="section-title animate__animated animate__fadeIn">
+      Current <span>Features</span>
+    </h2>
+    
+    <p class="section-subtitle">
+      Experience the power of our currently available features that make MelodyMist the most advanced emotion-driven music platform.
+    </p>
+    
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-badge">
+          <i class="fas fa-bolt"></i> REAL-TIME
+        </div>
+        <div class="feature-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <h3 class="feature-title">Real-Time Emotion Detection AI</h3>
+        <p class="feature-desc">
+          Advanced facial expression analysis using DeepFace and OpenCV with 95% accuracy. 
+          Real-time processing at 30 FPS with multi-threaded architecture.
+        </p>
+        <div class="tech-stack">
+          <span class="tech-tag">Python 3.11</span>
+          <span class="tech-tag">TensorFlow 2.0</span>
+          <span class="tech-tag">OpenCV 4.8</span>
+          <span class="tech-tag">DeepFace</span>
+          <span class="tech-tag">Multi-threading</span>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-badge">
+          <i class="fas fa-shield-alt"></i> SECURE
+        </div>
+        <div class="feature-icon">
+          <i class="fas fa-database"></i>
+        </div>
+        <h3 class="feature-title">Secure Data Processing Pipeline</h3>
+        <p class="feature-desc">
+          End-to-end encrypted processing with no data storage. All facial analysis happens 
+          locally in browser with WebAssembly for maximum privacy.
+        </p>
+        <div class="tech-stack">
+          <span class="tech-tag">WebAssembly</span>
+          <span class="tech-tag">AES-256 Encryption</span>
+          <span class="tech-tag">HTTPS/SSL</span>
+          <span class="tech-tag">Zero-Data Retention</span>
+          <span class="tech-tag">GDPR Compliant</span>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-badge">
+          <i class="fas fa-plug"></i> INTEGRATED
+        </div>
+        <div class="feature-icon">
+          <i class="fab fa-spotify"></i>
+        </div>
+        <h3 class="feature-title">Multi-Platform Music Integration</h3>
+        <p class="feature-desc">
+          Seamless integration with Spotify, YouTube Music, and Apple Music APIs. 
+          OAuth 2.0 authentication with token refresh and rate limiting.
+        </p>
+        <div class="tech-stack">
+          <span class="tech-tag">Spotify Web API</span>
+          <span class="tech-tag">YouTube Data API v3</span>
+          <span class="tech-tag">OAuth 2.0</span>
+          <span class="tech-tag">RESTful APIs</span>
+          <span class="tech-tag">WebSocket</span>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-badge">
+          <i class="fas fa-sliders-h"></i> ADAPTIVE
+        </div>
+        <div class="feature-icon">
+          <i class="fas fa-brain"></i>
+        </div>
+        <h3 class="feature-title">Adaptive Learning Algorithm</h3>
+        <p class="feature-desc">
+          Machine learning models that adapt to your music preferences over time. 
+          Reinforcement learning with user feedback loops for continuous improvement.
+        </p>
+        <div class="tech-stack">
+          <span class="tech-tag">Reinforcement Learning</span>
+          <span class="tech-tag">BERT Embeddings</span>
+          <span class="tech-tag">Collaborative Filtering</span>
+          <span class="tech-tag">Neural Networks</span>
+          <span class="tech-tag">Feedback Loops</span>
+        </div>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-badge">
+          <i class="fas fa-wave-square"></i> VISUAL
+        </div>
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3 class="feature-title">Real-Time Audio Visualization</h3>
+        <p class="feature-desc">
+          Web Audio API powered visualizations with particle systems and waveform analysis. 
+          GPU-accelerated rendering with Three.js for smooth 60 FPS animations.
+        </p>
+        <div class="tech-stack">
+          <span class="tech-tag">Web Audio API</span>
+          <span class="tech-tag">Three.js</span>
+          <span class="tech-tag">WebGL</span>
+          <span class="tech-tag">Canvas 2D/3D</span>
+          <span class="tech-tag">FFT Analysis</span>
+        </div>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-badge">
+          <i class="fas fa-mobile-alt"></i> RESPONSIVE
+        </div>
+        <div class="feature-icon">
+          <i class="fas fa-laptop-code"></i>
+        </div>
+        <h3 class="feature-title">Cross-Platform Compatibility</h3>
+        <p class="feature-desc">
+          Fully responsive design that works flawlessly on desktop, tablet, and mobile. 
+          Progressive Web App (PWA) with offline capabilities and push notifications.
+        </p>
+        <div class="tech-stack">
+          <span class="tech-tag">React 18</span>
+          <span class="tech-tag">Responsive Design</span>
+          <span class="tech-tag">PWA</span>
+          <span class="tech-tag">Service Workers</span>
+          <span class="tech-tag">Cross-Browser</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING FEATURES SECTION -->
+  <section class="upcoming-section" aria-labelledby="upcoming-features">
+    <h2 id="upcoming-features" class="section-title animate__animated animate__fadeIn">
+      Future <span>Innovations</span>
+    </h2>
+    
+    <p class="section-subtitle">
+      Explore the groundbreaking features coming soon to MelodyMist. We're constantly pushing the boundaries of emotion-driven music technology.
+    </p>
+    
+    <div class="timeline">
+      <!-- Upcoming Feature 1 -->
+      <div class="timeline-item" id="feature1">
+        <div class="timeline-marker">1</div>
+        <div class="timeline-content">
+          <div class="upcoming-badge">
+            <i class="fas fa-wifi"></i> CONNECTED
+          </div>
+          <h3 class="upcoming-title">Cross-Platform Sync with Smart Devices</h3>
+          <p class="upcoming-desc">
+            Seamless synchronization across all your devices - phone, tablet, smartwatch, and smart home systems. 
+            Real-time mood tracking that follows you throughout your day.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-tag">WebRTC</span>
+            <span class="tech-tag">MQTT Protocol</span>
+            <span class="tech-tag">IoT Integration</span>
+            <span class="tech-tag">Real-time Sync</span>
+          </div>
+          <div class="status-indicator status-development">
+            <i class="fas fa-code"></i> In Development
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Feature 2 -->
+      <div class="timeline-item" id="feature2">
+        <div class="timeline-marker">2</div>
+        <div class="timeline-content">
+          <div class="upcoming-badge">
+            <i class="fas fa-users"></i> SOCIAL
+          </div>
+          <h3 class="upcoming-title">Group Mood Detection & Shared Playlists</h3>
+          <p class="upcoming-desc">
+            Detect collective mood in group settings and generate collaborative playlists. 
+            Perfect for parties, meetings, or family gatherings with multi-face detection.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-tag">Multi-face Detection</span>
+            <span class="tech-tag">Social Graph Analysis</span>
+            <span class="tech-tag">Collaborative Filtering</span>
+            <span class="tech-tag">Group Dynamics AI</span>
+          </div>
+          <div class="status-indicator status-planning">
+            <i class="fas fa-clipboard-list"></i> In Planning
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Feature 3 -->
+      <div class="timeline-item" id="feature3">
+        <div class="timeline-marker">3</div>
+        <div class="timeline-content">
+          <div class="upcoming-badge">
+            <i class="fas fa-vr-cardboard"></i> IMMERSIVE
+          </div>
+          <h3 class="upcoming-title">VR/AR Music Experience with Haptic Feedback</h3>
+          <p class="upcoming-desc">
+            Immersive virtual reality music rooms where emotions shape the virtual environment. 
+            Haptic feedback suits that let you feel the music through vibrations.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-tag">WebXR API</span>
+            <span class="tech-tag">Three.js VR</span>
+            <span class="tech-tag">Haptic Technology</span>
+            <span class="tech-tag">Spatial Audio</span>
+          </div>
+          <div class="status-indicator status-research">
+            <i class="fas fa-flask"></i> Research Phase
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Feature 4 -->
+      <div class="timeline-item" id="feature4">
+        <div class="timeline-marker">4</div>
+        <div class="timeline-content">
+          <div class="upcoming-badge">
+            <i class="fas fa-heartbeat"></i> HEALTH
+          </div>
+          <h3 class="upcoming-title">Biofeedback Integration & Wellness Tracking</h3>
+          <p class="upcoming-desc">
+            Connect with wearables like Apple Watch and Fitbit to analyze heart rate, 
+            stress levels, and sleep patterns for hyper-personalized music therapy.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-tag">HealthKit API</span>
+            <span class="tech-tag">Fitbit SDK</span>
+            <span class="tech-tag">Bio-sensor Data</span>
+            <span class="tech-tag">Music Therapy AI</span>
+          </div>
+          <div class="status-indicator status-development">
+            <i class="fas fa-code"></i> In Development
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Feature 5 -->
+      <div class="timeline-item" id="feature5">
+        <div class="timeline-marker">5</div>
+        <div class="timeline-content">
+          <div class="upcoming-badge">
+            <i class="fas fa-brain"></i> ADVANCED AI
+          </div>
+          <h3 class="upcoming-title">Predictive Mood Anticipation AI</h3>
+          <p class="feature-desc">
+            AI that predicts your mood changes before they happen based on patterns, 
+            time of day, weather, and calendar events. Proactive music recommendations.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-tag">LSTM Networks</span>
+            <span class="tech-tag">Time Series Analysis</span>
+            <span class="tech-tag">Predictive Analytics</span>
+            <span class="tech-tag">Contextual Awareness</span>
+          </div>
+          <div class="status-indicator status-research">
+            <i class="fas fa-flask"></i> Research Phase
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK SECTION -->
+  <section class="tech-section" aria-labelledby="tech-stack">
+    <h2 id="tech-stack" class="section-title animate__animated animate__fadeIn">
+      Our <span>Technology Stack(Soon..)</span>
+    </h2>
+    
+    <p class="section-subtitle">
+      Built with cutting-edge technologies and modern development practices for maximum performance and scalability.
+    </p>
+    
+    <div class="tech-grid">
+      <!-- Tech 1 -->
+      <div class="tech-card animate__animated" data-animation="zoomIn">
+        <div class="tech-card-icon">
+          <i class="fab fa-python"></i>
+        </div>
+        <h3 class="tech-card-title">Backend Architecture</h3>
+        <p class="tech-card-desc">
+          Flask REST API with async/await patterns, Redis caching, Celery task queues, 
+          and PostgreSQL database with TimescaleDB for time-series data.
+        </p>
+      </div>
+
+      <!-- Tech 2 -->
+      <div class="tech-card animate__animated" data-animation="zoomIn">
+        <div class="tech-card-icon">
+          <i class="fab fa-react"></i>
+        </div>
+        <h3 class="tech-card-title">Frontend Framework</h3>
+        <p class="tech-card-desc">
+          React 18 with TypeScript, Zustand state management, React Query for data fetching, 
+          and Vite build tool for ultra-fast development and production builds.
+        </p>
+      </div>
+
+      <!-- Tech 3 -->
+      <div class="tech-card animate__animated" data-animation="zoomIn">
+        <div class="tech-card-icon">
+          <i class="fas fa-cloud"></i>
+        </div>
+        <h3 class="tech-card-title">Cloud Infrastructure</h3>
+        <p class="tech-card-desc">
+          AWS EC2 auto-scaling groups, S3 for storage, CloudFront CDN, Lambda for serverless functions, 
+          and RDS managed databases with multi-AZ deployment.
+        </p>
+      </div>
+
+      <!-- Tech 4 -->
+      <div class="tech-card animate__animated" data-animation="zoomIn">
+        <div class="tech-card-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="tech-card-title">Security & DevOps</h3>
+        <p class="tech-card-desc">
+          Docker containerization, Kubernetes orchestration, GitHub Actions CI/CD, 
+          SSL/TLS encryption, and OWASP security standards compliance.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-block">
+        <div class="footer-logo">
+          <div class="logo" aria-hidden="true">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="footer-logo-text">
+            <h3>MelodyMist</h3>
+            <p>Emotion-Driven Music Experience</p>
+          </div>
+        </div>
+        
+        <p class="dev-credit">
+          Built with cutting-edge AI & Machine Learning • 
+          <span>Real-time Processing • Privacy-First Architecture • Cloud-Native Design</span>
+        </p>
+        
+        <div class="socials">
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Product</h4>
+        <div class="footer-links" role="navigation" aria-label="Footer links">
+          <a href="/home"><i class="fas fa-home"></i> Home</a>
+          <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+          <a href="/features"><i class="fas fa-star"></i> Features</a>
+          <a href="/index"><i class="fas fa-play-circle"></i> Action</a>
+          <a href="/history"><i class="fas fa-history"></i> History</a>
+          <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+          <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Technical Resources</h4>
+        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+          Access our technical documentation and API references.
+        </p>
+        
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> API Documentation</a>
+          <a href="#"><i class="fas fa-code"></i> Developer SDK</a>
+          <a href="#"><i class="fas fa-plug"></i> Integration Guides</a>
+          <a href="#"><i class="fas fa-tools"></i> Technical Whitepapers</a>
+        </div>
+        
+        <div class="newsletter" style="margin-top: 25px;">
+          <input id="news-email" type="email" placeholder="Email for tech updates" />
+          <button class="btn-ghost" onclick="subscribeDev()">
+            <i class="fas fa-paper-plane"></i> Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      © <span id="footer-year"></span> MelodyMist — Advanced Emotion-Driven Music Platform | 
+      <a href="/privacy" style="color: var(--gold); font-weight: 600;">Privacy Policy</a> | 
+      <a href="/terms" style="color: var(--gold); font-weight: 600;">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Set current year in footer
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 100 + 50;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = Math.random() * 10 + 15;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${x}%`;
+        particle.style.top = `${y}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Add scroll animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate elements on scroll
+      const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.animate__animated[data-animation]');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        
+        elements.forEach(element => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.2;
+          
+          if (elementPosition < screenPosition) {
+            const animationClass = element.getAttribute('data-animation');
+            if (animationClass && !element.classList.contains('animate__' + animationClass)) {
+              element.classList.add('animate__' + animationClass);
+            }
+          }
+        });
+        
+        // Animate timeline items
+        timelineItems.forEach(item => {
+          const itemPosition = item.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+          
+          if (itemPosition < screenPosition) {
+            item.classList.add('visible');
+          }
+        });
+      };
+      
+      // Initial check
+      animateOnScroll();
+      
+      // Check on scroll
+      window.addEventListener('scroll', animateOnScroll);
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Newsletter subscription
+      window.subscribeDev = function() {
+        const email = document.getElementById('news-email').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email) {
+          showNotification('Please enter your email address.', 'warning');
+          return;
+        }
+        
+        if (!emailRegex.test(email)) {
+          showNotification('Please enter a valid email address.', 'warning');
+          return;
+        }
+        
+        showNotification('Subscribed to technical updates! You\'ll receive the latest feature announcements.', 'success');
+        document.getElementById('news-email').value = '';
+      };
+      
+      // Notification function
+      function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.innerHTML = `
+          <div style="
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 20px 25px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, var(--gold), var(--gold-dark))' : '#ff4757'};
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-weight: 600;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid ${type === 'success' ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 71, 87, 0.3)'};
+          ">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}" 
+               style="font-size: 1.5rem;"></i>
+            <div>${message}</div>
+          </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 400);
+        }, 5000);
+        
+        // Add keyframes for animation
+        if (!document.getElementById('notification-styles')) {
+          const style = document.createElement('style');
+          style.id = 'notification-styles';
+          style.textContent = `
+            @keyframes slideIn {
+              from { transform: translateX(100%); opacity: 0; }
+              to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+              from { transform: translateX(0); opacity: 1; }
+              to { transform: translateX(100%); opacity: 0; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+      
+      // Add hover effect to cards
+      const cards = document.querySelectorAll('.feature-card, .tech-card');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-10px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+      
+      // Add parallax effect to header
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header.topbar');
+        const scrolled = window.pageYOffset;
+        
+        if (scrolled > 50) {
+          header.style.backdropFilter = 'blur(15px) saturate(200%)';
+          header.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.95) 100%)';
+          header.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+        } else {
+          header.style.backdropFilter = 'blur(10px) saturate(180%)';
+          header.style.background = 'linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%)';
+          header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

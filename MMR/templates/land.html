@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MelodyMist | Emotion-Driven Music Experience</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------- GOLD & DARK THEME ----------------- */
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f6e7b4;
+      --gold-soft: rgba(212, 175, 55, 0.1);
+      --white: #ffffff;
+      --ivory: #fffaf3;
+      --dark: #0f0f0f;
+      --darker: #0a0a0a;
+      --light-dark: #1a1a1a;
+      --muted: rgba(255, 255, 255, 0.6);
+      --glass: rgba(255, 255, 255, 0.88);
+      --glass-dark: rgba(26, 26, 26, 0.95);
+      --glass-border: rgba(212, 175, 55, 0.15);
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-gold: 0 12px 40px rgba(212, 175, 55, 0.2);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ----------------- GLOBAL STYLES ----------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+
+    /* Animated Gradient Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      animation: gradientShift 15s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    /* Particle Animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: particleFloat 15s infinite linear;
+      opacity: 0.3;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dark);
+    }
+
+    /* ----------------- HEADER ----------------- */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px) saturate(180%);
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+      animation: logoShine 3s infinite;
+      border-radius: 16px;
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-text h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      margin-left: 40px;
+    }
+
+    .nav-links a {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a i {
+      font-size: 1.1rem;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::before {
+      width: 70%;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .nav-links a.active::before {
+      width: 70%;
+    }
+
+    /* Auth area */
+    .auth-area {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ghost::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 40%, rgba(212, 175, 55, 0.15) 50%, transparent 60%);
+      animation: buttonShine 3s infinite;
+      z-index: -1;
+    }
+
+    .btn-ghost:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 255, 255, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .user-pill {
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .user-pill:hover::before {
+      left: 100%;
+    }
+
+    .user-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 40px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    /* ----------------- HERO SECTION ----------------- */
+    .hero-section {
+      padding: 180px 20px 120px;
+      text-align: center;
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 900;
+      margin-bottom: 30px;
+      line-height: 1.1;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(135deg, 
+        var(--gold) 0%, 
+        var(--gold-light) 25%, 
+        var(--gold) 50%, 
+        var(--gold-light) 75%, 
+        var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .hero-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 800px;
+      margin: 50px auto 60px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .hero-image-container {
+      position: relative;
+      margin: 40px auto 50px;
+      max-width: 1100px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-deep);
+      border: 2px solid transparent;
+      background: linear-gradient(var(--light-dark), var(--light-dark)) padding-box,
+                  linear-gradient(45deg, var(--gold), var(--gold-dark)) border-box;
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .hero-image-container:hover .hero-img {
+      transform: scale(1.02);
+    }
+
+    .hero-quote {
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--white);
+      margin: 40px auto;
+      max-width: 800px;
+      padding: 30px;
+      position: relative;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(26, 26, 26, 0.8));
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-quote::before, .hero-quote::after {
+      content: '"';
+      font-size: 3rem;
+      color: var(--gold);
+      opacity: 0.5;
+      position: absolute;
+    }
+
+    .hero-quote::before {
+      top: 10px;
+      left: 20px;
+    }
+
+    .hero-quote::after {
+      bottom: 10px;
+      right: 20px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 16px 40px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-secondary {
+      padding: 16px 40px;
+      border-radius: 50px;
+      background: transparent;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: 2px solid var(--gold);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 255, 255, 0.05));
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Floating Music Notes Animation */
+    .music-notes-container {
+      position: relative;
+      height: 150px;
+      margin: 60px 0;
+    }
+
+    .music-note {
+      position: absolute;
+      font-size: 2.5rem;
+      color: var(--gold);
+      opacity: 0;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+      animation: noteFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes noteFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .music-note:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .music-note:nth-child(2) { left: 25%; animation-delay: 0.5s; }
+    .music-note:nth-child(3) { left: 40%; animation-delay: 1s; }
+    .music-note:nth-child(4) { left: 55%; animation-delay: 1.5s; }
+    .music-note:nth-child(5) { left: 70%; animation-delay: 2s; }
+    .music-note:nth-child(6) { left: 85%; animation-delay: 2.5s; }
+
+    /* ----------------- WORKFLOW SECTION ----------------- */
+    .workflow-section {
+      padding: 120px 20px;
+      position: relative;
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.9) 0%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    }
+
+    .workflow-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 80px;
+      position: relative;
+      color: var(--white);
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark), var(--gold));
+    }
+
+    .workflow-card {
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      box-shadow: var(--shadow-soft);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin-bottom: 30px;
+      height: 100%;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .workflow-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(45deg, var(--gold), var(--gold-dark), var(--gold));
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .workflow-card:hover::before {
+      opacity: 1;
+    }
+
+    .workflow-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-deep);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .card-img-container {
+      height: 280px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-img-container::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.5));
+    }
+
+    .workflow-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .workflow-card:hover .workflow-img {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+      padding: 30px;
+      position: relative;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .step-badge::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+      animation: stepShine 2s infinite;
+    }
+
+    @keyframes stepShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--white);
+    }
+
+    .card-text {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+
+    .card-icon {
+      color: var(--gold);
+      font-size: 1.8rem;
+      transition: transform 0.3s ease;
+      margin-top: 15px;
+      display: inline-block;
+    }
+
+    .workflow-card:hover .card-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    /* ----------------- FEATURES SECTION ----------------- */
+    .features-section {
+      padding: 120px 20px;
+      position: relative;
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+    }
+
+    .features-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 20px;
+      padding: 40px 30px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      box-shadow: var(--shadow-soft);
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-deep);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      font-size: 32px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .feature-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+      animation: iconShine 3s infinite;
+    }
+
+    @keyframes iconShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--white);
+    }
+
+    .feature-desc {
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    /* ----------------- ENHANCED FOOTER ----------------- */
+    footer.site-footer {
+      margin-top: 120px;
+      border-top: 3px solid var(--gold);
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.98) 0%, 
+        rgba(10, 10, 10, 0.95) 100%);
+      padding: 80px 0 40px;
+      position: relative;
+    }
+
+    footer.site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, 
+        var(--gold), 
+        var(--gold-dark), 
+        var(--gold), 
+        var(--gold-dark));
+      animation: borderFlow 3s linear infinite;
+    }
+
+    @keyframes borderFlow {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      gap: 50px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .footer-block {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .footer-logo {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .footer-logo .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+    }
+
+    .footer-logo .logo i {
+      font-size: 24px;
+      color: var(--white);
+    }
+
+    .footer-logo-text h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-logo-text p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 8px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .dev-credit {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      margin-top: 25px;
+      line-height: 1.6;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 15px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-links a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+      transform-origin: top;
+    }
+
+    .footer-links a:hover::before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(10px);
+    }
+
+    .footer-links a i {
+      color: var(--gold);
+      width: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-links a:hover i {
+      transform: scale(1.2);
+    }
+
+    .footer-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--white);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+
+    .socials {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .socials a {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.1), 
+        rgba(255, 255, 255, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .socials a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .socials a:hover::before {
+      opacity: 1;
+    }
+
+    .socials a i {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .socials a:hover i {
+      color: var(--white);
+    }
+
+    .socials a:hover {
+      transform: translateY(-5px) rotate(5deg);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .newsletter {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+      position: relative;
+    }
+
+    .newsletter input {
+      flex: 1;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--white);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .newsletter input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .copyright::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ----------------- RESPONSIVE ----------------- */
+    @media (max-width: 1200px) {
+      .hero-title {
+        font-size: 3.8rem;
+      }
+      
+      .section-title {
+        font-size: 3rem;
+      }
+      
+      .workflow-section, .features-section {
+        padding: 100px 20px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3.2rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .hero-image-container {
+        max-width: 90%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-quote {
+        font-size: 1.5rem;
+        padding: 20px;
+      }
+      
+      .card-img-container {
+        height: 220px;
+      }
+      
+      .nav-inner {
+        padding: 12px 20px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-section {
+        padding: 120px 15px 80px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+        margin: 30px auto 40px;
+      }
+      
+      .hero-quote {
+        font-size: 1.3rem;
+        padding: 15px;
+      }
+      
+      .btn-primary, .btn-secondary {
+        padding: 14px 30px;
+        width: 100%;
+        justify-content: center;
+        font-size: 1rem;
+      }
+      
+      .workflow-section, .features-section {
+        padding: 60px 15px;
+      }
+      
+      .card-body {
+        padding: 20px;
+      }
+      
+      .feature-card {
+        padding: 30px 20px;
+      }
+      
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+      }
+      
+      .footer-inner {
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- HEADER -->
+  <header class="topbar" role="banner">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="logo" aria-hidden="true">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="brand-text">
+          <h1>MelodyMist</h1>
+          <p>Emotion-Driven Music</p>
+        </div>
+      </a>
+
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="/home" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="/features"><i class="fas fa-star"></i> Features</a>
+        <a href="/index"><i class="fas fa-play-circle"></i> Action</a>
+        <a href="/history"><i class="fas fa-history"></i> History</a>
+        <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+        <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+
+      <div class="auth-area">
+        <a href="/community" class="btn-ghost">
+          <i class="fas fa-users"></i> Community
+        </a>
+        <a href="/profile" class="user-pill">
+          <i class="fas fa-user-circle"></i> Profile
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="hero-title animate__animated animate__fadeInDown">
+      Welcome to <span>MelodyMist</span>
+    </h1>
+    
+    <p class="hero-subtitle animate__animated animate__fadeInUp">
+      Your emotions transformed into personalized music experiences. 
+      Let AI analyze your mood and play the perfect soundtrack for every moment.
+    </p>
+    
+    <div class="hero-image-container animate__animated animate__zoomIn">
+      <img 
+        src="{{ url_for('static', filename='images/hero.jpg') }}" 
+        alt="MelodyMist Hero - People enjoying music with emotion detection"
+        class="hero-img"
+        onerror="this.src='https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'"
+      />
+    </div>
+    
+    <!-- Floating Music Notes -->
+    <div class="music-notes-container">
+      <div class="music-note">🎵</div>
+      <div class="music-note">🎶</div>
+      <div class="music-note">🎼</div>
+      <div class="music-note">🎧</div>
+      <div class="music-note">🎹</div>
+      <div class="music-note">🎷</div>
+    </div>
+    
+    <p class="hero-quote animate__animated animate__fadeIn">
+      "The Right Tune for Every Emotion."
+    </p>
+    
+    <div class="hero-buttons">
+      <button class="btn-primary animate__animated animate__pulse animate__infinite animate__slower" onclick="window.location.href='/index'">
+        <i class="fas fa-play-circle"></i> Start Experience
+      </button>
+      <button class="btn-secondary animate__animated animate__fadeInUp" onclick="window.location.href='/features'">
+        <i class="fas fa-info-circle"></i> Learn More
+      </button>
+    </div>
+  </section>
+
+  <!-- WORKFLOW SECTION -->
+  <section class="workflow-section" aria-labelledby="workflow-title">
+    <h2 id="workflow-title" class="section-title animate__animated animate__fadeIn">
+      How <span>MelodyMist</span> Works
+    </h2>
+    
+    <div class="container">
+      <div class="row">
+        <!-- Step 1 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="workflow-card animate__animated" data-animation="fadeInLeft">
+            <div class="card-img-container">
+              <img 
+                src="{{ url_for('static', filename='images/cover.jpg') }}" 
+                alt="Capture your expression with webcam"
+                class="workflow-img"
+                onerror="this.src='https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80'"
+              />
+            </div>
+            <div class="card-body">
+              <div class="step-badge">1</div>
+              <h3 class="card-title">Capture Your Expression</h3>
+              <p class="card-text">
+                Begin your journey with a simple expression. Your webcam securely detects your mood — no storage, no privacy issues.
+              </p>
+              <div class="card-icon">
+                <i class="fas fa-camera"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="workflow-card animate__animated" data-animation="fadeInUp">
+            <div class="card-img-container">
+              <img 
+                src="{{ url_for('static', filename='images/ai.jpg') }}" 
+                alt="AI emotion analysis"
+                class="workflow-img"
+                onerror="this.src='https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'"
+              />
+            </div>
+            <div class="card-body">
+              <div class="step-badge">2</div>
+              <h3 class="card-title">AI Emotion Analysis</h3>
+              <p class="card-text">
+                MelodyMist's AI instantly analyzes your emotion using advanced deep-learning models to understand your current state.
+              </p>
+              <div class="card-icon">
+                <i class="fas fa-brain"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="workflow-card animate__animated" data-animation="fadeInRight">
+            <div class="card-img-container">
+              <img 
+                src="{{ url_for('static', filename='images/headphone.jpg') }}" 
+                alt="Personalized music playlist"
+                class="workflow-img"
+                onerror="this.src='https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'"
+              />
+            </div>
+            <div class="card-body">
+              <div class="step-badge">3</div>
+              <h3 class="card-title">Personalized Music Experience</h3>
+              <p class="card-text">
+                Your emotional state transforms into a tailored playlist designed just for your mood, streamed from top music services.
+              </p>
+              <div class="card-icon">
+                <i class="fas fa-headphones-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features-section" aria-labelledby="features-title">
+    <h2 id="features-title" class="section-title animate__animated animate__fadeIn">
+      Powerful <span>Features</span>
+    </h2>
+    
+    <div class="features-grid">
+      <div class="feature-card animate__animated" data-animation="fadeInLeft">
+        <div class="feature-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <h3 class="feature-title">AI-Powered Mood Detection</h3>
+        <p class="feature-desc">
+          Advanced machine learning algorithms analyze facial expressions, voice tones, and text to accurately detect your emotional state.
+        </p>
+      </div>
+      
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-icon">
+          <i class="fas fa-music"></i>
+        </div>
+        <h3 class="feature-title">Smart Music Recommendations</h3>
+        <p class="feature-desc">
+          Get personalized playlists from Spotify, YouTube, and other platforms based on your detected mood and music preferences.
+        </p>
+      </div>
+      
+      <div class="feature-card animate__animated" data-animation="fadeInRight">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="feature-title">Privacy First</h3>
+        <p class="feature-desc">
+          All processing happens securely on our servers. We don't store your images or recordings - your privacy is our priority.
+        </p>
+      </div>
+      
+      <div class="feature-card animate__animated" data-animation="fadeInLeft">
+        <div class="feature-icon">
+          <i class="fas fa-sliders-h"></i>
+        </div>
+        <h3 class="feature-title">Multiple Input Methods</h3>
+        <p class="feature-desc">
+          Choose from text, voice, or facial expression input to express your mood in the way that's most comfortable for you.
+        </p>
+      </div>
+      
+      <div class="feature-card animate__animated" data-animation="fadeInUp">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3 class="feature-title">Real-time Audio Visualization</h3>
+        <p class="feature-desc">
+          Enjoy beautiful animated visualizations that sync with your music, creating an immersive audio-visual experience.
+        </p>
+      </div>
+      
+      <div class="feature-card animate__animated" data-animation="fadeInRight">
+        <div class="feature-icon">
+          <i class="fas fa-history"></i>
+        </div>
+        <h3 class="feature-title">Mood History & Insights</h3>
+        <p class="feature-desc">
+          Track your emotional patterns over time and discover how your music preferences change with your mood.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-block">
+        <div class="footer-logo">
+          <div class="logo" aria-hidden="true">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="footer-logo-text">
+            <h3>MelodyMist</h3>
+            <p>Emotion-Driven Music Experience</p>
+          </div>
+        </div>
+        
+        <p class="dev-credit">
+          Built & maintained by <strong>MelodyMist Development Team</strong> • 
+          <span>Deep Learning • Real-time Processing • Multi-platform Integration</span>
+        </p>
+        
+        <div class="socials">
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Explore</h4>
+        <div class="footer-links" role="navigation" aria-label="Footer links">
+          <a href="/home"><i class="fas fa-home"></i> Home</a>
+          <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+          <a href="/features"><i class="fas fa-star"></i> Features</a>
+          <a href="/index"><i class="fas fa-play-circle"></i> Action</a>
+          <a href="/history"><i class="fas fa-history"></i> History</a>
+          <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+          <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Developer Resources</h4>
+        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+          Access our API documentation and integration guides.
+        </p>
+        
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code"></i> API Reference</a>
+          <a href="#"><i class="fas fa-plug"></i> Integrations</a>
+          <a href="#"><i class="fas fa-tools"></i> Developer Tools</a>
+        </div>
+        
+        <div class="newsletter" style="margin-top: 25px;">
+          <input id="news-email" type="email" placeholder="Email for updates" />
+          <button class="btn-ghost" onclick="subscribeDev()">
+            <i class="fas fa-paper-plane"></i> Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      © <span id="footer-year"></span> MelodyMist — All rights reserved | 
+      <a href="/privacy" style="color: var(--gold); font-weight: 600;">Privacy Policy</a> | 
+      <a href="/terms" style="color: var(--gold); font-weight: 600;">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Set current year in footer
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 100 + 50;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = Math.random() * 10 + 15;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${x}%`;
+        particle.style.top = `${y}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Add scroll animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate elements on scroll
+      const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.animate__animated[data-animation]');
+        
+        elements.forEach(element => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.2;
+          
+          if (elementPosition < screenPosition) {
+            const animationClass = element.getAttribute('data-animation');
+            if (animationClass && !element.classList.contains('animate__' + animationClass)) {
+              element.classList.add('animate__' + animationClass);
+            }
+          }
+        });
+      };
+      
+      // Initial check
+      animateOnScroll();
+      
+      // Check on scroll
+      window.addEventListener('scroll', animateOnScroll);
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Newsletter subscription
+      window.subscribeDev = function() {
+        const email = document.getElementById('news-email').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email) {
+          showNotification('Please enter your email address.', 'warning');
+          return;
+        }
+        
+        if (!emailRegex.test(email)) {
+          showNotification('Please enter a valid email address.', 'warning');
+          return;
+        }
+        
+        showNotification('Thank you for subscribing to MelodyMist updates!', 'success');
+        document.getElementById('news-email').value = '';
+      };
+      
+      // Notification function
+      function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.innerHTML = `
+          <div style="
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 20px 25px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, var(--gold), var(--gold-dark))' : '#ff4757'};
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-weight: 600;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid ${type === 'success' ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 71, 87, 0.3)'};
+          ">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}" 
+               style="font-size: 1.5rem;"></i>
+            <div>${message}</div>
+          </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 400);
+        }, 5000);
+        
+        // Add keyframes for animation
+        if (!document.getElementById('notification-styles')) {
+          const style = document.createElement('style');
+          style.id = 'notification-styles';
+          style.textContent = `
+            @keyframes slideIn {
+              from { transform: translateX(100%); opacity: 0; }
+              to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+              from { transform: translateX(0); opacity: 1; }
+              to { transform: translateX(100%); opacity: 0; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+      
+      // Add hover effect to cards
+      const cards = document.querySelectorAll('.workflow-card, .feature-card');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-10px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+      
+      // Add parallax effect to header
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header.topbar');
+        const scrolled = window.pageYOffset;
+        
+        if (scrolled > 50) {
+          header.style.backdropFilter = 'blur(15px) saturate(200%)';
+          header.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.95) 100%)';
+          header.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+        } else {
+          header.style.backdropFilter = 'blur(10px) saturate(180%)';
+          header.style.background = 'linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%)';
+          header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

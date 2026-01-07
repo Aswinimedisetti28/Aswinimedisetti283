@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | MelodyMist - Emotion-Driven Music Experience</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------- GOLD & WHITE THEME ----------------- */
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f6e7b4;
+      --gold-soft: rgba(212, 175, 55, 0.1);
+      --white: #ffffff;
+      --ivory: #fffaf3;
+      --dark: #1a1a1a;
+      --darker: #0f0f0f;
+      --muted: #6b5b4a;
+      --glass: rgba(255, 255, 255, 0.88);
+      --glass-dark: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(212, 175, 55, 0.15);
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --shadow-gold: 0 12px 40px rgba(212, 175, 55, 0.2);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ----------------- GLOBAL STYLES ----------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2a2a2a 100%);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+
+    /* Animated Gradient Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2a2a2a 100%);
+      animation: gradientShift 15s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    /* Particle Animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: particleFloat 15s infinite linear;
+      opacity: 0.3;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dark);
+    }
+
+    /* ----------------- HEADER ----------------- */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px) saturate(180%);
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+      animation: logoShine 3s infinite;
+      border-radius: 16px;
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-text h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      margin-left: 40px;
+    }
+
+    .nav-links a {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a i {
+      font-size: 1.1rem;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::before {
+      width: 70%;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .nav-links a.active::before {
+      width: 70%;
+    }
+
+    /* Auth area */
+    .auth-area {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ghost::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 40%, rgba(212, 175, 55, 0.15) 50%, transparent 60%);
+      animation: buttonShine 3s infinite;
+      z-index: -1;
+    }
+
+    .btn-ghost:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 255, 255, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .user-pill {
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .user-pill:hover::before {
+      left: 100%;
+    }
+
+    .user-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 40px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    /* ----------------- HERO SECTION ----------------- */
+    .hero-section {
+      padding: 180px 20px 120px;
+      text-align: center;
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 900;
+      margin-bottom: 30px;
+      line-height: 1.1;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(135deg, 
+        var(--gold) 0%, 
+        var(--gold-light) 25%, 
+        var(--gold) 50%, 
+        var(--gold-light) 75%, 
+        var(--gold) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .hero-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 800px;
+      margin: 50px auto 60px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Floating Emojis Container */
+    .emoji-orbit-container {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      margin: 80px auto;
+      perspective: 1000px;
+    }
+
+    .emoji-orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      animation: orbit 40s linear infinite;
+    }
+
+    @keyframes orbit {
+      0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+      100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+    }
+
+    .emoji-float {
+      position: absolute;
+      font-size: 3.5rem;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+      animation: emojiFloat 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes emojiFloat {
+      0% { transform: translateZ(250px) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateZ(250px) rotate(360deg) scale(1.2); opacity: 1; }
+    }
+
+    /* Emotion Grid */
+    .emotion-grid-section {
+      padding: 100px 20px;
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.9) 0%, 
+        rgba(26, 26, 26, 0.95) 100%);
+      position: relative;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* Enhanced Emotion Grid */
+    .emotion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 25px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .emotion-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 20px;
+      padding: 30px 25px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .emotion-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .emotion-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .emotion-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .emotion-emoji {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
+      animation: emojiPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes emojiPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .emotion-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--white);
+    }
+
+    .emotion-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .emotion-genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .genre-tag {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .emotion-card:hover .genre-tag {
+      background: rgba(212, 175, 55, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Process Flow Section */
+    .process-section {
+      padding: 120px 20px;
+      position: relative;
+    }
+
+    .process-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .process-timeline {
+      position: relative;
+      padding: 50px 0;
+    }
+
+    .process-timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, 
+        transparent 0%, 
+        var(--gold) 20%, 
+        var(--gold) 80%, 
+        transparent 100%);
+    }
+
+    .process-step {
+      display: flex;
+      align-items: center;
+      margin-bottom: 100px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+    }
+
+    .process-step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .process-step:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+
+    .step-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+      box-shadow: 
+        0 10px 30px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      animation: stepFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes stepFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .step-content {
+      flex: 1;
+      padding: 0 50px;
+      position: relative;
+    }
+
+    .process-step:nth-child(odd) .step-content {
+      text-align: right;
+    }
+
+    .step-number {
+      font-size: 5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), transparent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.2;
+      position: absolute;
+      top: -40px;
+    }
+
+    .process-step:nth-child(odd) .step-number {
+      right: 0;
+    }
+
+    .process-step:nth-child(even) .step-number {
+      left: 0;
+    }
+
+    .step-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+
+    .step-desc {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 20px;
+    }
+
+    .step-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .feature-tag {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      transition: all 0.3s ease;
+    }
+
+    .feature-tag:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Team Section */
+    .team-section {
+      padding: 120px 20px;
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+      position: relative;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 60px auto;
+    }
+
+    .team-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .team-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .team-card-image {
+      height: 350px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .team-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.6s ease;
+    }
+
+    .team-card:hover .team-card-image img {
+      transform: scale(1.1);
+    }
+
+    .team-card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to top, rgba(15, 15, 15, 0.9), transparent);
+    }
+
+    .team-card-content {
+      padding: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .team-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .team-role {
+      font-size: 1.1rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .team-role i {
+      font-size: 1.2rem;
+    }
+
+    .team-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .skill-tag {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .team-card:hover .skill-tag {
+      background: rgba(212, 175, 55, 0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 100px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 60px auto;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 20px;
+      padding: 40px 30px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      transition: all 0.4s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .stat-icon {
+      font-size: 3rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 500;
+    }
+
+    /* Enhanced Footer */
+    footer.site-footer {
+      margin-top: 120px;
+      border-top: 3px solid var(--gold);
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.98) 0%, 
+        rgba(10, 10, 10, 0.95) 100%);
+      padding: 80px 0 40px;
+      position: relative;
+    }
+
+    footer.site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, 
+        var(--gold), 
+        var(--gold-dark), 
+        var(--gold), 
+        var(--gold-dark));
+      animation: borderFlow 3s linear infinite;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      gap: 50px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .footer-block {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .footer-logo {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .footer-logo .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+    }
+
+    .footer-logo .logo i {
+      font-size: 24px;
+      color: var(--white);
+    }
+
+    .footer-logo-text h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-logo-text p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 8px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .dev-credit {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      margin-top: 25px;
+      line-height: 1.6;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 15px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-links a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+      transform-origin: top;
+    }
+
+    .footer-links a:hover::before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(10px);
+    }
+
+    .footer-links a i {
+      color: var(--gold);
+      width: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-links a:hover i {
+      transform: scale(1.2);
+    }
+
+    .footer-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--white);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+
+    .socials {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .socials a {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.1), 
+        rgba(255, 255, 255, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .socials a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .socials a:hover::before {
+      opacity: 1;
+    }
+
+    .socials a i {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .socials a:hover i {
+      color: var(--white);
+    }
+
+    .socials a:hover {
+      transform: translateY(-5px) rotate(5deg);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .newsletter {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+      position: relative;
+    }
+
+    .newsletter input {
+      flex: 1;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--white);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .newsletter input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .copyright::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ----------------- RESPONSIVE ----------------- */
+    @media (max-width: 1200px) {
+      .hero-title {
+        font-size: 3.8rem;
+      }
+      
+      .emoji-orbit-container {
+        width: 400px;
+        height: 400px;
+      }
+      
+      .section-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3.2rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .process-timeline::before {
+        left: 30px;
+      }
+      
+      .process-step {
+        flex-direction: row !important;
+        margin-left: 60px;
+      }
+      
+      .process-step:nth-child(odd) .step-content {
+        text-align: left;
+      }
+      
+      .step-number {
+        left: -70px !important;
+        right: auto !important;
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .emoji-orbit-container {
+        width: 300px;
+        height: 300px;
+      }
+      
+      .emotion-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+      
+      .step-title {
+        font-size: 1.8rem;
+      }
+      
+      .nav-inner {
+        padding: 12px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-section {
+        padding: 120px 15px 80px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1rem;
+        margin: 30px auto 40px;
+      }
+      
+      .emoji-orbit-container {
+        width: 250px;
+        height: 250px;
+        margin: 40px auto;
+      }
+      
+      .emotion-card {
+        padding: 20px 15px;
+      }
+      
+      .emotion-emoji {
+        font-size: 3rem;
+      }
+      
+      .team-card-image {
+        height: 300px;
+      }
+      
+      .btn-ghost, .user-pill {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+      
+      .footer-inner {
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- HEADER -->
+  <header class="topbar" role="banner">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="logo" aria-hidden="true">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="brand-text">
+          <h1>MelodyMist</h1>
+          <p>Emotion-Driven Music</p>
+        </div>
+      </a>
+
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="/home"><i class="fas fa-home"></i> Home</a>
+        <a href="/about" class="active"><i class="fas fa-info-circle"></i> About</a>
+        <a href="/features"><i class="fas fa-star"></i> Features</a>
+        <a href="/index"><i class="fas fa-play-circle"></i> Action</a>
+        <a href="/history"><i class="fas fa-history"></i> History</a>
+        <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+        <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+
+      <div class="auth-area">
+        <a href="/community" class="btn-ghost">
+          <i class="fas fa-users"></i> Community
+        </a>
+        <a href="/profile" class="user-pill">
+          <i class="fas fa-user-circle"></i> Profile
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="hero-title animate__animated animate__fadeInDown">
+      The Science of <span>Emotion-Driven</span> Music
+    </h1>
+    
+    <p class="hero-subtitle animate__animated animate__fadeInUp">
+      We transform emotional intelligence into personalized soundscapes. 
+      Using cutting-edge AI, we analyze your emotions and create music experiences 
+      that resonate with your deepest feelings.
+    </p>
+    
+    <!-- Floating Emojis Orbit -->
+    <div class="emoji-orbit-container">
+      <div class="emoji-orbit">
+        <!-- 50+ Emojis positioned in 3D space -->
+        <div class="emoji-float" style="transform: rotateY(0deg) translateZ(200px)">🎵</div>
+        <div class="emoji-float" style="transform: rotateY(36deg) translateZ(200px)">🎶</div>
+        <div class="emoji-float" style="transform: rotateY(72deg) translateZ(200px)">🎼</div>
+        <div class="emoji-float" style="transform: rotateY(108deg) translateZ(200px)">🎧</div>
+        <div class="emoji-float" style="transform: rotateY(144deg) translateZ(200px)">🎹</div>
+        <div class="emoji-float" style="transform: rotateY(180deg) translateZ(200px)">🥁</div>
+        <div class="emoji-float" style="transform: rotateY(216deg) translateZ(200px)">🎤</div>
+        <div class="emoji-float" style="transform: rotateY(252deg) translateZ(200px)">🎷</div>
+        <div class="emoji-float" style="transform: rotateY(288deg) translateZ(200px)">🎸</div>
+        <div class="emoji-float" style="transform: rotateY(324deg) translateZ(200px)">🎻</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMOTION GRID (50+ Emotions) -->
+  <section class="emotion-grid-section" aria-labelledby="emotions-title">
+    <h2 id="emotions-title" class="section-title animate__animated animate__fadeIn">
+      <span>50+ Emotions</span> We Understand
+    </h2>
+    
+    <div class="emotion-grid">
+      <!-- 50 Emotion Cards -->
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😊</div>
+        <h3 class="emotion-name">Joyful</h3>
+        <p class="emotion-desc">Pure happiness and delight</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Upbeat Pop</span>
+          <span class="genre-tag">Dance</span>
+          <span class="genre-tag">Happy EDM</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😢</div>
+        <h3 class="emotion-name">Melancholic</h3>
+        <p class="emotion-desc">Deep thoughtful sadness</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Sad Piano</span>
+          <span class="genre-tag">Ambient</span>
+          <span class="genre-tag">Slow Jazz</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😤</div>
+        <h3 class="emotion-name">Frustrated</h3>
+        <p class="emotion-desc">Feeling annoyed and stuck</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Heavy Metal</span>
+          <span class="genre-tag">Industrial</span>
+          <span class="genre-tag">Hard Rock</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😌</div>
+        <h3 class="emotion-name">Peaceful</h3>
+        <p class="emotion-desc">Calm and content</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Meditation</span>
+          <span class="genre-tag">Classical</span>
+          <span class="genre-tag">Nature Sounds</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">🤔</div>
+        <h3 class="emotion-name">Thoughtful</h3>
+        <p class="emotion-desc">Deep in contemplation</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Ambient</span>
+          <span class="genre-tag">Lo-fi</span>
+          <span class="genre-tag">Jazz</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😲</div>
+        <h3 class="emotion-name">Surprised</h3>
+        <p class="emotion-desc">Unexpected delight or shock</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Orchestral</span>
+          <span class="genre-tag">Cinematic</span>
+          <span class="genre-tag">Epic</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😡</div>
+        <h3 class="emotion-name">Angry</h3>
+        <p class="emotion-desc">Strong feeling of annoyance</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Metalcore</span>
+          <span class="genre-tag">Punk</span>
+          <span class="genre-tag">Hardcore</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😨</div>
+        <h3 class="emotion-name">Anxious</h3>
+        <p class="emotion-desc">Nervous and worried</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Calm Piano</span>
+          <span class="genre-tag">Ambient</span>
+          <span class="genre-tag">Nature Sounds</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😍</div>
+        <h3 class="emotion-name">Loving</h3>
+        <p class="emotion-desc">Deep affection and care</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">R&B</span>
+          <span class="genre-tag">Soul</span>
+          <span class="genre-tag">Love Songs</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">🥳</div>
+        <h3 class="emotion-name">Celebratory</h3>
+        <p class="emotion-desc">Festive and excited</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Party Hits</span>
+          <span class="genre-tag">Dance Pop</span>
+          <span class="genre-tag">Festival EDM</span>
+        </div>
+      </div>
+
+      <!-- Continue with 40 more emotion cards -->
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😴</div>
+        <h3 class="emotion-name">Sleepy</h3>
+        <p class="emotion-desc">Tired and ready for rest</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Sleep Music</span>
+          <span class="genre-tag">Ambient</span>
+          <span class="genre-tag">White Noise</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">🤩</div>
+        <h3 class="emotion-name">Excited</h3>
+        <p class="emotion-desc">Energetic anticipation</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">EDM</span>
+          <span class="genre-tag">Rock</span>
+          <span class="genre-tag">Upbeat Pop</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😔</div>
+        <h3 class="emotion-name">Disappointed</h3>
+        <p class="emotion-desc">Let down or unsatisfied</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Blues</span>
+          <span class="genre-tag">Acoustic</span>
+          <span class="genre-tag">Indie Folk</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">🥰</div>
+        <h3 class="emotion-name">Affectionate</h3>
+        <p class="emotion-desc">Warm and tender feelings</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Soft Jazz</span>
+          <span class="genre-tag">Soul</span>
+          <span class="genre-tag">Love Ballads</span>
+        </div>
+      </div>
+
+      <div class="emotion-card animate__animated" data-animation="fadeIn">
+        <div class="emotion-emoji">😏</div>
+        <h3 class="emotion-name">Confident</h3>
+        <p class="emotion-desc">Self-assured and bold</p>
+        <div class="emotion-genres">
+          <span class="genre-tag">Hip Hop</span>
+          <span class="genre-tag">Trap</span>
+          <span class="genre-tag">Confident Pop</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS FLOW SECTION -->
+  <section class="process-section" aria-labelledby="process-title">
+    <h2 id="process-title" class="section-title animate__animated animate__fadeIn">
+      Our <span>3-Way</span> Emotion Detection System
+    </h2>
+    
+    <div class="process-container">
+      <div class="process-timeline">
+        <!-- Facial Expression Detection -->
+        <div class="process-step" id="step1">
+          <div class="step-icon">🎭</div>
+          <div class="step-content">
+            <div class="step-number">01</div>
+            <h3 class="step-title">Facial Expression Analysis</h3>
+            <p class="step-desc">
+              Using advanced computer vision and deep learning models, we analyze 68 facial landmarks 
+              in real-time to detect micro-expressions and emotional states with 95% accuracy.
+            </p>
+            <div class="step-features">
+              <span class="feature-tag">Real-time Detection</span>
+              <span class="feature-tag">68 Landmark Points</span>
+              <span class="feature-tag">95% Accuracy</span>
+              <span class="feature-tag">Privacy-First</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice Emotion Detection -->
+        <div class="process-step" id="step2">
+          <div class="step-icon">🎤</div>
+          <div class="step-content">
+            <div class="step-number">02</div>
+            <h3 class="step-title">Voice Emotion Recognition</h3>
+            <p class="step-desc">
+              Our AI analyzes vocal characteristics including pitch, tone, speech rate, and intensity 
+              to understand emotional undertones in spoken words.
+            </p>
+            <div class="step-features">
+              <span class="feature-tag">Pitch Analysis</span>
+              <span class="feature-tag">Tone Detection</span>
+              <span class="feature-tag">Speech Patterns</span>
+              <span class="feature-tag">Real-time Processing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text Sentiment Analysis -->
+        <div class="process-step" id="step3">
+          <div class="step-icon">📝</div>
+          <div class="step-content">
+            <div class="step-number">03</div>
+            <h3 class="step-title">Text Sentiment Analysis</h3>
+            <p class="step-desc">
+              Natural Language Processing algorithms analyze text input to detect emotional context, 
+              sentiment polarity, and emotional intensity from written words.
+            </p>
+            <div class="step-features">
+              <span class="feature-tag">NLP Models</span>
+              <span class="feature-tag">Sentiment Scoring</span>
+              <span class="feature-tag">Context Understanding</span>
+              <span class="feature-tag">Emotion Classification</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM INTEGRATION -->
+  <section class="team-section" aria-labelledby="platforms-title">
+    <h2 id="platforms-title" class="section-title animate__animated animate__fadeIn">
+      Seamless <span>Platform Integration</span>
+    </h2>
+    
+    <div class="team-grid">
+      <div class="team-card animate__animated" data-animation="fadeInUp">
+        <div class="team-card-image">
+          <img src="{{ url_for('static', filename='images/spotify-bg.jpg') }}" 
+               alt="Spotify Integration"
+               onerror="this.src='https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'">
+        </div>
+        <div class="team-card-content">
+          <h3 class="team-name">Spotify</h3>
+          <div class="team-role">
+            <i class="fab fa-spotify"></i>
+            Premium Music Streaming
+          </div>
+          <p>Access millions of songs, curated playlists, and personalized recommendations through Spotify's powerful API.</p>
+          <div class="team-skills">
+            <span class="skill-tag">Web API</span>
+            <span class="skill-tag">OAuth 2.0</span>
+            <span class="skill-tag">Real-time Sync</span>
+            <span class="skill-tag">Premium Features</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card animate__animated" data-animation="fadeInUp">
+        <div class="team-card-image">
+          <img src="{{ url_for('static', filename='images/youtube-bg.jpg') }}" 
+               alt="YouTube Integration"
+               onerror="this.src='https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'">
+        </div>
+        <div class="team-card-content">
+          <h3 class="team-name">YouTube</h3>
+          <div class="team-role">
+            <i class="fab fa-youtube"></i>
+            Video & Music Platform
+          </div>
+          <p>Leverage YouTube's vast music library and video content for enhanced emotional music experiences.</p>
+          <div class="team-skills">
+            <span class="skill-tag">Data API v3</span>
+            <span class="skill-tag">Video Streaming</span>
+            <span class="skill-tag">Music Videos</span>
+            <span class="skill-tag">Live Content</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card animate__animated" data-animation="fadeInUp">
+        <div class="team-card-image">
+          <img src="{{ url_for('static', filename='images/custom-bg.jpg') }}" 
+               alt="Custom Platform"
+               onerror="this.src='https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'">
+        </div>
+        <div class="team-card-content">
+          <h3 class="team-name">Custom Platform</h3>
+          <div class="team-role">
+            <i class="fas fa-code"></i>
+            Developer API
+          </div>
+          <p>Build your own integration with our comprehensive API and developer tools.</p>
+          <div class="team-skills">
+            <span class="skill-tag">REST API</span>
+            <span class="skill-tag">WebSocket</span>
+            <span class="skill-tag">SDK</span>
+            <span class="skill-tag">Documentation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM SECTION -->
+  <section class="team-section" aria-labelledby="team-title">
+    <h2 id="team-title" class="section-title animate__animated animate__fadeIn">
+      The <span>Developer Team</span> Behind MelodyMist
+    </h2>
+    
+    <div class="team-grid">
+      <div class="team-card animate__animated" data-animation="fadeInLeft">
+        <div class="team-card-image">
+          <img src="{{ url_for('static', filename='images/Asw.jpg') }}" 
+               alt="Aswini Devi Medisetti"
+               onerror="this.src='https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80'">
+        </div>
+        <div class="team-card-content">
+          <h3 class="team-name">Aswini Devi Medisetti</h3>
+          <div class="team-role">
+            <i class="fas fa-server"></i>
+            Backend Developer & Team Lead
+          </div>
+          <p>Specializes in deep learning models, Flask development, and emotion recognition algorithms.</p>
+          <div class="team-skills">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Flask</span>
+            <span class="skill-tag">Deep Learning</span>
+            <span class="skill-tag">Team Management</span>
+          </div>
+          <p class="mt-3"><strong>Roll No:</strong> 22JN1A4529</p>
+        </div>
+      </div>
+
+      <div class="team-card animate__animated" data-animation="fadeInUp">
+        <div class="team-card-image">
+          <img src="{{ url_for('static', filename='images/My img.jpg') }}" 
+               alt="Sowjanya Uppada"
+               onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=2061&q=80'">
+        </div>
+        <div class="team-card-content">
+          <h3 class="team-name">Sowjanya Uppada</h3>
+          <div class="team-role">
+            <i class="fas fa-paint-brush"></i>
+            Frontend Specialist & UI/UX Designer
+          </div>
+          <p>Creates stunning interfaces with advanced animations and responsive designs.</p>
+          <div class="team-skills">
+            <span class="skill-tag">HTML/CSS/JS</span>
+            <span class="skill-tag">UI/UX Design</span>
+            <span class="skill-tag">Animations</span>
+            <span class="skill-tag">Bootstrap</span>
+          </div>
+          <p class="mt-3"><strong>Roll No:</strong> 22JN1A4509</p>
+        </div>
+      </div>
+
+      <div class="team-card animate__animated" data-animation="fadeInRight">
+        <div class="team-card-image">
+          <img src="{{ url_for('static', filename='images/priya.jpg') }}" 
+               alt="Padma Priya Kadiyam"
+               onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80'">
+        </div>
+        <div class="team-card-content">
+          <h3 class="team-name">Padma Priya Kadiyam</h3>
+          <div class="team-role">
+            <i class="fas fa-database"></i>
+            Database Administrator
+          </div>
+          <p>Manages data security, MongoDB optimization, and database architecture.</p>
+          <div class="team-skills">
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Security</span>
+            <span class="skill-tag">Data Management</span>
+          </div>
+          <p class="mt-3"><strong>Roll No:</strong> 22JN1A4507</p>
+        </div>
+      </div>
+    </div>
+
+      
+  </section>
+
+  <!-- STATS SECTION -->
+  <section class="stats-section" aria-labelledby="stats-title">
+    <h2 id="stats-title" class="section-title animate__animated animate__fadeIn">
+      By The <span>Numbers</span>
+    </h2>
+    
+    <div class="stats-grid">
+      <div class="stat-card animate__animated" data-animation="zoomIn">
+        <div class="stat-icon">
+          <i class="fas fa-brain"></i>
+        </div>
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Emotion Detection Accuracy</div>
+      </div>
+
+      <div class="stat-card animate__animated" data-animation="zoomIn">
+        <div class="stat-icon">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Emotions Recognized</div>
+      </div>
+
+      <div class="stat-card animate__animated" data-animation="zoomIn">
+        <div class="stat-icon">
+          <i class="fas fa-database"></i>
+        </div>
+        <div class="stat-number">1M+</div>
+        <div class="stat-label">Songs in Database</div>
+      </div>
+
+      <div class="stat-card animate__animated" data-animation="zoomIn">
+        <div class="stat-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <div class="stat-number">&lt;1s</div>
+        <div class="stat-label">Response Time</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-block">
+        <div class="footer-logo">
+          <div class="logo" aria-hidden="true">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="footer-logo-text">
+            <h3>MelodyMist</h3>
+            <p>Emotion-Driven Music Experience</p>
+          </div>
+        </div>
+        
+        <p class="dev-credit">
+          Built & maintained by <strong>MelodyMist Development Team</strong> • 
+          <span>Deep Learning • Real-time Processing • Multi-platform Integration</span>
+        </p>
+        
+        <div class="socials">
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Explore</h4>
+        <div class="footer-links" role="navigation" aria-label="Footer links">
+          <a href="/home"><i class="fas fa-home"></i> Home</a>
+          <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+          <a href="/features"><i class="fas fa-star"></i> Features</a>
+          <a href="/index"><i class="fas fa-play-circle"></i> Action</a>
+          <a href="/history"><i class="fas fa-history"></i> History</a>
+          <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+          <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Developer Resources</h4>
+        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+          Access our API documentation and integration guides.
+        </p>
+        
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code"></i> API Reference</a>
+          <a href="#"><i class="fas fa-plug"></i> Integrations</a>
+          <a href="#"><i class="fas fa-tools"></i> Developer Tools</a>
+        </div>
+        
+        <div class="newsletter" style="margin-top: 25px;">
+          <input id="news-email" type="email" placeholder="Email for updates" />
+          <button class="btn-ghost" onclick="subscribeDev()">
+            <i class="fas fa-paper-plane"></i> Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      © <span id="footer-year"></span> MelodyMist — All rights reserved | 
+      <a href="/privacy" style="color: var(--gold); font-weight: 600;">Privacy Policy</a> | 
+      <a href="/terms" style="color: var(--gold); font-weight: 600;">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Set current year in footer
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 100 + 50;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = Math.random() * 10 + 15;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${x}%`;
+        particle.style.top = `${y}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Add scroll animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate elements on scroll
+      const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.animate__animated[data-animation]');
+        const steps = document.querySelectorAll('.process-step');
+        
+        elements.forEach(element => {
+          const elementPosition = element.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.2;
+          
+          if (elementPosition < screenPosition) {
+            const animationClass = element.getAttribute('data-animation');
+            if (animationClass && !element.classList.contains('animate__' + animationClass)) {
+              element.classList.add('animate__' + animationClass);
+            }
+          }
+        });
+        
+        // Animate process steps
+        steps.forEach(step => {
+          const stepPosition = step.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+          
+          if (stepPosition < screenPosition) {
+            step.classList.add('visible');
+          }
+        });
+      };
+      
+      // Initial check
+      animateOnScroll();
+      
+      // Check on scroll
+      window.addEventListener('scroll', animateOnScroll);
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Newsletter subscription
+      window.subscribeDev = function() {
+        const email = document.getElementById('news-email').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email) {
+          showNotification('Please enter your email address.', 'warning');
+          return;
+        }
+        
+        if (!emailRegex.test(email)) {
+          showNotification('Please enter a valid email address.', 'warning');
+          return;
+        }
+        
+        showNotification('Thank you for subscribing to MelodyMist updates!', 'success');
+        document.getElementById('news-email').value = '';
+      };
+      
+      // Notification function
+      function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.innerHTML = `
+          <div style="
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 20px 25px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, var(--gold), var(--gold-dark))' : '#ff4757'};
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-weight: 600;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid ${type === 'success' ? 'rgba(212, 175, 55, 0.3)' : 'rgba(255, 71, 87, 0.3)'};
+          ">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}" 
+               style="font-size: 1.5rem;"></i>
+            <div>${message}</div>
+          </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 400);
+        }, 5000);
+        
+        // Add keyframes for animation
+        if (!document.getElementById('notification-styles')) {
+          const style = document.createElement('style');
+          style.id = 'notification-styles';
+          style.textContent = `
+            @keyframes slideIn {
+              from { transform: translateX(100%); opacity: 0; }
+              to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+              from { transform: translateX(0); opacity: 1; }
+              to { transform: translateX(100%); opacity: 0; }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+      
+      // Add hover effect to emotion cards
+      const emotionCards = document.querySelectorAll('.emotion-card');
+      emotionCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          const emoji = this.querySelector('.emotion-emoji');
+          emoji.style.animation = 'emojiPulse 0.5s ease-in-out';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          const emoji = this.querySelector('.emotion-emoji');
+          emoji.style.animation = 'emojiPulse 2s ease-in-out infinite';
+        });
+      });
+      
+      // Add parallax effect to header
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header.topbar');
+        const scrolled = window.pageYOffset;
+        
+        if (scrolled > 50) {
+          header.style.backdropFilter = 'blur(15px) saturate(200%)';
+          header.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.95) 100%)';
+          header.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+        } else {
+          header.style.backdropFilter = 'blur(10px) saturate(180%)';
+          header.style.background = 'linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%)';
+          header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+        }
+      });
+      
+      // Animate emoji orbit on scroll
+      const emojiOrbit = document.querySelector('.emoji-orbit');
+      window.addEventListener('scroll', function() {
+        const scrollPercent = (window.pageYOffset / document.body.scrollHeight) * 100;
+        emojiOrbit.style.animationDuration = `${40 - (scrollPercent / 10)}s`;
+      });
+      
+      // Add typing effect to hero subtitle
+      const heroSubtitle = document.querySelector('.hero-subtitle');
+      const originalText = heroSubtitle.textContent;
+      let charIndex = 0;
+      
+      function typeWriter() {
+        if (charIndex < originalText.length) {
+          heroSubtitle.textContent = originalText.substring(0, charIndex + 1);
+          charIndex++;
+          setTimeout(typeWriter, 30);
+        }
+      }
+      
+      // Start typing after 1 second
+      setTimeout(() => {
+        heroSubtitle.textContent = '';
+        typeWriter();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

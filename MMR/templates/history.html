@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood History | MelodyMist - Your Emotional Journey</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ----------------- GOLD & DARK THEME ----------------- */
+    :root {
+      --gold: #d4af37;
+      --gold-dark: #b8941f;
+      --gold-light: #f6e7b4;
+      --gold-soft: rgba(212, 175, 55, 0.1);
+      --success: #2ecc71;
+      --success-dark: #27ae60;
+      --info: #3498db;
+      --info-dark: #2980b9;
+      --purple: #9b59b6;
+      --purple-dark: #8e44ad;
+      --white: #ffffff;
+      --darker: #0a0a0a;
+      --dark: #0f0f0f;
+      --light-dark: #1a1a1a;
+      --glass: rgba(255, 255, 255, 0.88);
+      --glass-dark: rgba(26, 26, 26, 0.95);
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-gold: 0 12px 40px rgba(212, 175, 55, 0.2);
+      --shadow-deep: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ----------------- GLOBAL STYLES ----------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Animated Gradient Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, var(--light-dark) 100%);
+      animation: gradientShift 15s ease infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      0% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(10deg);
+      }
+      100% { 
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+      }
+    }
+
+    /* Particle Animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: particleFloat 15s infinite linear;
+      opacity: 0.3;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-dark);
+    }
+
+    /* ----------------- HEADER ----------------- */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px) saturate(180%);
+      background: linear-gradient(180deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(15, 15, 15, 0.9) 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: var(--gold);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+      animation: logoShine 3s infinite;
+      border-radius: 16px;
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .logo i {
+      font-size: 28px;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-text h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav-links {
+      display: flex;
+      gap: 5px;
+      margin-left: 40px;
+    }
+
+    .nav-links a {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a i {
+      font-size: 1.1rem;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a:hover::before {
+      width: 70%;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .nav-links a.active::before {
+      width: 70%;
+    }
+
+    /* Auth area */
+    .auth-area {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 2px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ghost::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 40%, rgba(212, 175, 55, 0.15) 50%, transparent 60%);
+      animation: buttonShine 3s infinite;
+      z-index: -1;
+    }
+
+    .btn-ghost:hover {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 255, 255, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .user-pill {
+      padding: 12px 28px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--darker);
+      font-weight: 700;
+      box-shadow: 
+        0 8px 32px rgba(212, 175, 55, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .user-pill:hover::before {
+      left: 100%;
+    }
+
+    .user-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 40px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    /* ----------------- MAIN CONTENT ----------------- */
+    .main-content {
+      min-height: calc(100vh - 140px);
+      padding: 60px 20px;
+    }
+
+    .history-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(212, 175, 55, 0.05) 100%);
+      border-radius: 25px;
+      padding: 60px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      box-shadow: var(--shadow-deep);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .history-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-dark));
+    }
+
+    /* Header Section */
+    .history-header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .history-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--purple), #c39bd3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .history-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 20px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      margin-top: 20px;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(155, 89, 182, 0.1) 100%);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid rgba(155, 89, 182, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(155, 89, 182, 0.2);
+      border-color: var(--purple);
+    }
+
+    .stat-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: var(--white);
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 15px;
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .trend-up {
+      color: var(--success);
+    }
+
+    .trend-down {
+      color: #e74c3c;
+    }
+
+    .trend-neutral {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Chart Section */
+    .chart-section {
+      margin-bottom: 50px;
+    }
+
+    .chart-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .chart-placeholder {
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1.1rem;
+    }
+
+    .chart-placeholder i {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: rgba(212, 175, 55, 0.3);
+    }
+
+    /* History Table */
+    .table-section {
+      margin-bottom: 50px;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--gold);
+    }
+
+    .table-controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .table-controls select {
+      padding: 10px 20px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--white);
+      cursor: pointer;
+    }
+
+    .table-controls select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .table-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .history-table thead {
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+    }
+
+    .history-table th {
+      padding: 20px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--white);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .history-table tbody tr {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .history-table tbody tr:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .history-table td {
+      padding: 18px 20px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .mood-badge {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: inline-block;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .mood-happy { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .mood-excited { background: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+    .mood-calm { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+    .mood-relaxed { background: rgba(41, 128, 185, 0.2); color: #2980b9; }
+    .mood-sad { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+    .mood-stressed { background: rgba(230, 126, 34, 0.2); color: #e67e22; }
+    .mood-neutral { background: rgba(149, 165, 166, 0.2); color: #95a5a6; }
+    .mood-angry { background: rgba(192, 57, 43, 0.2); color: #c0392b; }
+
+    .timestamp {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    .time-ago {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 5px;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 20px 40px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(155, 89, 182, 0.3);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      padding: 20px 40px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(212, 175, 55, 0.1);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+      color: var(--gold);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      font-size: 5rem;
+      color: rgba(212, 175, 55, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .empty-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--white);
+    }
+
+    .empty-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+
+    /* ----------------- ENHANCED FOOTER ----------------- */
+    footer.site-footer {
+      border-top: 3px solid var(--gold);
+      background: linear-gradient(180deg, 
+        rgba(15, 15, 15, 0.98) 0%, 
+        rgba(10, 10, 10, 0.95) 100%);
+      padding: 60px 0 30px;
+      position: relative;
+    }
+
+    footer.site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, 
+        var(--gold), 
+        var(--gold-dark), 
+        var(--gold), 
+        var(--gold-dark));
+      animation: borderFlow 3s linear infinite;
+    }
+
+    @keyframes borderFlow {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      gap: 50px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .footer-block {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .footer-logo {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .footer-logo .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+    }
+
+    .footer-logo .logo i {
+      font-size: 24px;
+      color: var(--white);
+    }
+
+    .footer-logo-text h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-logo-text p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 8px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .dev-credit {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      margin-top: 25px;
+      line-height: 1.6;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border-radius: 15px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-links a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+      transform-origin: top;
+    }
+
+    .footer-links a:hover::before {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+      transform: translateX(10px);
+    }
+
+    .footer-links a i {
+      color: var(--gold);
+      width: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .footer-links a:hover i {
+      transform: scale(1.2);
+    }
+
+    .footer-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--white);
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+
+    .socials {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .socials a {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.1), 
+        rgba(255, 255, 255, 0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .socials a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .socials a:hover::before {
+      opacity: 1;
+    }
+
+    .socials a i {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
+    }
+
+    .socials a:hover i {
+      color: var(--white);
+    }
+
+    .socials a:hover {
+      transform: translateY(-5px) rotate(5deg);
+      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    .copyright::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ----------------- RESPONSIVE ----------------- */
+    @media (max-width: 1200px) {
+      .history-container {
+        padding: 50px;
+      }
+      
+      .history-title {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .history-container {
+        padding: 40px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .history-container {
+        padding: 30px;
+      }
+      
+      .history-title {
+        font-size: 2rem;
+      }
+      
+      .history-subtitle {
+        font-size: 1rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .nav-inner {
+        padding: 12px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-content {
+        padding: 30px 15px;
+      }
+      
+      .history-container {
+        padding: 25px;
+      }
+      
+      .history-title {
+        font-size: 1.8rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .footer-inner {
+        padding: 0 20px;
+      }
+      
+      .history-table th,
+      .history-table td {
+        padding: 12px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- HEADER -->
+  <header class="topbar" role="banner">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <div class="logo" aria-hidden="true">
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="brand-text">
+          <h1>MelodyMist</h1>
+          <p>Emotion-Driven Music</p>
+        </div>
+      </a>
+
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="/home"><i class="fas fa-home"></i> Home</a>
+        <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="/features"><i class="fas fa-star"></i> Features</a>
+        <a href="/index"><i class="fas fa-heart"></i> Mood Input</a>
+        <a href="/history" class="active"><i class="fas fa-history"></i> History</a>
+        <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+        <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+
+      <div class="auth-area">
+        <a href="/community" class="btn-ghost">
+          <i class="fas fa-users"></i> Community
+        </a>
+        <div class="user-pill">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ session['username'] }}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="history-container">
+      <!-- Header Section -->
+      <div class="history-header">
+        <h1 class="history-title">
+          <i class="fas fa-chart-line"></i>
+          Your Emotional Journey
+        </h1>
+        <p class="history-subtitle">
+          Track your mood patterns and emotional trends over time. 
+          Understanding your emotions is the first step to better emotional well-being.
+        </p>
+        <div class="user-badge">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ session['username'] }}'s Mood History</span>
+        </div>
+      </div>
+
+      {% if mood_data %}
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-value">{{ mood_data|length }}</div>
+            <div class="stat-label">Total Mood Logs</div>
+            <div class="stat-trend trend-up">
+              <i class="fas fa-arrow-up"></i>
+              {{ (mood_data|length / 30 * 100)|round(1) if mood_data|length < 30 else 100 }}% monthly
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="stat-value" id="avgMoodScore">7.2</div>
+            <div class="stat-label">Average Mood Score</div>
+            <div class="stat-trend trend-up">
+              <i class="fas fa-arrow-up"></i>
+              12% better than last week
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div class="stat-value" id="currentStreak">5</div>
+            <div class="stat-label">Day Streak</div>
+            <div class="stat-trend trend-up">
+              <i class="fas fa-fire"></i>
+              Keep it going!
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-value" id="dominantMood">Happy</div>
+            <div class="stat-label">Most Frequent Mood</div>
+            <div class="stat-trend trend-neutral">
+              <i class="fas fa-chart-bar"></i>
+              {{ (5 / mood_data|length * 100)|round(1) }}% of logs
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-section">
+          <div class="section-title">
+            <i class="fas fa-chart-area"></i>
+            Mood Trends Over Time
+          </div>
+          <div class="chart-container">
+            {% if plot_path %}
+              <img src="/{{ plot_path }}" class="img-fluid" alt="Mood History Chart" 
+                   style="width: 100%; border-radius: 15px;">
+            {% else %}
+              <div class="chart-placeholder">
+                <i class="fas fa-chart-bar"></i>
+                <p>Visualize your mood patterns with interactive charts</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="table-section">
+          <div class="table-header">
+            <div class="section-title">
+              <i class="fas fa-list-alt"></i>
+              Recent Mood Logs
+            </div>
+            <div class="table-controls">
+              <select onchange="filterTable(this.value)">
+                <option value="all">All Moods</option>
+                <option value="happy">Happy</option>
+                <option value="excited">Excited</option>
+                <option value="calm">Calm</option>
+                <option value="sad">Sad</option>
+                <option value="stressed">Stressed</option>
+              </select>
+              <select onchange="sortTable(this.value)">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="mood">By Mood</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th style="width: 25%">Date & Time</th>
+                  <th style="width: 20%">Mood</th>
+                  <th style="width: 30%">Emotional State</th>
+                  <th style="width: 25%">Input Method</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                {% for entry in mood_data %}
+                  <tr class="mood-row">
+                    <td>
+                      <div class="timestamp">{{ entry['Timestamp'] }}</div>
+                      <div class="time-ago" data-timestamp="{{ entry['Timestamp'] }}"></div>
+                    </td>
+                    <td>
+                      {% set mood_lower = entry['Mood'].lower() %}
+                      <span class="mood-badge 
+                        {% if 'happy' in mood_lower %}mood-happy
+                        {% elif 'excited' in mood_lower %}mood-excited
+                        {% elif 'calm' in mood_lower or 'relaxed' in mood_lower %}mood-calm
+                        {% elif 'sad' in mood_lower %}mood-sad
+                        {% elif 'stress' in mood_lower %}mood-stressed
+                        {% elif 'angry' in mood_lower %}mood-angry
+                        {% else %}mood-neutral{% endif %}">
+                        {{ entry['Mood'] }}
+                      </span>
+                    </td>
+                    <td>
+                      {% if 'happy' in mood_lower or 'excited' in mood_lower %}
+                        <i class="fas fa-smile" style="color: #2ecc71; margin-right: 8px;"></i>
+                        Positive energy and enthusiasm
+                      {% elif 'calm' in mood_lower or 'relaxed' in mood_lower %}
+                        <i class="fas fa-peace" style="color: #3498db; margin-right: 8px;"></i>
+                        Peaceful and composed state
+                      {% elif 'sad' in mood_lower %}
+                        <i class="fas fa-sad-tear" style="color: #e74c3c; margin-right: 8px;"></i>
+                        Reflective or low emotional state
+                      {% elif 'stress' in mood_lower %}
+                        <i class="fas fa-tired" style="color: #e67e22; margin-right: 8px;"></i>
+                        Heightened tension or anxiety
+                      {% else %}
+                        <i class="fas fa-meh" style="color: #95a5a6; margin-right: 8px;"></i>
+                        Balanced emotional state
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% set method = entry.get('Method', 'text') %}
+                      <span style="display: flex; align-items: center; gap: 8px;">
+                        {% if method == 'text' %}
+                          <i class="fas fa-keyboard"></i> Text
+                        {% elif method == 'voice' %}
+                          <i class="fas fa-microphone"></i> Voice
+                        {% elif method == 'face' %}
+                          <i class="fas fa-camera"></i> Face
+                        {% else %}
+                          <i class="fas fa-question-circle"></i> Unknown
+                        {% endif %}
+                      </span>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <h2 class="empty-title">No Mood History Yet</h2>
+          <p class="empty-subtitle">
+            Start your emotional journey by logging your first mood! 
+            Track your emotions and discover patterns over time.
+          </p>
+          <div class="action-buttons">
+            <a href="/index" class="btn-primary">
+              <i class="fas fa-plus"></i>
+              Log Your First Mood
+            </a>
+            <a href="/home" class="btn-secondary">
+              <i class="fas fa-home"></i>
+              Back to Home
+            </a>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Action Buttons -->
+      {% if mood_data %}
+        <div class="action-buttons">
+          <a href="/index" class="btn-primary">
+            <i class="fas fa-plus-circle"></i>
+            Add New Mood Entry
+          </a>
+          <a href="/home" class="btn-secondary">
+            <i class="fas fa-home"></i>
+            Back to Dashboard
+          </a>
+          <button class="btn-secondary" onclick="exportHistory()">
+            <i class="fas fa-download"></i>
+            Export Data
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-block">
+        <div class="footer-logo">
+          <div class="logo" aria-hidden="true">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="footer-logo-text">
+            <h3>MelodyMist</h3>
+            <p>Emotion-Driven Music Experience</p>
+          </div>
+        </div>
+        
+        <p class="dev-credit">
+          Built with ❤️ by passionate developers • 
+          <span>Your emotional journey matters • Track, understand, grow</span>
+        </p>
+        
+        <div class="socials">
+          <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Quick Links</h4>
+        <div class="footer-links" role="navigation" aria-label="Footer links">
+          <a href="/home"><i class="fas fa-home"></i> Home</a>
+          <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+          <a href="/features"><i class="fas fa-star"></i> Features</a>
+          <a href="/index"><i class="fas fa-heart"></i> Mood Input</a>
+          <a href="/history" class="active"><i class="fas fa-history"></i> History</a>
+          <a href="/feedback"><i class="fas fa-comments"></i> Feedback</a>
+          <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+      </div>
+      
+      <div class="footer-block">
+        <h4 class="footer-title">Insights & Analytics</h4>
+        <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+          Gain valuable insights from your emotional patterns and mood trends.
+        </p>
+        
+        <div class="footer-links">
+          <a href="#">
+            <i class="fas fa-chart-pie"></i> Weekly Reports
+          </a>
+          <a href="#">
+            <i class="fas fa-trend-up"></i> Mood Trends
+          </a>
+          <a href="#">
+            <i class="fas fa-lightbulb"></i> Insights & Tips
+          </a>
+          <a href="#">
+            <i class="fas fa-download"></i> Export Data
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      © <span id="footer-year"></span> MelodyMist — Your Emotional Journey | 
+      <a href="/privacy" style="color: var(--gold); font-weight: 600;">Privacy Policy</a> | 
+      <a href="/terms" style="color: var(--gold); font-weight: 600;">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Set current year in footer
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 100 + 50;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = Math.random() * 10 + 15;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${x}%`;
+        particle.style.top = `${y}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Calculate time ago for timestamps
+    function calculateTimeAgo() {
+      const timeElements = document.querySelectorAll('.time-ago');
+      timeElements.forEach(element => {
+        const timestamp = element.getAttribute('data-timestamp');
+        if (timestamp) {
+          const date = new Date(timestamp);
+          const now = new Date();
+          const diffMs = now - date;
+          const diffMins = Math.floor(diffMs / 60000);
+          const diffHours = Math.floor(diffMs / 3600000);
+          const diffDays = Math.floor(diffMs / 86400000);
+          
+          if (diffDays > 0) {
+            element.textContent = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+          } else if (diffHours > 0) {
+            element.textContent = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+          } else {
+            element.textContent = `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+          }
+        }
+      });
+    }
+    
+    // Calculate mood statistics
+    function calculateMoodStats() {
+      const moodRows = document.querySelectorAll('.mood-row');
+      if (moodRows.length === 0) return;
+      
+      let happyCount = 0;
+      let excitedCount = 0;
+      let calmCount = 0;
+      let sadCount = 0;
+      let stressedCount = 0;
+      let totalScore = 0;
+      
+      moodRows.forEach(row => {
+        const moodBadge = row.querySelector('.mood-badge');
+        if (moodBadge) {
+          const mood = moodBadge.textContent.toLowerCase();
+          
+          if (mood.includes('happy')) {
+            happyCount++;
+            totalScore += 9;
+          } else if (mood.includes('excited')) {
+            excitedCount++;
+            totalScore += 8;
+          } else if (mood.includes('calm') || mood.includes('relaxed')) {
+            calmCount++;
+            totalScore += 7;
+          } else if (mood.includes('sad')) {
+            sadCount++;
+            totalScore += 4;
+          } else if (mood.includes('stress')) {
+            stressedCount++;
+            totalScore += 3;
+          } else {
+            totalScore += 5;
+          }
+        }
+      });
+      
+      // Update stats
+      const avgScore = (totalScore / moodRows.length).toFixed(1);
+      document.getElementById('avgMoodScore').textContent = avgScore;
+      
+      // Calculate dominant mood
+      const moodCounts = [
+        { mood: 'Happy', count: happyCount },
+        { mood: 'Excited', count: excitedCount },
+        { mood: 'Calm', count: calmCount },
+        { mood: 'Sad', count: sadCount },
+        { mood: 'Stressed', count: stressedCount }
+      ];
+      
+      const dominant = moodCounts.reduce((max, current) => 
+        current.count > max.count ? current : max
+      );
+      
+      document.getElementById('dominantMood').textContent = dominant.mood;
+      
+      // Calculate streak (simplified)
+      const streak = Math.min(moodRows.length, 7);
+      document.getElementById('currentStreak').textContent = streak;
+    }
+    
+    // Filter table by mood
+    function filterTable(mood) {
+      const rows = document.querySelectorAll('.mood-row');
+      
+      rows.forEach(row => {
+        const moodBadge = row.querySelector('.mood-badge');
+        if (moodBadge) {
+          const rowMood = moodBadge.textContent.toLowerCase();
+          
+          if (mood === 'all' || rowMood.includes(mood)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        }
+      });
+    }
+    
+    // Sort table
+    function sortTable(sortBy) {
+      const tableBody = document.getElementById('historyTableBody');
+      const rows = Array.from(tableBody.querySelectorAll('.mood-row'));
+      
+      rows.sort((a, b) => {
+        const timeA = a.querySelector('.timestamp').textContent;
+        const timeB = b.querySelector('.timestamp').textContent;
+        const moodA = a.querySelector('.mood-badge').textContent;
+        const moodB = b.querySelector('.mood-badge').textContent;
+        
+        switch(sortBy) {
+          case 'newest':
+            return new Date(timeB) - new Date(timeA);
+          case 'oldest':
+            return new Date(timeA) - new Date(timeB);
+          case 'mood':
+            return moodA.localeCompare(moodB);
+          default:
+            return 0;
+        }
+      });
+      
+      // Clear and reappend sorted rows
+      rows.forEach(row => tableBody.appendChild(row));
+    }
+    
+    // Export history data
+    function exportHistory() {
+      const moodData = JSON.parse('{{ mood_data|tojson|safe }}');
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "Timestamp,Mood,Method\n"
+        + moodData.map(row => 
+            `"${row.Timestamp}","${row.Mood}","${row.Method || 'text'}"`
+          ).join("\n");
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "mood_history.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      showNotification('Mood history exported successfully!', 'success');
+    }
+    
+    // Notification function
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.innerHTML = `
+        <div style="
+          position: fixed;
+          top: 30px;
+          right: 30px;
+          padding: 20px 25px;
+          background: ${type === 'success' ? 'linear-gradient(135deg, #2ecc71, #27ae60)' : 
+            type === 'warning' ? 'linear-gradient(135deg, #f39c12, #e67e22)' : '#ff4757'};
+          color: white;
+          border-radius: 15px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+          z-index: 10000;
+          font-weight: 600;
+          animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          backdrop-filter: blur(10px);
+          border: 1px solid ${type === 'success' ? 'rgba(46, 204, 113, 0.3)' : 
+            type === 'warning' ? 'rgba(243, 156, 18, 0.3)' : 'rgba(255, 71, 87, 0.3)'};
+        ">
+          <i class="fas ${type === 'success' ? 'fa-check-circle' : 
+            type === 'warning' ? 'fa-exclamation-triangle' : 'fa-exclamation-circle'}" 
+             style="font-size: 1.5rem;"></i>
+          <div>${message}</div>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            document.body.removeChild(notification);
+          }
+        }, 400);
+      }, 5000);
+      
+      // Add keyframes for animation
+      if (!document.getElementById('notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+          @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+          @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+    
+    // Add parallax effect to header
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('header.topbar');
+      const scrolled = window.pageYOffset;
+      
+      if (scrolled > 50) {
+        header.style.backdropFilter = 'blur(15px) saturate(200%)';
+        header.style.background = 'linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(5, 5, 5, 0.95) 100%)';
+        header.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.5)';
+      } else {
+        header.style.backdropFilter = 'blur(10px) saturate(180%)';
+        header.style.background = 'linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(15, 15, 15, 0.9) 100%)';
+        header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+      }
+    });
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      calculateTimeAgo();
+      calculateMoodStats();
+      
+      // Auto-refresh time ago every minute
+      setInterval(calculateTimeAgo, 60000);
+    });
+  </script>
+</body>
+</html>
