@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning | SoulStrings</title>
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --youtube-red: #FF0000;
+            --dark-bg: #121212;
+            --card-bg: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --ml-blue: #007BFF;
+            --ml-orange: #FF6B35;
+            --ml-purple: #6F42C1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0c0c0c 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Data Flow Animation */
+        .data-flow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .data-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--ml-blue);
+            border-radius: 50%;
+            animation: dataFlow 6s linear infinite;
+            box-shadow: 0 0 10px var(--ml-blue);
+        }
+        
+        @keyframes dataFlow {
+            0% {
+                transform: translateY(100vh) translateX(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Matrix Rain Effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100px;
+            font-family: monospace;
+            font-size: 18px;
+            color: var(--ml-blue);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            animation: matrixFall 10s linear infinite;
+        }
+        
+        @keyframes matrixFall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--spotify-green);
+            font-size: 28px;
+        }
+        
+        .logo span {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--spotify-green);
+            border-radius: 2px;
+        }
+        
+        .user {
+            color: var(--spotify-green);
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .ml-hero {
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ml-hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.1) 0%, transparent 70%);
+            animation: mlPulse 6s infinite alternate;
+        }
+        
+        @keyframes mlPulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.1; }
+        }
+        
+        .ml-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--ml-blue), var(--ml-orange), var(--ml-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: gradientShift 4s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .ml-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        /* Model Architecture */
+        .architecture-section {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .model-diagram {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .model-layer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .layer-node {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--ml-blue), var(--ml-purple));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            animation: nodeGlow 3s infinite alternate;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .layer-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--ml-blue);
+        }
+        
+        @keyframes nodeGlow {
+            0% { box-shadow: 0 0 20px var(--ml-blue); }
+            100% { box-shadow: 0 0 40px var(--ml-orange); }
+        }
+        
+        .layer-connection {
+            height: 4px;
+            background: linear-gradient(90deg, var(--ml-blue), var(--ml-orange));
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .layer-connection::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: connectionFlow 2s linear infinite;
+        }
+        
+        @keyframes connectionFlow {
+            to { left: 100%; }
+        }
+        
+        /* Algorithms Grid */
+        .algorithms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .algorithm-card {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .algorithm-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--ml-blue), var(--ml-orange));
+        }
+        
+        .algorithm-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 30px 60px rgba(0, 123, 255, 0.3);
+        }
+        
+        .algorithm-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--ml-blue), var(--ml-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Training Progress */
+        .training-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .training-chart {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .chart-bar {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .bar {
+            width: 60px;
+            background: linear-gradient(to top, var(--ml-blue), var(--ml-purple));
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            animation: barGrow 2s ease-out;
+        }
+        
+        @keyframes barGrow {
+            from { height: 0; }
+            to { height: var(--bar-height); }
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Code Visualization */
+        .code-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+        
+        .code-window {
+            background: #1e1e1e;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+        }
+        
+        .code-header {
+            background: #2d2d2d;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27ca3f; }
+        
+        .code-content {
+            padding: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+        
+        .code-line {
+            margin: 5px 0;
+            position: relative;
+        }
+        
+        .code-line::before {
+            content: attr(data-line);
+            position: absolute;
+            left: -40px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .code-keyword { color: #569cd6; }
+        .code-function { color: #dcdcaa; }
+        .code-string { color: #ce9178; }
+        .code-comment { color: #6a9955; }
+        .code-number { color: #b5cea8; }
+        
+        /* Performance Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(255, 107, 53, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 123, 255, 0.2);
+            border-color: var(--ml-blue);
+        }
+        
+        .metric-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--ml-blue), var(--ml-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+        }
+        
+        /* Tech Stack */
+        .tech-stack {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(45deg, var(--ml-blue), var(--ml-purple));
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            animation: badgeFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .tech-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            margin-top: 150px;
+            border-top: 1px solid rgba(29, 185, 84, 0.3);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        footer h5 {
+            color: var(--spotify-green);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        footer a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 8px 0;
+            transition: 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--spotify-green);
+            transform: translateX(5px);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ml-title {
+                font-size: 2.5rem;
+            }
+            
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                text-align: center;
+            }
+            
+            .layer-node {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+            
+            .model-diagram {
+                padding: 30px 20px;
+            }
+            
+            .code-content {
+                padding: 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Data Flow Animation -->
+    <div class="data-flow" id="dataFlow"></div>
+    
+    <!-- Matrix Rain -->
+    <div class="matrix-rain" id="matrixRain"></div>
+    
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-headphones"></i>
+            <span>SoulStrings</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('land') }}">Home</a>
+            <a href="{{ url_for('aboubt') }}">About</a>
+            <a href="#">Features</a>
+            <a href="{{ url_for('index') }}">Input</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('meet') }}">Contact</a>
+           <!--- <a href="{{ url_for('ai_mood') }}">AI Tech</a>
+            <a href="{{ url_for('ml_tech') }}" class="active">ML</a>-->
+        </nav>
+        <div class="user">👋 {{ session['username'] if session['username'] else 'Explore ML' }}</div>
+    </header>
+    
+    <!-- HERO SECTION -->
+    <section class="ml-hero animate__animated animate__fadeIn">
+        <div class="container">
+            <h1 class="ml-title">🤖 Machine Learning Core</h1>
+            <p class="ml-subtitle">
+                Discover the intelligent algorithms and neural networks powering SoulStrings' emotion-aware music recommendations
+            </p>
+            <div class="mt-4">
+                <span class="ml-pulse"></span>
+                <span class="ml-pulse"></span>
+                <span class="ml-pulse"></span>
+                <span class="ml-wave"></span>
+                <span class="ml-wave"></span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- MODEL ARCHITECTURE -->
+    <section class="architecture-section">
+        <h2 class="text-center mb-5" data-aos="fade-up">🏗️ Model Architecture</h2>
+        
+        <div class="model-diagram" data-aos="zoom-in">
+            <div class="text-center mb-4">
+                <h4>Multi-Modal Neural Network</h4>
+                <p style="color: var(--text-secondary);">Three specialized models working in harmony</p>
+            </div>
+            
+            <!-- Input Layer -->
+            <div class="model-layer" data-aos="fade-right">
+                <div class="layer-node" onclick="showLayerInfo('input')">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+            </div>
+            
+            <div class="layer-connection"></div>
+            
+            <!-- Processing Layers -->
+            <div class="model-layer" data-aos="fade-right" data-aos-delay="100">
+                <div class="layer-node" onclick="showLayerInfo('lstm')" style="background: linear-gradient(135deg, var(--ml-purple), #8A2BE2);">
+                    LSTM
+                </div>
+                <div class="layer-node mx-4" onclick="showLayerInfo('cnn')" style="background: linear-gradient(135deg, var(--ml-orange), #FF8C00);">
+                    CNN
+                </div>
+                <div class="layer-node" onclick="showLayerInfo('transformer')" style="background: linear-gradient(135deg, var(--ml-blue), #00BFFF);">
+                    BERT
+                </div>
+            </div>
+            
+            <div class="layer-connection"></div>
+            
+            <!-- Fusion Layer -->
+            <div class="model-layer" data-aos="fade-right" data-aos-delay="200">
+                <div class="layer-node" style="width: 120px; height: 120px; background: linear-gradient(135deg, var(--ml-blue), var(--ml-orange), var(--ml-purple));" 
+                     onclick="showLayerInfo('fusion')">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+            </div>
+            
+            <div class="layer-connection"></div>
+            
+            <!-- Output Layer -->
+            <div class="model-layer" data-aos="fade-right" data-aos-delay="300">
+                <div class="layer-node" onclick="showLayerInfo('output')" style="background: linear-gradient(135deg, #1DB954, #00C851);">
+                    <i class="fas fa-music"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ALGORITHMS GRID -->
+    <section class="algorithms-grid">
+        <div class="algorithm-card" data-aos="flip-left">
+            <div class="algorithm-icon">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <h3>LSTM Networks</h3>
+            <p style="color: var(--text-secondary);">
+                Long Short-Term Memory networks for sequential data analysis. Perfect for understanding emotional patterns over time in voice and text.
+            </p>
+            <div class="mt-3">
+                <span class="badge" style="background: var(--ml-purple);">Recurrent</span>
+                <span class="badge" style="background: var(--ml-blue);">Sequential</span>
+                <span class="badge" style="background: var(--ml-orange);">Memory Cells</span>
+            </div>
+        </div>
+        
+        <div class="algorithm-card" data-aos="flip-left" data-aos-delay="100">
+            <div class="algorithm-icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <h3>CNN Architecture</h3>
+            <p style="color: var(--text-secondary);">
+                Convolutional Neural Networks for image and pattern recognition. Used in facial expression analysis and feature extraction.
+            </p>
+            <div class="mt-3">
+                <span class="badge" style="background: var(--ml-purple);">Convolution</span>
+                <span class="badge" style="background: var(--ml-blue);">Pooling</span>
+                <span class="badge" style="background: var(--ml-orange);">Feature Maps</span>
+            </div>
+        </div>
+        
+        <div class="algorithm-card" data-aos="flip-left" data-aos-delay="200">
+            <div class="algorithm-icon">
+                <i class="fas fa-language"></i>
+            </div>
+            <h3>BERT Transformers</h3>
+            <p style="color: var(--text-secondary);">
+                Bidirectional Encoder Representations from Transformers for advanced natural language understanding and sentiment analysis.
+            </p>
+            <div class="mt-3">
+                <span class="badge" style="background: var(--ml-purple);">Attention</span>
+                <span class="badge" style="background: var(--ml-blue);">NLP</span>
+                <span class="badge" style="background: var(--ml-orange);">Contextual</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- TRAINING PROGRESS -->
+    <section class="training-section">
+        <h2 class="mb-4" data-aos="fade-up">📈 Training Performance</h2>
+        <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">
+            Our models trained on 50,000+ labeled emotion samples
+        </p>
+        
+        <div class="training-chart" data-aos="fade-up">
+            <div class="chart-bar">
+                <div class="bar" style="--bar-height: 80%;" data-percent="80">
+                    <div class="bar-label">Text Model</div>
+                </div>
+                <div class="bar" style="--bar-height: 75%;" data-percent="75">
+                    <div class="bar-label">Voice Model</div>
+                </div>
+                <div class="bar" style="--bar-height: 85%;" data-percent="85">
+                    <div class="bar-label">Face Model</div>
+                </div>
+                <div class="bar" style="--bar-height: 90%;" data-percent="90">
+                    <div class="bar-label">Fusion Model</div>
+                </div>
+            </div>
+            <p style="color: var(--text-secondary);" class="mt-4">
+                <i class="fas fa-chart-line me-2"></i>
+                Accuracy improvements over training epochs
+            </p>
+        </div>
+    </section>
+    
+    <!-- CODE VISUALIZATION -->
+    <section class="code-section">
+        <h2 class="text-center mb-5" data-aos="fade-up">💻 Model Implementation</h2>
+        
+        <div class="code-window" data-aos="zoom-in">
+            <div class="code-header">
+                <div class="code-dot red"></div>
+                <div class="code-dot yellow"></div>
+                <div class="code-dot green"></div>
+                <span style="color: var(--text-secondary); font-size: 14px;">model.py</span>
+            </div>
+            <div class="code-content">
+                <div class="code-line" data-line="1"><span class="code-keyword">import</span> torch</div>
+                <div class="code-line" data-line="2"><span class="code-keyword">import</span> torch.nn <span class="code-keyword">as</span> nn</div>
+                <div class="code-line" data-line="3"><span class="code-keyword">import</span> torch.nn.functional <span class="code-keyword">as</span> F</div>
+                <div class="code-line" data-line="4"></div>
+                <div class="code-line" data-line="5"><span class="code-keyword">class</span> <span class="code-function">EmotionModel</span>(nn.Module):</div>
+                <div class="code-line" data-line="6">    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-keyword">self</span>):</div>
+                <div class="code-line" data-line="7">        <span class="code-keyword">super</span>().<span class="code-function">__init__</span>()</div>
+                <div class="code-line" data-line="8">        <span class="code-comment"># Text encoder (BERT based)</span></div>
+                <div class="code-line" data-line="9">        <span class="code-keyword">self</span>.text_encoder = <span class="code-function">TextEncoder</span>()</div>
+                <div class="code-line" data-line="10">        <span class="code-comment"># Voice feature extractor</span></div>
+                <div class="code-line" data-line="11">        <span class="code-keyword">self</span>.voice_cnn = <span class="code-function">VoiceCNN</span>()</div>
+                <div class="code-line" data-line="12">        <span class="code-comment"># Face emotion detector</span></div>
+                <div class="code-line" data-line="13">        <span class="code-keyword">self</span>.face_net = <span class="code-function">FaceNet</span>()</div>
+                <div class="code-line" data-line="14">        <span class="code-comment"># Fusion layer</span></div>
+                <div class="code-line" data-line="15">        <span class="code-keyword">self</span>.fusion = nn.<span class="code-function">Linear</span>(<span class="code-number">768</span>, <span class="code-number">256</span>)</div>
+                <div class="code-line" data-line="16">        <span class="code-keyword">self</span>.classifier = nn.<span class="code-function">Linear</span>(<span class="code-number">256</span>, <span class="code-number">8</span>)</div>
+                <div class="code-line" data-line="17"></div>
+                <div class="code-line" data-line="18">    <span class="code-keyword">def</span> <span class="code-function">forward</span>(<span class="code-keyword">self</span>, text, voice, face):</div>
+                <div class="code-line" data-line="19">        text_features = <span class="code-keyword">self</span>.<span class="code-function">text_encoder</span>(text)</div>
+                <div class="code-line" data-line="20">        voice_features = <span class="code-keyword">self</span>.<span class="code-function">voice_cnn</span>(voice)</div>
+                <div class="code-line" data-line="21">        face_features = <span class="code-keyword">self</span>.<span class="code-function">face_net</span>(face)</div>
+                <div class="code-line" data-line="22">        <span class="code-comment"># Multi-modal fusion</span></div>
+                <div class="code-line" data-line="23">        combined = torch.<span class="code-function">cat</span>([text_features, voice_features, face_features], dim=<span class="code-number">1</span>)</div>
+                <div class="code-line" data-line="24">        fused = F.relu(<span class="code-keyword">self</span>.<span class="code-function">fusion</span>(combined))</div>
+                <div class="code-line" data-line="25">        output = <span class="code-keyword">self</span>.<span class="code-function">classifier</span>(fused)</div>
+                <div class="code-line" data-line="26">        <span class="code-keyword">return</span> F.softmax(output, dim=<span class="code-number">1</span>)</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- PERFORMANCE METRICS -->
+    <section class="metrics-grid">
+        <div class="metric-card" data-aos="zoom-in">
+            <i class="fas fa-microchip fa-2x mb-3" style="color: var(--ml-blue);"></i>
+            <div class="metric-number">50K+</div>
+            <h5>Training Samples</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Labeled emotion data points
+            </p>
+        </div>
+        
+        <div class="metric-card" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fas fa-tachometer-alt fa-2x mb-3" style="color: var(--ml-orange);"></i>
+            <div class="metric-number">2.5M</div>
+            <h5>Parameters</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Total model parameters
+            </p>
+        </div>
+        
+        <div class="metric-card" data-aos="zoom-in" data-aos-delay="200">
+            <i class="fas fa-bolt fa-2x mb-3" style="color: var(--ml-purple);"></i>
+            <div class="metric-number">&lt;100ms</div>
+            <h5>Inference Time</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Real-time prediction speed
+            </p>
+        </div>
+        
+        <div class="metric-card" data-aos="zoom-in" data-aos-delay="300">
+            <i class="fas fa-chart-line fa-2x mb-3" style="color: var(--ml-blue);"></i>
+            <div class="metric-number">89%</div>
+            <h5>Overall Accuracy</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Cross-validation score
+            </p>
+        </div>
+    </section>
+    
+    <!-- TECH STACK -->
+    <section class="tech-stack">
+        <h2 class="text-center mb-4" data-aos="fade-up">🛠️ Technology Stack</h2>
+        <p class="text-center text-muted mb-5" data-aos="fade-up" data-aos-delay="100">
+            Modern ML ecosystem powering our models
+        </p>
+        
+        <div class="tech-badges" data-aos="fade-up" data-aos-delay="200">
+            <div class="tech-badge">PyTorch</div>
+            <div class="tech-badge">TensorFlow</div>
+            <div class="tech-badge">Scikit-learn</div>
+            <div class="tech-badge">Transformers</div>
+            <div class="tech-badge">OpenCV</div>
+            <div class="tech-badge">Librosa</div>
+            <div class="tech-badge">NLTK</div>
+            <div class="tech-badge">SpaCy</div>
+            <div class="tech-badge">Dlib</div>
+            <div class="tech-badge">CUDA</div>
+            <div class="tech-badge">NumPy</div>
+            <div class="tech-badge">Pandas</div>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h5>SoulStrings ML</h5>
+                <p style="color: var(--text-secondary);">
+                    Advanced machine learning models for emotion detection. 
+                    Powered by neural networks, deep learning, and modern AI frameworks.
+                </p>
+            </div>
+            <div>
+                <h5>Technology</h5>
+                <a href="{{ url_for('ai_mood') }}">AI Mood Detection</a>
+                <a href="{{ url_for('ml_tech') }}" class="active">Machine Learning</a>
+                <a href="{{ url_for('spotify_tech') }}">Spotify Integration</a>
+                <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+            </div>
+            <!--<div>
+                <h5>Resources</h5>
+                <a href="#">Research Papers</a>
+                <a href="#">Model Zoo</a>
+                <a href="#">Training Datasets</a>
+                <a href="#">API Documentation</a>
+            </div>-->
+            <div>
+                <h5>Connect</h5>
+                <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+                <a href="#"><i class="fab fa-kaggle me-2"></i>Kaggle</a>
+                <a href="#"><i class="fab fa-spotify me-2"></i>Spotify</a>
+                <a href="#"><i class="fas fa-envelope me-2"></i>Contact</a>
+            </div>
+        </div>
+        <div class="copy">
+            © 2025 SoulStrings ML | Powered by PyTorch & TensorFlow | Team9 Moodify
+        </div>
+    </footer>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
+            
+            // Create data flow animation
+            createDataFlow();
+            
+            // Create matrix rain
+            createMatrixRain();
+            
+            // Add ML animation styles
+            const mlAnimations = `
+                <style>
+                    .ml-pulse {
+                        display: inline-block;
+                        width: 15px;
+                        height: 15px;
+                        background-color: var(--ml-blue);
+                        border-radius: 50%;
+                        margin: 0 5px;
+                        animation: mlPulseAnim 1.5s infinite;
+                    }
+                    
+                    .ml-pulse:nth-child(2) { animation-delay: 0.2s; background-color: var(--ml-orange); }
+                    .ml-pulse:nth-child(3) { animation-delay: 0.4s; background-color: var(--ml-purple); }
+                    
+                    .ml-wave {
+                        display: inline-block;
+                        height: 20px;
+                        width: 4px;
+                        margin: 0 2px;
+                        background-color: var(--ml-blue);
+                        animation: mlWave 1s ease-in-out infinite;
+                    }
+                    
+                    .ml-wave:nth-child(4) { animation-delay: 0.1s; background-color: var(--ml-orange); }
+                    .ml-wave:nth-child(5) { animation-delay: 0.2s; background-color: var(--ml-purple); }
+                    
+                    @keyframes mlPulseAnim {
+                        0%, 100% { transform: scale(1); opacity: 0.7; }
+                        50% { transform: scale(1.5); opacity: 1; }
+                    }
+                    
+                    @keyframes mlWave {
+                        0%, 40%, 100% { transform: scaleY(0.4); }
+                        20% { transform: scaleY(1); }
+                    }
+                </style>
+            `;
+            document.head.insertAdjacentHTML('beforeend', mlAnimations);
+        });
+        
+        // Create data flow animation
+        function createDataFlow() {
+            const dataFlow = document.getElementById('dataFlow');
+            
+            for (let i = 0; i < 50; i++) {
+                const point = document.createElement('div');
+                point.className = 'data-point';
+                point.style.left = `${Math.random() * 100}%`;
+                point.style.animationDelay = `${Math.random() * 6}s`;
+                point.style.animationDuration = `${4 + Math.random() * 4}s`;
+                point.style.backgroundColor = i % 3 === 0 ? 'var(--ml-blue)' : 
+                                            i % 3 === 1 ? 'var(--ml-orange)' : 'var(--ml-purple)';
+                dataFlow.appendChild(point);
+            }
+        }
+        
+        // Create matrix rain effect
+        function createMatrixRain() {
+            const matrixRain = document.getElementById('matrixRain');
+            const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 30; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = `${Math.random() * 100}%`;
+                column.style.animationDelay = `${Math.random() * 10}s`;
+                column.style.animationDuration = `${8 + Math.random() * 8}s`;
+                column.style.fontSize = `${12 + Math.random() * 12}px`;
+                column.style.color = `hsl(${180 + Math.random() * 60}, 100%, ${60 + Math.random() * 20}%)`;
+                
+                // Add random characters
+                let text = '';
+                for (let j = 0; j < 50; j++) {
+                    text += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                column.textContent = text;
+                
+                matrixRain.appendChild(column);
+            }
+        }
+        
+        // Show layer information
+        function showLayerInfo(layer) {
+            const info = {
+                'input': 'Input Layer: Accepts text, voice, and facial data',
+                'lstm': 'LSTM Layer: Processes sequential voice and text data',
+                'cnn': 'CNN Layer: Extracts features from facial images',
+                'transformer': 'Transformer: Analyzes text context and semantics',
+                'fusion': 'Fusion Layer: Combines multi-modal features',
+                'output': 'Output Layer: Produces emotion classification'
+            };
+            
+            alert(info[layer] || 'Layer information');
+        }
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

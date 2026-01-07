@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SoulStrings | Mood Analytics</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --spotify-green: #1DB954;
+    --youtube-red: #FF0000;
+    --dark-bg: #121212;
+    --card-bg: #181818;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B3B3B3;
+}
+
+body{
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background: linear-gradient(135deg, #000000, #121212, #282828);
+  color:white;
+  overflow-x:hidden;
+  position: relative;
+  min-height: 100vh;
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Audio Wave Animation */
+.audio-waves {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(90deg, transparent, var(--spotify-green), var(--youtube-red), transparent);
+  mask-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAiIHZpZXdCb3g9IjAgMCAxMjAwIDEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCA2MGMwLTMzLjEgMjYuOS02MCA2MC02MHM2MCAyNi45IDYwIDYwYzAgMzMuMS0yNi45IDYwLTYwIDYwUzAgOTMuMSAwIDYwWiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==');
+  mask-size: 100% 100%;
+  animation: waveMove 20s linear infinite;
+  filter: blur(1px);
+}
+
+.wave:nth-child(2) {
+  animation-delay: -5s;
+  opacity: 0.5;
+  background: linear-gradient(90deg, transparent, #1DB95480, #FF000080, transparent);
+}
+
+.wave:nth-child(3) {
+  animation-delay: -10s;
+  opacity: 0.3;
+  background: linear-gradient(90deg, transparent, #1DB95440, #FF000040, transparent);
+}
+
+@keyframes waveMove {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Floating Music Notes */
+.music-notes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.note {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0;
+  animation: floatNote 15s linear infinite;
+}
+
+.note.spotify { color: var(--spotify-green); }
+.note.youtube { color: var(--youtube-red); }
+
+@keyframes floatNote {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Pulsing Equalizer Bars */
+.equalizer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 8px;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+.equalizer-bar {
+  width: 6px;
+  height: 20px;
+  background: linear-gradient(to top, var(--spotify-green), var(--youtube-red));
+  border-radius: 3px 3px 0 0;
+  animation: equalizerMove 1.5s ease-in-out infinite;
+}
+
+.equalizer-bar:nth-child(2) { animation-delay: 0.1s; height: 40px; }
+.equalizer-bar:nth-child(3) { animation-delay: 0.2s; height: 60px; }
+.equalizer-bar:nth-child(4) { animation-delay: 0.3s; height: 80px; }
+.equalizer-bar:nth-child(5) { animation-delay: 0.4s; height: 100px; }
+.equalizer-bar:nth-child(6) { animation-delay: 0.5s; height: 80px; }
+.equalizer-bar:nth-child(7) { animation-delay: 0.6s; height: 60px; }
+.equalizer-bar:nth-child(8) { animation-delay: 0.7s; height: 40px; }
+.equalizer-bar:nth-child(9) { animation-delay: 0.8s; height: 20px; }
+
+@keyframes equalizerMove {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+
+/* Spotify-Youtube Theme Particles */
+.theme-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: particleFloat 20s linear infinite;
+}
+
+.particle.spotify { background: var(--spotify-green); }
+.particle.youtube { background: var(--youtube-red); }
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Glowing Orbs */
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.glow-orb.spotify {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--spotify-green), transparent 70%);
+  top: 20%;
+  left: 10%;
+  animation: orbFloat 25s ease-in-out infinite;
+}
+
+.glow-orb.youtube {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, var(--youtube-red), transparent 70%);
+  bottom: 20%;
+  right: 10%;
+  animation: orbFloat 30s ease-in-out infinite reverse;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(100px, 50px); }
+  50% { transform: translate(50px, 100px); }
+  75% { transform: translate(-50px, 50px); }
+}
+
+/* Header Styles - UNCHANGED */
+header {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--spotify-green);
+    font-size: 28px;
+}
+
+.logo span {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: 0.3s;
+    position: relative;
+}
+
+nav a:hover {
+    color: var(--spotify-green);
+}
+
+nav a.active {
+    color: var(--spotify-green);
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--spotify-green);
+    border-radius: 2px;
+}
+
+.user {
+    color: var(--spotify-green);
+    font-weight: 600;
+}
+
+/* MAIN */
+.analytics-container{
+  max-width:1200px;
+  margin:60px auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+.analytics-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.analytics-title h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--spotify-green), var(--youtube-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+    text-shadow: 0 0 30px rgba(29, 185, 84, 0.3);
+}
+
+.analytics-title p {
+    color: var(--text-secondary);
+}
+
+/* STATS CARDS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  margin-bottom:40px;
+}
+.stat-card{
+  background: rgba(24, 24, 24, 0.85);
+  backdrop-filter: blur(10px);
+  padding:25px;
+  border-radius:18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.1), transparent);
+  transition: left 0.7s ease;
+}
+.stat-card:hover::before {
+  left: 100%;
+}
+.stat-card:hover{
+  transform: translateY(-8px);
+  border-color: var(--spotify-green);
+  box-shadow: 0 15px 30px rgba(29, 185, 84, 0.2),
+              0 0 0 1px rgba(255, 0, 0, 0.1);
+}
+.stat-card i{
+  font-size:35px;
+  background: linear-gradient(45deg, var(--spotify-green), var(--youtube-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom:10px;
+}
+.stat-card h5 {
+    color: var(--text-primary);
+}
+.stat-card p {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* TABLE */
+.table-box{
+  background: rgba(24, 24, 24, 0.85);
+  backdrop-filter: blur(10px);
+  padding:30px;
+  border-radius:20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.table-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--spotify-green), var(--youtube-red));
+}
+.table-dark th{
+  background:rgba(29, 185, 84, 0.1);
+  border-bottom: 2px solid var(--spotify-green);
+}
+
+/* CHART */
+.chart-box{
+  background: rgba(24, 24, 24, 0.85);
+  backdrop-filter: blur(10px);
+  padding:30px;
+  border-radius:20px;
+  margin-top:40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+.chart-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 30%, rgba(29, 185, 84, 0.05) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Footer - UNCHANGED */
+footer {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    margin-top: 100px;
+    border-top: 1px solid rgba(29, 185, 84, 0.3);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer h5 {
+    color: var(--spotify-green);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+footer a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin: 8px 0;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    color: var(--spotify-green);
+    transform: translateX(5px);
+}
+
+.copy {
+    text-align: center;
+    margin-top: 40px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+    }
+    
+    nav {
+        order: 3;
+        width: 100%;
+        margin-top: 15px;
+        text-align: center;
+    }
+    
+    .analytics-title h2 {
+        font-size: 2rem;
+    }
+    
+    .audio-waves,
+    .equalizer {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Animations -->
+<div class="glow-orb spotify"></div>
+<div class="glow-orb youtube"></div>
+
+<div class="theme-particles" id="particles"></div>
+
+<div class="music-notes" id="musicNotes"></div>
+
+<div class="audio-waves">
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+
+<div class="equalizer">
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <i class="fas fa-headphones"></i>
+    <span>SoulStrings</span>
+  </div>
+  <nav>
+    <a href="{{ url_for('land') }}">Home</a>
+    <a href="{{ url_for('aboubt') }}">About</a>
+    <a href="">Features</a>
+    <a href="{{ url_for('index') }}">Input</a>
+    <a href="{{ url_for('history') }}" class="active">History</a>
+    <a href="{{ url_for('meet') }}">Contact</a>
+  </nav>
+  <div class="user">👤 {{ session['username'] }}</div>
+</header>
+
+<!-- MAIN -->
+<div class="analytics-container">
+
+  <div class="analytics-title">
+    <h2>📊 Mood Analytics</h2>
+    <p class="text-muted">Understand your emotional trends through music</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <i class="fas fa-smile"></i>
+      <h5>Most Frequent Mood</h5>
+      <p>{{ mood_data[0]['Mood'] if mood_data else 'N/A' }}</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-calendar-alt"></i>
+      <h5>Total Entries</h5>
+      <p>{{ mood_data|length }}</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-clock"></i>
+      <h5>Latest Mood</h5>
+      <p>{{ mood_data[-1]['Mood'] if mood_data else 'N/A' }}</p>
+    </div>
+    <div class="stat-card">
+      <i class="fas fa-music"></i>
+      <h5>Mood → Music Sync</h5>
+      <p>Active 🎶</p>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-box">
+    <h4 class="mb-3">Mood Timeline</h4>
+    <div class="table-responsive">
+      <table class="table table-dark table-hover text-center">
+        <thead>
+          <tr>
+            <th>Mood</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in mood_data %}
+          <tr>
+            <td>{{ entry['Mood'] }}</td>
+            <td>{{ entry['Timestamp'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXISTING PLOT -->
+  {% if plot_path %}
+  <div class="chart-box text-center">
+    <h4 class="mb-3">Mood Pattern Visualization</h4>
+    <img src="/{{ plot_path }}" class="img-fluid rounded">
+  </div>
+  {% endif %}
+
+  <div class="text-center mt-4">
+    <a href="/land" class="btn btn-outline-light">⬅ Back to Home</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>SoulStrings</h5>
+      <p style="color: var(--text-secondary);">Music that understands your emotions. Experience personalized recommendations based on your mood. AI powered music & mood experience. Music that understands your emotions. Advanced AI-based emotion analytics powered by music.</p>
+    </div>
+    <div>
+      <h5>Pages</h5>
+      <a href="{{ url_for('land') }}">Home</a>
+      <a href="{{ url_for('aboubt') }}">About</a>
+      <a href="">Features</a>
+      <a href="{{ url_for('index') }}">Input</a>
+      <a href="{{ url_for('history') }}" class="active">History</a>
+      <a href="{{ url_for('meet') }}">Contact</a>
+    </div>
+
+    <div>
+    <h5>Technology</h5>
+    <a href="{{ url_for('ai_mood') }}">AI Mood Detection</a>
+    <a href="{{ url_for('ml_tech') }}">Machine Learning</a>
+    <a href="{{ url_for('spotify_tech') }}">Spotify Integration</a>
+    <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+</div>
+
+    <div>
+      <h5>Connect</h5>
+      <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+      <a href="#"><i class="fab fa-spotify me-2"></i>Spotify</a>
+      <a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a>
+      <a href="#"><i class="fas fa-envelope me-2"></i>Contact Us</a>
+    </div>
+
+  </div>
+  <div class="copy">
+    © 2025 SoulStrings | Designed & Developed with ❤️ by Team9 Moodify
+  </div>
+</footer>
+
+<script>
+// Create floating music notes
+function createMusicNotes() {
+  const container = document.getElementById('musicNotes');
+  const notes = ['♪', '♫', '♬', '🎵', '🎶'];
+  
+  for (let i = 0; i < 15; i++) {
+    const note = document.createElement('div');
+    note.className = `note ${Math.random() > 0.5 ? 'spotify' : 'youtube'}`;
+    note.textContent = notes[Math.floor(Math.random() * notes.length)];
+    note.style.left = `${Math.random() * 100}%`;
+    note.style.animationDelay = `${Math.random() * 15}s`;
+    note.style.fontSize = `${20 + Math.random() * 20}px`;
+    container.appendChild(note);
+  }
+}
+
+// Create particles
+function createParticles() {
+  const container = document.getElementById('particles');
+  
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = `particle ${Math.random() > 0.5 ? 'spotify' : 'youtube'}`;
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDelay = `${Math.random() * 20}s`;
+    particle.style.width = particle.style.height = `${2 + Math.random() * 4}px`;
+    container.appendChild(particle);
+  }
+}
+
+// Initialize animations when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  createMusicNotes();
+  createParticles();
+  
+  // Add subtle hover effect to cards
+  const cards = document.querySelectorAll('.stat-card');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.boxShadow = '0 20px 40px rgba(29, 185, 84, 0.3), 0 0 0 2px rgba(255, 0, 0, 0.2)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.boxShadow = '';
+    });
+  });
+});
+
+// Add subtle background music wave effect
+const waveBars = document.querySelectorAll('.equalizer-bar');
+setInterval(() => {
+  waveBars.forEach(bar => {
+    const randomHeight = Math.random() * 100;
+    bar.style.height = `${randomHeight}px`;
+  });
+}, 300);
+</script>
+
+</body>
+</html>

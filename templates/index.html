@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SoulStrings | Feel the Music</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --spotify-green: #1DB954;
+    --youtube-red: #FF0000;
+    --dark-bg: #121212;
+    --card-bg: #181818;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B3B3B3;
+}
+
+body{
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background:linear-gradient(135deg,#121212,#000);
+  color:white;
+  overflow-x:hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--spotify-green);
+    font-size: 28px;
+}
+
+.logo span {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: 0.3s;
+    position: relative;
+}
+
+nav a:hover {
+    color: var(--spotify-green);
+}
+
+nav a.active {
+    color: var(--spotify-green);
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--spotify-green);
+    border-radius: 2px;
+}
+
+.user {
+    color: var(--spotify-green);
+    font-weight: 600;
+}
+
+/* 🎵 Floating music icons */
+.music-bg i{
+  position:absolute;
+  color:rgba(255,255,255,0.07);
+  animation:float 12s linear infinite;
+  z-index: -1;
+}
+@keyframes float{
+  from{transform:translateY(100vh) rotate(0deg);}
+  to{transform:translateY(-100vh) rotate(360deg);}
+}
+
+/* MAIN */
+.main-box{
+  max-width:1100px;
+  margin:60px auto;
+  text-align:center;
+  padding: 0 20px;
+}
+.main-box h2{
+  margin-bottom:10px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle{
+  color:var(--text-secondary);
+  margin-bottom:40px;
+  font-size: 1.1rem;
+}
+
+/* INPUT CARDS */
+.input-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
+.card-input{
+  background:rgba(24, 24, 24, 0.8);
+  padding:30px;
+  border-radius:20px;
+  transition:0.4s;
+  cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.card-input:hover{
+  transform:translateY(-8px);
+  border-color: var(--spotify-green);
+  box-shadow:0 25px 60px rgba(29,185,84,0.4);
+}
+.card-input i{
+  font-size:40px;
+  color:#1db954;
+  margin-bottom:15px;
+}
+.card-input h4{
+  margin-bottom:10px;
+  color: var(--text-primary);
+}
+.card-input p{
+  color: var(--text-secondary);
+}
+
+/* FORM */
+textarea{
+  background:rgba(255, 255, 255, 0.05);
+  border:1px solid rgba(255, 255, 255, 0.1);
+  border-radius:15px;
+  color:white;
+  padding:15px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: block;
+}
+textarea:focus{
+  outline:none;
+  border-color:var(--spotify-green);
+  box-shadow:0 0 0 3px rgba(29, 185, 84, 0.2);
+}
+.btn-main{
+  background:linear-gradient(135deg,#1db954,#00c6ff);
+  border:none;
+  border-radius:30px;
+  padding:12px 30px;
+  font-weight:700;
+  margin-top:20px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(29, 185, 84, 0.3);
+}
+
+/* Footer */
+footer {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    margin-top: 100px;
+    border-top: 1px solid rgba(29, 185, 84, 0.3);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer h5 {
+    color: var(--spotify-green);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+footer a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin: 8px 0;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    color: var(--spotify-green);
+    transform: translateX(5px);
+}
+
+.copy {
+    text-align: center;
+    margin-top: 40px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+    }
+    
+    nav {
+        order: 3;
+        width: 100%;
+        margin-top: 15px;
+        text-align: center;
+    }
+    
+    .main-box h2 {
+        font-size: 2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating Music Background -->
+<div class="music-bg">
+  <i class="fas fa-music" style="left:10%;animation-duration:15s"></i>
+  <i class="fas fa-headphones" style="left:30%;animation-duration:12s"></i>
+  <i class="fas fa-guitar" style="left:50%;animation-duration:18s"></i>
+  <i class="fas fa-drum" style="left:70%;animation-duration:14s"></i>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <i class="fas fa-headphones"></i>
+    <span>SoulStrings</span>
+  </div>
+  <nav>
+    <a href="{{ url_for('land') }}">Home</a>
+    <a href="{{ url_for('aboubt') }}">About</a>
+    <a href="#">Features</a>
+    <a href="{{ url_for('index') }}" class="active">Input</a>
+    <a href="{{ url_for('history') }}">History</a>
+    <a href="{{ url_for('meet') }}">Contact</a>
+  </nav>
+  <div class="user">👋 {{ session['username'] }}</div>
+</header>
+
+<!-- MAIN -->
+<div class="main-box">
+  <h2>Express Your Mood 🎶</h2>
+  <p class="subtitle">Music adapts to your emotions – type, speak or show your mood</p>
+
+  <form method="POST" action="/detect">
+
+    <div class="input-cards">
+      <div class="card-input" onclick="selectMode('text')">
+        <i class="fas fa-keyboard"></i>
+        <h4>Text Mood</h4>
+        <p>Type how you feel</p>
+      </div>
+
+      <div class="card-input" onclick="selectMode('voice')">
+        <i class="fas fa-microphone"></i>
+        <h4>Voice Mood</h4>
+        <p>Speak your emotion</p>
+      </div>
+
+      <div class="card-input" onclick="selectMode('face')">
+        <i class="fas fa-camera"></i>
+        <h4>Face Mood</h4>
+        <p>Detect via camera</p>
+      </div>
+    </div>
+
+    <input type="hidden" name="input_method" id="mode" value="text">
+
+    <div id="textBox" class="mt-4">
+      <textarea name="text_input" rows="3" placeholder="Tell us your mood..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-main">🎵 Detect Mood & Play</button>
+  </form>
+
+  <!-- EXISTING BUTTONS -->
+  <div class="mt-4">
+    <a href="/history" class="btn btn-outline-light me-3">📈 View Mood History</a>
+    <a href="/logout" class="btn btn-outline-danger">🚪 Logout</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>SoulStrings</h5>
+      <p style="color: var(--text-secondary);">Music that understands your emotions. Experience personalized recommendations based on your mood. AI powered music & mood experience. Music that understands your emotions. Advanced AI-based emotion analytics powered by music.</p>
+    </div>
+    <div>
+      <h5>Pages</h5>
+      <a href="{{ url_for('land') }}">Home</a>
+      <a href="{{ url_for('aboubt') }}">About</a>
+      <a href="#">Features</a>
+      <a href="{{ url_for('index') }}" class="active">Input</a>
+      <a href="{{ url_for('history') }}">History</a>
+      <a href="{{ url_for('meet') }}">Contact</a>
+    </div>
+
+    <div>
+    <h5>Technology</h5>
+    <a href="{{ url_for('ai_mood') }}">AI Mood Detection</a>
+    <a href="{{ url_for('ml_tech') }}">Machine Learning</a>
+    <a href="{{ url_for('spotify_tech') }}">Spotify Integration</a>
+    <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+</div>
+
+    <div>
+      <h5>Connect</h5>
+      <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+      <a href="#"><i class="fab fa-spotify me-2"></i>Spotify</a>
+      <a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a>
+      <a href="#"><i class="fas fa-envelope me-2"></i>Contact Us</a>
+      </div>
+
+  </div>
+  <div class="copy">
+    © 2025 SoulStrings | Designed & Developed with ❤️ by Team9 Moodify
+  </div>
+</footer>
+
+<script>
+function selectMode(mode){
+  document.getElementById("mode").value = mode;
+  document.getElementById("textBox").style.display =
+    mode === "text" ? "block" : "none";
+}
+</script>
+
+</body>
+</html>

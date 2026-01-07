@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SoulStrings | Feel Your Music</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --spotify:#1db954;
+  --youtube:#ff0000;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins', sans-serif;
+  color:white;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* 🎵 Animated Background - Music Strings */
+.music-strings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.music-string {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--spotify), transparent);
+    opacity: 0.1;
+    animation: stringVibrate 3s ease-in-out infinite;
+}
+
+@keyframes stringVibrate {
+    0%, 100% { transform: translateY(0) scaleY(1); }
+    50% { transform: translateY(10px) scaleY(1.2); }
+}
+
+/* Floating Music Notes */
+.floating-note {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.3;
+    z-index: -1;
+    animation: floatNote 15s linear infinite;
+}
+
+@keyframes floatNote {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Spotify Wave Animation */
+.spotify-wave {
+    display: inline-block;
+    height: 20px;
+    width: 4px;
+    margin: 0 1px;
+    background-color: var(--spotify);
+    animation: spotifyWave 1.2s ease-in-out infinite;
+}
+
+.spotify-wave:nth-child(2) { animation-delay: 0.1s; }
+.spotify-wave:nth-child(3) { animation-delay: 0.2s; }
+.spotify-wave:nth-child(4) { animation-delay: 0.3s; }
+.spotify-wave:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes spotifyWave {
+    0%, 40%, 100% { transform: scaleY(0.4); }
+    20% { transform: scaleY(1); }
+}
+
+/* YouTube Pulse Animation */
+.youtube-pulse {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--youtube);
+    border-radius: 50%;
+    animation: youtubePulse 2s infinite;
+    margin: 0 5px;
+}
+
+@keyframes youtubePulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+}
+
+/* 🔁 BACKGROUND IMAGE SLIDER */
+.bg-slider{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+}
+.bg-slider div{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  animation:slide 20s infinite;
+}
+.bg-slider div:nth-child(1){
+  background-image:url("https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4");
+}
+.bg-slider div:nth-child(2){
+  background-image:url("https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2");
+  animation-delay:5s;
+}
+.bg-slider div:nth-child(3){
+  background-image:url("https://images.unsplash.com/photo-1511379938547-c1f69419868d");
+  animation-delay:10s;
+}
+.bg-slider div:nth-child(4){
+  background-image:url("https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f");
+  animation-delay:15s;
+}
+
+@keyframes slide{
+  0%,100%{opacity:0;}
+  10%,40%{opacity:1;}
+}
+
+/* Dark overlay */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,rgba(0,0,0,0.8),rgba(0,0,0,0.5));
+  z-index:-2;
+}
+
+/* Header Styles */
+header {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--spotify);
+    font-size: 28px;
+}
+
+.logo span {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--spotify), #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #B3B3B3;
+    font-weight: 500;
+    transition: 0.3s;
+    position: relative;
+}
+
+nav a:hover {
+    color: var(--spotify);
+}
+
+nav a.active {
+    color: var(--spotify);
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--spotify);
+    border-radius: 2px;
+}
+
+.user {
+    color: var(--spotify);
+    font-weight: 600;
+}
+
+/* HERO */
+.hero{
+  height:90vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 20px;
+}
+.hero h1{
+  font-size:3.5rem;
+  font-weight:800;
+}
+.hero span{
+  background:linear-gradient(90deg,var(--spotify),var(--youtube));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero p{
+  max-width:700px;
+  margin:20px auto;
+  color:#ddd;
+  font-size:1.1rem;
+}
+.hero a{
+  padding:14px 35px;
+  border-radius:30px;
+  background:linear-gradient(135deg,var(--spotify),var(--youtube));
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+  display:inline-block;
+  margin-top:20px;
+  transition:all 0.3s ease;
+}
+.hero a:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(29,185,84,0.3);
+}
+
+/* INFO SECTIONS */
+.info{
+  max-width:1200px;
+  margin:80px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:40px;
+  padding:0 30px;
+}
+.card{
+  background:rgba(0,0,0,0.75);
+  border-radius:25px;
+  overflow:hidden;
+  box-shadow:0 25px 60px rgba(0,0,0,0.6);
+  transition:0.4s;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.card:hover{
+  transform:translateY(-10px);
+  border-color:var(--spotify);
+}
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+.card-body{
+  padding:25px;
+}
+.card-body h4{
+  color:var(--spotify);
+}
+.card-body p{
+  color:#B3B3B3;
+}
+
+/* Footer */
+footer {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    margin-top: 100px;
+    border-top: 1px solid rgba(29, 185, 84, 0.3);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer h5 {
+    color: var(--spotify);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+footer a {
+    display: block;
+    color: #B3B3B3;
+    text-decoration: none;
+    margin: 8px 0;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    color: var(--spotify);
+    transform: translateX(5px);
+}
+
+.copy {
+    text-align: center;
+    margin-top: 40px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    header {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+    }
+    
+    nav {
+        order: 3;
+        width: 100%;
+        margin-top: 15px;
+        text-align: center;
+    }
+    
+    .info {
+        padding: 0 20px;
+        gap: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Animated Music Strings Background -->
+<div class="music-strings">
+    <div class="music-string" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="music-string" style="left: 25%; animation-delay: 0.5s;"></div>
+    <div class="music-string" style="left: 40%; animation-delay: 1s;"></div>
+    <div class="music-string" style="left: 55%; animation-delay: 1.5s;"></div>
+    <div class="music-string" style="left: 70%; animation-delay: 2s;"></div>
+    <div class="music-string" style="left: 85%; animation-delay: 2.5s;"></div>
+</div>
+
+<!-- Floating Music Notes -->
+<div class="floating-notes">
+    <div class="floating-note" style="left: 5%; animation-delay: 0s;">♪</div>
+    <div class="floating-note" style="left: 15%; animation-delay: 2s;">♫</div>
+    <div class="floating-note" style="left: 25%; animation-delay: 4s;">♪</div>
+    <div class="floating-note" style="left: 35%; animation-delay: 6s;">♬</div>
+    <div class="floating-note" style="left: 45%; animation-delay: 8s;">♪</div>
+    <div class="floating-note" style="left: 55%; animation-delay: 10s;">♫</div>
+    <div class="floating-note" style="left: 65%; animation-delay: 12s;">♪</div>
+    <div class="floating-note" style="left: 75%; animation-delay: 14s;">♬</div>
+    <div class="floating-note" style="left: 85%; animation-delay: 16s;">♪</div>
+    <div class="floating-note" style="left: 95%; animation-delay: 18s;">♫</div>
+</div>
+
+<!-- BACKGROUND -->
+<div class="bg-slider">
+  <div></div><div></div><div></div><div></div>
+</div>
+<div class="overlay"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <i class="fas fa-headphones"></i>
+    <span>SoulStrings</span>
+  </div>
+  <nav>
+    <a href="{{ url_for('land') }}" class="active">Home</a>
+    <a href="{{ url_for('aboubt') }}">About</a>
+    <a href="#">Features</a>
+    <a href="{{ url_for('index') }}">Input</a>
+    <a href="{{ url_for('history') }}">History</a>
+    <a href="{{ url_for('meet') }}">Contact</a>
+  </nav>
+  <div class="user">👋 {{ session['username'] if session['username'] else 'Guest' }}</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <h1>Music That Matches <span>Your Mood</span></h1>
+    <p>Experience emotion-aware music powered by AI. From happiness to heartbreak — SoulStrings understands you. Get personalized music recommendations based on your current emotional state.</p>
+    <div class="mt-3">
+      <span class="spotify-wave"></span>
+      <span class="spotify-wave"></span>
+      <span class="spotify-wave"></span>
+      <span class="spotify-wave"></span>
+      <span class="spotify-wave"></span>
+      <span class="youtube-pulse"></span>
+    </div>
+    <a href="/index">Get Started 🎶</a>
+  </div>
+</section>
+
+<!-- INFO -->
+<section class="info">
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
+    <div class="card-body">
+      <h4><i class="fas fa-brain me-2"></i> Feel the Emotion</h4>
+      <p>Your mood is analyzed using text, voice, or facial expressions with advanced AI technology.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2">
+    <div class="card-body">
+      <h4><i class="fas fa-music me-2"></i> Spotify + YouTube</h4>
+      <p>Get recommendations across both platforms with matching vibe. Seamless integration with your favorite music services.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f">
+    <div class="card-body">
+      <h4><i class="fas fa-heart me-2"></i> Mental Wellness</h4>
+      <p>Music as therapy — motivation, calmness, energy & focus. Improve your mental health through personalized music.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h5>SoulStrings</h5>
+      <p style="color: #B3B3B3;">Music that understands your emotions. Experience personalized recommendations based on your mood. AI powered music & mood experience. Music that understands your emotions. Advanced AI-based emotion analytics powered by music.</p>
+    </div>
+    <div>
+      <h5>Pages</h5>
+      <a href="{{ url_for('land') }}" class="active">Home</a>
+      <a href="{{ url_for('aboubt') }}">About</a>
+      <a href="#">Features</a>
+      <a href="{{ url_for('index') }}">Input</a>
+      <a href="{{ url_for('history') }}">History</a>
+      <a href="{{ url_for('meet') }}">Contact</a>
+    </div>
+
+    <div>
+    <h5>Technology</h5>
+    <a href="{{ url_for('ai_mood') }}">AI Mood Detection</a>
+    <a href="{{ url_for('ml_tech') }}">Machine Learning</a>
+    <a href="{{ url_for('spotify_tech') }}">Spotify Integration</a>
+    <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+</div>
+    
+    <div>
+      <h5>Connect</h5>
+      <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+      <a href="#"><i class="fab fa-spotify me-2"></i>Spotify</a>
+      <a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a>
+      <a href="#"><i class="fas fa-envelope me-2"></i>Contact Us</a>
+    </div>
+
+  </div>
+  <div class="copy">
+    © 2025 SoulStrings | Designed & Developed with ❤️ by Team9 Moodify
+  </div>
+</footer>
+
+<script>
+    // Initialize animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create dynamic music strings
+        for (let i = 0; i < 15; i++) {
+            const string = document.createElement('div');
+            string.className = 'music-string';
+            string.style.left = `${(i + 1) * 6.25}%`;
+            string.style.animationDelay = `${i * 0.3}s`;
+            document.querySelector('.music-strings').appendChild(string);
+        }
+        
+        // Create dynamic floating notes
+        for (let i = 0; i < 20; i++) {
+            const note = document.createElement('div');
+            note.className = 'floating-note';
+            note.style.left = `${Math.random() * 100}%`;
+            note.style.animationDelay = `${Math.random() * 20}s`;
+            note.style.animationDuration = `${15 + Math.random() * 10}s`;
+            note.textContent = ['♪', '♫', '♬', '🎵', '🎶'][Math.floor(Math.random() * 5)];
+            document.querySelector('.floating-notes').appendChild(note);
+        }
+        
+        // Add hover effect to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Animate sections on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(section);
+        });
+    });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

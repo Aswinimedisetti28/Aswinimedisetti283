@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SoulStrings | Feel the Music</title>
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css for extra animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --youtube-red: #FF0000;
+            --dark-bg: #121212;
+            --card-bg: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0c0c0c 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 🎵 Animated Background - Music Strings */
+        .music-strings {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .music-string {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--spotify-green), transparent);
+            opacity: 0.1;
+            animation: stringVibrate 3s ease-in-out infinite;
+        }
+        
+        @keyframes stringVibrate {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(10px) scaleY(1.2); }
+        }
+        
+        /* Floating Music Notes */
+        .floating-note {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.3;
+            z-index: -1;
+            animation: floatNote 15s linear infinite;
+        }
+        
+        @keyframes floatNote {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Spotify Wave Animation */
+        .spotify-wave {
+            display: inline-block;
+            height: 20px;
+            width: 4px;
+            margin: 0 1px;
+            background-color: var(--spotify-green);
+            animation: spotifyWave 1.2s ease-in-out infinite;
+        }
+        
+        .spotify-wave:nth-child(2) { animation-delay: 0.1s; }
+        .spotify-wave:nth-child(3) { animation-delay: 0.2s; }
+        .spotify-wave:nth-child(4) { animation-delay: 0.3s; }
+        .spotify-wave:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes spotifyWave {
+            0%, 40%, 100% { transform: scaleY(0.4); }
+            20% { transform: scaleY(1); }
+        }
+        
+        /* YouTube Pulse Animation */
+        .youtube-pulse {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: var(--youtube-red);
+            border-radius: 50%;
+            animation: youtubePulse 2s infinite;
+            margin: 0 5px;
+        }
+        
+        @keyframes youtubePulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--spotify-green);
+            font-size: 28px;
+        }
+        
+        .logo span {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--spotify-green);
+            border-radius: 2px;
+        }
+        
+        .user {
+            color: var(--spotify-green);
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--spotify-green), var(--youtube-red));
+            border-radius: 2px;
+        }
+        
+        /* Project Info Section */
+        .project-info {
+            background: rgba(24, 24, 24, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 1200px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-info:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(40, 40, 40, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--spotify-green);
+        }
+        
+        .feature-card:hover {
+            background: rgba(50, 50, 50, 0.9);
+            transform: translateX(10px);
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .tech-item {
+            background: rgba(29, 185, 84, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(29, 185, 84, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            background: rgba(29, 185, 84, 0.2);
+            transform: scale(1.05);
+        }
+        
+        /* Resources Section */
+        .resources-section {
+            margin: 80px auto;
+            max-width: 1200px;
+        }
+        
+        .resource-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .resource-card {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(255, 0, 0, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .resource-card:hover::before {
+            left: 100%;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(29, 185, 84, 0.3);
+        }
+        
+        .resource-card i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--spotify-green), var(--youtube-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Emotions Section */
+        .emotions-section {
+            margin: 80px auto;
+            max-width: 1200px;
+        }
+        
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .emotion-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .emotion-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+        
+        .emotion-card:hover::after {
+            transform: scale(1);
+        }
+        
+        .emotion-card:hover {
+            transform: translateY(-15px) rotate(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .emotion-emoji {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: emojiFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes emojiFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+        
+        /* Team Section */
+        .team-section {
+            margin: 80px auto;
+            max-width: 1200px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .team-card {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            border-color: var(--spotify-green);
+            box-shadow: 0 25px 50px rgba(29, 185, 84, 0.3);
+        }
+        
+        .member-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover .member-img {
+            border-color: var(--spotify-green);
+            transform: scale(1.1);
+        }
+        
+        .member-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .github-link {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .github-link:hover {
+            background: var(--spotify-green);
+            transform: scale(1.1) rotate(360deg);
+        }
+        
+        .member-info {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .team-card:hover .member-info {
+            opacity: 1;
+            max-height: 200px;
+            margin-top: 15px;
+        }
+        
+        /* Music Instruments Sidebar */
+        .music-instruments {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .instrument {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(29, 185, 84, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .instrument:hover {
+            background: rgba(29, 185, 84, 0.4);
+            transform: scale(1.1) rotate(15deg);
+            border-color: var(--spotify-green);
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(29, 185, 84, 0.3);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        footer h5 {
+            color: var(--spotify-green);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        footer a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 8px 0;
+            transition: 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--spotify-green);
+            transform: translateX(5px);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-title h1 {
+                font-size: 2.2rem;
+            }
+            
+            .music-instruments {
+                display: none;
+            }
+            
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Music Strings Background -->
+    <div class="music-strings">
+        <div class="music-string" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="music-string" style="left: 25%; animation-delay: 0.5s;"></div>
+        <div class="music-string" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="music-string" style="left: 55%; animation-delay: 1.5s;"></div>
+        <div class="music-string" style="left: 70%; animation-delay: 2s;"></div>
+        <div class="music-string" style="left: 85%; animation-delay: 2.5s;"></div>
+    </div>
+    
+    <!-- Floating Music Notes -->
+    <div class="floating-notes">
+        <div class="floating-note" style="left: 5%; animation-delay: 0s;">♪</div>
+        <div class="floating-note" style="left: 15%; animation-delay: 2s;">♫</div>
+        <div class="floating-note" style="left: 25%; animation-delay: 4s;">♪</div>
+        <div class="floating-note" style="left: 35%; animation-delay: 6s;">♬</div>
+        <div class="floating-note" style="left: 45%; animation-delay: 8s;">♪</div>
+        <div class="floating-note" style="left: 55%; animation-delay: 10s;">♫</div>
+        <div class="floating-note" style="left: 65%; animation-delay: 12s;">♪</div>
+        <div class="floating-note" style="left: 75%; animation-delay: 14s;">♬</div>
+        <div class="floating-note" style="left: 85%; animation-delay: 16s;">♪</div>
+        <div class="floating-note" style="left: 95%; animation-delay: 18s;">♫</div>
+    </div>
+    
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-headphones"></i>
+            <span>SoulStrings</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('land') }}">Home</a>
+            <a href="{{ url_for('aboubt') }}" class="active">About</a>
+            <a href="#">Features</a>
+            <a href="{{ url_for('index') }}">Input</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('meet') }}">Contact</a>
+        </nav>
+        <div class="user">👋 {{ session['username'] }}</div>
+    </header>
+    
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        <!-- Project Info Section -->
+        <section class="project-info animate__animated animate__fadeIn">
+            <div class="section-title">
+                <h1>🎵 SoulStrings: A Mood-Based Music Recommendation System</h1>
+                <p class="lead" style="color: var(--text-secondary);">
+                    Experience music that understands your emotions
+                </p>
+                <div class="mt-3">
+                    <span class="spotify-wave"></span>
+                    <span class="spotify-wave"></span>
+                    <span class="spotify-wave"></span>
+                    <span class="spotify-wave"></span>
+                    <span class="spotify-wave"></span>
+                    <span class="youtube-pulse"></span>
+                </div>
+            </div>
+            
+            <div class="project-description">
+                <p class="fs-5 mb-4" style="color: var(--text-secondary);">
+                    SoulStrings is a revolutionary web application built using Flask that intelligently detects a user's mood and recommends personalized songs. It supports multiple input modalities (text, voice, and facial expression) and integrates with both <strong style="color: var(--spotify-green);">Spotify</strong> and <strong style="color: var(--youtube-red);">YouTube</strong> to deliver music that matches the user's current emotional state.
+                </p>
+                
+                <h3 class="mb-4" style="color: var(--spotify-green);">
+                    🚀 Features
+                    <span class="spotify-wave" style="height: 15px;"></span>
+                    <span class="spotify-wave" style="height: 15px;"></span>
+                    <span class="spotify-wave" style="height: 15px;"></span>
+                </h3>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h5><i class="fas fa-brain me-2"></i> Intelligent Mood Detection</h5>
+                        <p class="mb-0" style="color: var(--text-secondary);">
+                            Using text, voice, and facial expressions to understand your emotions
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h5><i class="fas fa-music me-2"></i> Dual Platform Integration</h5>
+                        <p class="mb-0" style="color: var(--text-secondary);">
+                            Seamlessly connect with Spotify and YouTube for music streaming
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h5><i class="fas fa-chart-line me-2"></i> Mood History Tracking</h5>
+                        <p class="mb-0" style="color: var(--text-secondary);">
+                            Visualize your emotional journey with interactive charts
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h5><i class="fas fa-user-shield me-2"></i> Secure Authentication</h5>
+                        <p class="mb-0" style="color: var(--text-secondary);">
+                            Personalized experience with secure sign up and login
+                        </p>
+                    </div>
+                </div>
+                
+                <h3 class="mt-5 mb-4" style="color: var(--youtube-red);">
+                    🛠️ Tech Stack
+                    <span class="youtube-pulse" style="width: 15px; height: 15px;"></span>
+                </h3>
+                
+                <div class="tech-stack">
+                    <div class="tech-item">HTML5 & CSS3</div>
+                    <div class="tech-item">Bootstrap 5</div>
+                    <div class="tech-item">Python & Flask</div>
+                    <div class="tech-item">Spotify Web API</div>
+                    <div class="tech-item">YouTube Data API v3</div>
+                    <div class="tech-item">OpenCV & AI/ML</div>
+                    <div class="tech-item">SQLite Database</div>
+                    <div class="tech-item">JavaScript</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Resources Section -->
+        <section class="resources-section animate__animated animate__fadeInUp">
+            <div class="section-title">
+                <h1>🔗 Project Resources</h1>
+                <p>Click to explore all project-related resources</p>
+            </div>
+            
+            <div class="resource-cards">
+                <a href="https://github.com/yourusername/moodify" target="_blank" class="resource-card text-decoration-none">
+                    <i class="fab fa-github"></i>
+                    <h4>GitHub Repository</h4>
+                    <p style="color: var(--text-secondary);">Complete source code and documentation</p>
+                </a>
+                
+                <a href="https://developer.spotify.com/documentation/web-api/" target="_blank" class="resource-card text-decoration-none">
+                    <i class="fab fa-spotify"></i>
+                    <h4>Spotify API Docs</h4>
+                    <p style="color: var(--text-secondary);">Official Spotify Web API documentation</p>
+                </a>
+                
+                <a href="https://developers.google.com/youtube/v3" target="_blank" class="resource-card text-decoration-none">
+                    <i class="fab fa-youtube"></i>
+                    <h4>YouTube API Docs</h4>
+                    <p style="color: var(--text-secondary);">YouTube Data API v3 documentation</p>
+                </a>
+                
+                <a href="https://flask.palletsprojects.com/" target="_blank" class="resource-card text-decoration-none">
+                    <i class="fas fa-code"></i>
+                    <h4>Flask Documentation</h4>
+                    <p style="color: var(--text-secondary);">Official Flask web framework docs</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Emotions Section -->
+        <section class="emotions-section animate__animated animate__fadeInUp">
+            <div class="section-title">
+                <h1>😊 Detected Emotions</h1>
+                <p>10 common emotions we detect with AI</p>
+            </div>
+            
+            <div class="emotion-grid">
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😊</div>
+                    <h5>Happy</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Joyful and cheerful mood</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😢</div>
+                    <h5>Sad</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Melancholy and sorrowful</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😡</div>
+                    <h5>Angry</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Frustrated and irritated</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😨</div>
+                    <h5>Fearful</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Anxious and scared</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😲</div>
+                    <h5>Surprised</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Startled and amazed</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😍</div>
+                    <h5>Loving</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Affectionate and caring</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😴</div>
+                    <h5>Calm</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Peaceful and relaxed</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">🤔</div>
+                    <h5>Confused</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Puzzled and uncertain</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">🤩</div>
+                    <h5>Excited</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Energetic and enthusiastic</p>
+                </div>
+                
+                <div class="emotion-card">
+                    <div class="emotion-emoji">😞</div>
+                    <h5>Disappointed</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Let down and discouraged</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Team Section -->
+        <section class="team-section animate__animated animate__fadeInUp">
+            <div class="section-title">
+                <h1>👥 Our Team</h1>
+                <p>Meet the brilliant minds behind Moodify</p>
+            </div>
+            
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card">
+                    <a href="https://github.com/Aswinimedisetti28" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <div class="member-img">
+                        <img src="{{ url_for('static', filename='images/Asw.jpg') }}" alt="Team Member 1" onerror="this.src='https://ui-avatars.com/api/?name=John+Doe&background=1DB954&color=fff&size=120'">
+                    </div>
+                    <h4>Aswini Devi Medisetti</h4>
+                    <p style="color: var(--text-secondary);">Lead Developer</p>
+                    <div class="member-info">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            <strong>Roll No:</strong> 22JN1A4529<br>
+                            <strong>Branch:</strong> CSE With AI&DS<br>
+                            <strong>Role:</strong> Backend & AI Integration
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-card">
+                    <a href="https://github.com/member2" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <div class="member-img">
+                        <img src="{{ url_for('static', filename='images/My img.jpg') }}" alt="Team Member 2" onerror="this.src='https://ui-avatars.com/api/?name=Jane+Smith&background=FF0000&color=fff&size=120'">
+                    </div>
+                    <h4>Sowjanya Uppada</h4>
+                    <p style="color: var(--text-secondary);">Frontend Specialist</p>
+                    <div class="member-info">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            <strong>Roll No:</strong> 22JN1A4509<br>
+                            <strong>Branch:</strong> CSE With AI&DS<br>
+                            <strong>Role:</strong> UI/UX Design
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-card">
+                    <a href="https://github.com/Priya-kadiyam1603" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <div class="member-img">
+                        <img src="{{ url_for('static', filename='images/priya.jpg') }}" alt="Team Member 3" onerror="this.src='https://ui-avatars.com/api/?name=Alex+Johnson&background=1DB954&color=fff&size=120'">
+                    </div>
+                    <h4>Priya Kadiyam</h4>
+                    <p style="color: var(--text-secondary);">Database Adminstrator</p>
+                    <div class="member-info">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            <strong>Roll No:</strong> 22JN1A4507<br>
+                            <strong>Branch:</strong> CSE With AI&DS<br>
+                            <strong>Role:</strong> Database Design
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 4 -->
+                <div class="team-card">
+                    <a href="https://github.com/katta-bharathi" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <div class="member-img">
+                        <img src="{{ url_for('static', filename='images/bar.jpg') }}" alt="Team Member 4" onerror="this.src='https://ui-avatars.com/api/?name=Sarah+Williams&background=FF0000&color=fff&size=120'">
+                    </div>
+                    <h4>Bharathi Muthyalu K</h4>
+                    <p style="color: var(--text-secondary);">Planning</p>
+                    <div class="member-info">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            <strong>Roll No:</strong> 22JN1A4523<br>
+                            <strong>Branch:</strong> CSE With AI&DS<br>
+                            <strong>Role:</strong> Docummentation Researcher
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 5 -->
+                <div class="team-card">
+                    <a href="https://github.com/Niha-bolloju" target="_blank" class="github-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <div class="member-img">
+                        <img src="{{ url_for('static', filename='images/niha.jpg') }}" alt="Team Member 5" onerror="this.src='https://ui-avatars.com/api/?name=Michael+Brown&background=1DB954&color=fff&size=120'">
+                    </div>
+                    <h4>Niharka Bolloju</h4>
+                    <p style="color: var(--text-secondary);">Tester</p>
+                    <div class="member-info">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            <strong>Roll No:</strong> 22JN1A4521<br>
+                            <strong>Branch:</strong> CSE With AI&DS<br>
+                            <strong>Role:</strong> Testing & Drployment
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Music Instruments Sidebar -->
+    <div class="music-instruments">
+        <div class="instrument" data-sound="guitar">
+            <i class="fas fa-guitar"></i>
+        </div>
+        <div class="instrument" data-sound="drum">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="instrument" data-sound="violin">
+            <i class="fa-sharp fa-solid fa-violin"></i>
+        </div>
+        <div class="instrument" data-sound="trumpet">
+            <i class="fa-sharp fa-solid fa-trumpet"></i>
+        </div>
+        <div class="instrument" data-sound="piano">
+            <i class="fas fa-music"></i>
+        </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h5>SoulStrings</h5>
+                <p style="color: var(--text-secondary);">Music that understands your emotions. Experience personalized recommendations based on your mood. AI powered music & mood experience. Music that understands your emotions. Advanced AI-based emotion analytics powered by music.</p>
+            </div>
+            <div>
+                <h5>Pages</h5>
+                <a href="{{ url_for('land') }}">Home</a>
+                <a href="{{ url_for('aboubt') }}">About</a>
+                <a href="#">Features</a>
+                <a href="{{ url_for('index') }}">Input</a>
+                <a href="{{ url_for('history') }}">History</a>
+                <a href="{{ url_for('meet') }}">Contact</a>
+            </div>
+            <div>
+                <h5>Technology</h5>
+                <a href="{{ url_for('ai_mood') }}">AI Mood Detection</a>
+                <a href="{{ url_for('ml_tech') }}">Machine Learning</a>
+                <a href="{{ url_for('spotify_tech') }}">Spotify Integration</a>
+                <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+            </div>
+            <div>
+                <h5>Connect</h5>
+                <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+                <a href="#"><i class="fab fa-spotify me-2"></i>Spotify</a>
+                <a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a>
+                <a href="#"><i class="fas fa-envelope me-2"></i>Contact Us</a>
+            </div>
+        </div>
+        <div class="copy">
+            © 2025 SoulStrings | Designed & Developed with ❤️ by Team9 Moodify
+        </div>
+    </footer>
+    
+    <!-- Audio Elements for Instrument Sounds - Using more reliable sound sources -->
+    <audio id="piano-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-piano-key-falling-in-metal-279.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="drum-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-drum-hit-2294.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="violin-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-violin-ethereal-2016.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="trumpet-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-trumpet-fanfare-2297.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="guitar-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-electric-guitar-power-chord-2333.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create dynamic music strings
+            for (let i = 0; i < 15; i++) {
+                const string = document.createElement('div');
+                string.className = 'music-string';
+                string.style.left = `${(i + 1) * 6.25}%`;
+                string.style.animationDelay = `${i * 0.3}s`;
+                document.querySelector('.music-strings').appendChild(string);
+            }
+            
+            // Create dynamic floating notes
+            for (let i = 0; i < 20; i++) {
+                const note = document.createElement('div');
+                note.className = 'floating-note';
+                note.style.left = `${Math.random() * 100}%`;
+                note.style.animationDelay = `${Math.random() * 20}s`;
+                note.style.animationDuration = `${15 + Math.random() * 10}s`;
+                note.textContent = ['♪', '♫', '♬', '🎵', '🎶'][Math.floor(Math.random() * 5)];
+                document.querySelector('.floating-notes').appendChild(note);
+            }
+            
+            // Instrument sound functionality - FIXED VERSION
+            const instruments = document.querySelectorAll('.instrument');
+            
+            // Preload audio context for better compatibility
+            let audioContext;
+            
+            function playSound(soundId) {
+                const sound = document.getElementById(soundId);
+                if (!sound) {
+                    console.error(`Sound not found: ${soundId}`);
+                    return;
+                }
+                
+                // Reset and play
+                sound.currentTime = 0;
+                
+                // Use a Promise to handle play() properly
+                const playPromise = sound.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Audio play failed:", error);
+                        // Fallback: create new audio element
+                        const newAudio = new Audio(sound.src);
+                        newAudio.play().catch(e => console.log("Fallback audio also failed:", e));
+                    });
+                }
+            }
+            
+            // Add click event to each instrument
+            instruments.forEach(instrument => {
+                instrument.addEventListener('click', function() {
+                    const soundType = this.getAttribute('data-sound');
+                    const soundId = `${soundType}-sound`;
+                    
+                    // Add click animation
+                    this.style.transform = 'scale(0.8)';
+                    this.style.backgroundColor = 'rgba(29, 185, 84, 0.6)';
+                    
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.1) rotate(15deg)';
+                        this.style.backgroundColor = 'rgba(29, 185, 84, 0.4)';
+                    }, 100);
+                    
+                    // Play the corresponding sound
+                    playSound(soundId);
+                    
+                    // Add visual feedback
+                    const originalColor = this.style.color;
+                    this.style.color = '#FFD700'; // Gold color for feedback
+                    
+                    setTimeout(() => {
+                        this.style.color = originalColor;
+                    }, 300);
+                });
+                
+                // Add hover effect
+                instrument.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 0 25px rgba(29, 185, 84, 0.7)';
+                });
+                
+                instrument.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Add hover effect to emotion cards
+            const emotionCards = document.querySelectorAll('.emotion-card');
+            emotionCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const emoji = this.querySelector('.emotion-emoji');
+                    emoji.style.animation = 'emojiFloat 0.5s ease-in-out';
+                    setTimeout(() => {
+                        emoji.style.animation = 'emojiFloat 3s ease-in-out infinite';
+                    }, 500);
+                });
+            });
+            
+            // Team card interaction
+            const teamCards = document.querySelectorAll('.team-card');
+            teamCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.github-link')) {
+                        this.classList.toggle('expanded');
+                    }
+                });
+            });
+            
+            // Animate sections on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(section);
+            });
+            
+            // Spotify wave animation for headings
+            const headings = document.querySelectorAll('h1, h2, h3');
+            headings.forEach(heading => {
+                heading.addEventListener('mouseenter', function() {
+                    const waves = this.querySelectorAll('.spotify-wave');
+                    waves.forEach(wave => {
+                        wave.style.animation = 'spotifyWave 0.5s ease-in-out';
+                        setTimeout(() => {
+                            wave.style.animation = 'spotifyWave 1.2s ease-in-out infinite';
+                        }, 500);
+                    });
+                });
+            });
+            
+            // Add keyboard shortcuts for instruments (for testing)
+            document.addEventListener('keydown', function(e) {
+                const key = e.key.toLowerCase();
+                const instrumentMap = {
+                    '1': 'guitar',
+                    '2': 'drum',
+                    '3': 'violin',
+                    '4': 'trumpet',
+                    '5': 'piano'
+                };
+                
+                if (instrumentMap[key]) {
+                    playSound(`${instrumentMap[key]}-sound`);
+                    
+                    // Find and animate the corresponding instrument
+                    const instrument = document.querySelector(`.instrument[data-sound="${instrumentMap[key]}"]`);
+                    if (instrument) {
+                        instrument.style.transform = 'scale(0.9)';
+                        instrument.style.backgroundColor = 'rgba(255, 215, 0, 0.6)';
+                        setTimeout(() => {
+                            instrument.style.transform = 'scale(1.1) rotate(15deg)';
+                            instrument.style.backgroundColor = 'rgba(29, 185, 84, 0.4)';
+                        }, 100);
+                    }
+                }
+            });
+            
+            // Add a welcome sound when page loads (optional)
+            setTimeout(() => {
+                playSound('piano-sound');
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

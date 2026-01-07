@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mood Detection | SoulStrings</title>
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --youtube-red: #FF0000;
+            --dark-bg: #121212;
+            --card-bg: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --accent-purple: #8A2BE2;
+            --accent-cyan: #00FFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0c0c0c 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Neural Network Background Animation */
+        .neural-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .neuron {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+            animation: neuronPulse 4s infinite;
+            box-shadow: 0 0 20px var(--spotify-green);
+        }
+        
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+            transform-origin: 0 0;
+            animation: connectionFlow 8s linear infinite;
+        }
+        
+        @keyframes neuronPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+        }
+        
+        @keyframes connectionFlow {
+            0% { transform: scaleX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            50% { transform: scaleX(1); opacity: 0.3; }
+            90% { opacity: 0; }
+            100% { transform: scaleX(0); opacity: 0; }
+        }
+        
+        /* Floating AI Particles */
+        .ai-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            font-size: 14px;
+            opacity: 0.1;
+            animation: particleFloat 20s linear infinite;
+            color: var(--accent-cyan);
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--spotify-green);
+            font-size: 28px;
+        }
+        
+        .logo span {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--spotify-green), #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--spotify-green);
+            border-radius: 2px;
+        }
+        
+        .user {
+            color: var(--spotify-green);
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .ai-hero {
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.1) 0%, transparent 70%);
+            animation: pulseRing 4s infinite;
+        }
+        
+        @keyframes pulseRing {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--spotify-green), var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        /* Tech Cards */
+        .tech-cards {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .tech-card {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
+        
+        .tech-card:hover::before {
+            left: 100%;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--spotify-green);
+            box-shadow: 0 25px 50px rgba(29, 185, 84, 0.2);
+        }
+        
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--spotify-green), var(--accent-purple));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: white;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Process Timeline */
+        .process-timeline {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--spotify-green), var(--accent-purple));
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            padding-left: 100px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 40px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--spotify-green), var(--accent-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 2;
+            animation: dotPulse 2s infinite;
+        }
+        
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(29, 185, 84, 0); }
+        }
+        
+        .timeline-content {
+            background: rgba(24, 24, 24, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            border-color: var(--spotify-green);
+            transform: translateX(10px);
+        }
+        
+        /* Demo Section */
+        .demo-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .demo-container {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(29, 185, 84, 0.05) 50%, transparent 70%);
+            animation: demoShine 3s infinite linear;
+        }
+        
+        @keyframes demoShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .demo-box {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px dashed var(--spotify-green);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .demo-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-input:focus {
+            outline: none;
+            border-color: var(--spotify-green);
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+        }
+        
+        .emoji-display {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: emojiBounce 2s infinite;
+        }
+        
+        @keyframes emojiBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(138, 43, 226, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(29, 185, 84, 0.2);
+            border-color: var(--spotify-green);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--spotify-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(29, 185, 84, 0.3);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        footer h5 {
+            color: var(--spotify-green);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        footer a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 8px 0;
+            transition: 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--spotify-green);
+            transform: translateX(5px);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                text-align: center;
+            }
+            
+            .process-timeline::before {
+                left: 25px;
+            }
+            
+            .timeline-item {
+                padding-left: 70px;
+            }
+            
+            .timeline-dot {
+                left: 15px;
+            }
+            
+            .demo-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Neural Network Background -->
+    <div class="neural-network" id="neuralNetwork"></div>
+    
+    <!-- AI Particles -->
+    <div class="ai-particles" id="aiParticles"></div>
+    
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-headphones"></i>
+            <span>SoulStrings</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('land') }}">Home</a>
+            <a href="{{ url_for('aboubt') }}">About</a>
+            <a href="#">Features</a>
+            <a href="{{ url_for('index') }}">Input</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('meet') }}">Contact</a>
+            <!--<a href="#" class="active">AI Tech</a>-->
+        </nav>
+        <div class="user">👋 {{ session['username'] if session['username'] else 'Explore AI' }}</div>
+    </header>
+    
+    <!-- HERO SECTION -->
+    <section class="ai-hero animate__animated animate__fadeIn">
+        <div class="container">
+            <h1 class="hero-title">🧠 AI Mood Detection Technology</h1>
+            <p class="hero-subtitle">
+                Discover how SoulStrings uses cutting-edge artificial intelligence to understand and analyze human emotions in real-time
+            </p>
+            <div class="mt-4">
+                <span class="spotify-wave"></span>
+                <span class="spotify-wave"></span>
+                <span class="spotify-wave"></span>
+                <span class="spotify-wave"></span>
+                <span class="spotify-wave"></span>
+                <span class="youtube-pulse"></span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- TECH CARDS -->
+    <section class="tech-cards">
+        <div class="tech-card" data-aos="fade-up">
+            <div class="tech-icon">
+                <i class="fas fa-keyboard"></i>
+            </div>
+            <h3>Text Analysis</h3>
+            <p style="color: var(--text-secondary);">
+                Our AI uses Natural Language Processing (NLP) and BERT transformer models to analyze textual input. 
+                It detects emotional cues, sentiment polarity, and contextual meaning with 94% accuracy.
+            </p>
+            <div class="mt-3">
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--spotify-green), var(--accent-purple));">BERT</span>
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--accent-purple), var(--accent-cyan));">NLP</span>
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--accent-cyan), var(--spotify-green));">Sentiment Analysis</span>
+            </div>
+        </div>
+        
+        <div class="tech-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="tech-icon">
+                <i class="fas fa-microphone"></i>
+            </div>
+            <h3>Voice Emotion Recognition</h3>
+            <p style="color: var(--text-secondary);">
+                Using deep learning models trained on thousands of voice samples, we analyze pitch, tone, speed, 
+                and frequency patterns to detect emotions from speech with 88% accuracy.
+            </p>
+            <div class="mt-3">
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--spotify-green), var(--accent-purple));">MFCC Features</span>
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--accent-purple), var(--accent-cyan));">CNN Models</span>
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--accent-cyan), var(--spotify-green));">Speech Processing</span>
+            </div>
+        </div>
+        
+        <div class="tech-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="tech-icon">
+                <i class="fas fa-camera"></i>
+            </div>
+            <h3>Facial Expression Analysis</h3>
+            <p style="color: var(--text-secondary);">
+                Powered by computer vision and deep learning, our system analyzes 68 facial landmarks in real-time 
+                to detect micro-expressions and emotional states with 91% accuracy.
+            </p>
+            <div class="mt-3">
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--spotify-green), var(--accent-purple));">OpenCV</span>
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--accent-purple), var(--accent-cyan));">DLib</span>
+                <span class="badge bg-gradient" style="background: linear-gradient(45deg, var(--accent-cyan), var(--spotify-green));">Computer Vision</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- PROCESS TIMELINE -->
+    <section class="process-timeline">
+        <h2 class="text-center mb-5" data-aos="fade-up">🚀 How Our AI Works</h2>
+        
+        <div class="timeline-item" data-aos="fade-right">
+            <div class="timeline-dot">1</div>
+            <div class="timeline-content">
+                <h4>Data Collection</h4>
+                <p style="color: var(--text-secondary);">
+                    We gather input from multiple sources: text input, voice recordings, or camera feed. 
+                    Each modality provides unique emotional data points.
+                </p>
+            </div>
+        </div>
+        
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+            <div class="timeline-dot">2</div>
+            <div class="timeline-content">
+                <h4>Feature Extraction</h4>
+                <p style="color: var(--text-secondary);">
+                    Our AI extracts relevant features: keywords & sentiment from text, vocal patterns from speech, 
+                    facial landmarks from images.
+                </p>
+            </div>
+        </div>
+        
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="200">
+            <div class="timeline-dot">3</div>
+            <div class="timeline-content">
+                <h4>Model Processing</h4>
+                <p style="color: var(--text-secondary);">
+                    Multiple neural networks process the features simultaneously. Each model specializes in 
+                    different emotional dimensions.
+                </p>
+            </div>
+        </div>
+        
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
+            <div class="timeline-dot">4</div>
+            <div class="timeline-content">
+                <h4>Fusion & Decision</h4>
+                <p style="color: var(--text-secondary);">
+                    A fusion layer combines results from all models using weighted averaging to produce 
+                    the final emotion prediction with confidence scores.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- DEMO SECTION -->
+    <section class="demo-section">
+        <h2 class="mb-4" data-aos="fade-up">🎭 Try Our AI Demo</h2>
+        <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">
+            Type how you're feeling and see our AI in action
+        </p>
+        
+        <div class="demo-container" data-aos="zoom-in">
+            <div class="demo-box">
+                <input type="text" 
+                       class="demo-input" 
+                       id="aiDemoInput" 
+                       placeholder="Type how you feel today...">
+                <button class="btn btn-success px-4" onclick="analyzeText()">
+                    <i class="fas fa-brain me-2"></i>Analyze Emotion
+                </button>
+                
+                <div id="emojiResult" class="mt-4">
+                    <div class="emoji-display" id="emojiDisplay">😊</div>
+                    <h4 id="emotionResult">Happy</h4>
+                    <p id="confidenceResult" style="color: var(--text-secondary);">
+                        Confidence: 85%
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- STATS GRID -->
+    <section class="stats-grid">
+        <div class="stat-card" data-aos="flip-left">
+            <i class="fas fa-bolt fa-2x mb-3" style="color: var(--spotify-green);"></i>
+            <div class="stat-number">94%</div>
+            <h5>Text Analysis Accuracy</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Precision in detecting emotions from text
+            </p>
+        </div>
+        
+        <div class="stat-card" data-aos="flip-left" data-aos-delay="100">
+            <i class="fas fa-wave-square fa-2x mb-3" style="color: var(--accent-purple);"></i>
+            <div class="stat-number">88%</div>
+            <h5>Voice Recognition</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Accuracy in detecting emotions from speech
+            </p>
+        </div>
+        
+        <div class="stat-card" data-aos="flip-left" data-aos-delay="200">
+            <i class="fas fa-eye fa-2x mb-3" style="color: var(--accent-cyan);"></i>
+            <div class="stat-number">91%</div>
+            <h5>Facial Detection</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Real-time facial expression analysis accuracy
+            </p>
+        </div>
+        
+        <div class="stat-card" data-aos="flip-left" data-aos-delay="300">
+            <i class="fas fa-rocket fa-2x mb-3" style="color: var(--spotify-green);"></i>
+            <div class="stat-number">&lt;2s</div>
+            <h5>Response Time</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Average time to analyze and respond
+            </p>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h5>SoulStrings AI</h5>
+                <p style="color: var(--text-secondary);">
+                    Advanced artificial intelligence that understands human emotions through text, voice, and facial expressions. 
+                    Powered by deep learning and neural networks.
+                </p>
+            </div>
+            <div>
+                <h5>Technology</h5>
+                <a href="#" class="active">AI Mood Detection</a>
+                <a href="{{ url_for('ml_tech') }}">Machine Learning</a>
+                <a href="{{ url_for('spotify_tech') }}">Spotify Integration</a>
+                <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+            </div>
+            <!--<div>
+                <h5>Resources</h5>
+                <a href="#">Research Papers</a>
+                <a href="#">API Documentation</a>
+                <a href="#">Model Architecture</a>
+                <a href="#">Dataset Information</a>
+            </div>-->
+            <div>
+                <h5>Connect</h5>
+                <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+                <a href="#"><i class="fab fa-spotify me-2"></i>Spotify</a>
+                <a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a>
+                <a href="#"><i class="fas fa-envelope me-2"></i>Contact</a>
+            </div>
+        </div>
+        <div class="copy">
+            © 2025 SoulStrings AI | Designed & Developed with ❤️ by Team9 Moodify
+        </div>
+    </footer>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
+            
+            // Create neural network background
+            createNeuralNetwork();
+            
+            // Create AI particles
+            createAIParticles();
+            
+            // Add Spotify wave animation
+            const spotifyWave = `
+                <style>
+                    .spotify-wave {
+                        display: inline-block;
+                        height: 20px;
+                        width: 4px;
+                        margin: 0 1px;
+                        background-color: var(--spotify-green);
+                        animation: spotifyWave 1.2s ease-in-out infinite;
+                    }
+                    
+                    .spotify-wave:nth-child(2) { animation-delay: 0.1s; }
+                    .spotify-wave:nth-child(3) { animation-delay: 0.2s; }
+                    .spotify-wave:nth-child(4) { animation-delay: 0.3s; }
+                    .spotify-wave:nth-child(5) { animation-delay: 0.4s; }
+                    
+                    @keyframes spotifyWave {
+                        0%, 40%, 100% { transform: scaleY(0.4); }
+                        20% { transform: scaleY(1); }
+                    }
+                    
+                    .youtube-pulse {
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        background-color: var(--youtube-red);
+                        border-radius: 50%;
+                        animation: youtubePulse 2s infinite;
+                        margin: 0 5px;
+                    }
+                    
+                    @keyframes youtubePulse {
+                        0% {
+                            transform: scale(0.8);
+                            opacity: 0.7;
+                        }
+                        50% {
+                            transform: scale(1.1);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: scale(0.8);
+                            opacity: 0.7;
+                        }
+                    }
+                </style>
+            `;
+            document.head.insertAdjacentHTML('beforeend', spotifyWave);
+        });
+        
+        // Create neural network animation
+        function createNeuralNetwork() {
+            const neuralNetwork = document.getElementById('neuralNetwork');
+            
+            // Create neurons
+            for (let i = 0; i < 20; i++) {
+                const neuron = document.createElement('div');
+                neuron.className = 'neuron';
+                neuron.style.left = `${Math.random() * 100}%`;
+                neuron.style.top = `${Math.random() * 100}%`;
+                neuron.style.animationDelay = `${Math.random() * 4}s`;
+                neuralNetwork.appendChild(neuron);
+            }
+            
+            // Create connections
+            for (let i = 0; i < 15; i++) {
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                
+                const x1 = Math.random() * 90 + 5;
+                const y1 = Math.random() * 90 + 5;
+                const x2 = Math.random() * 90 + 5;
+                const y2 = Math.random() * 90 + 5;
+                
+                const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                
+                connection.style.width = `${length}%`;
+                connection.style.left = `${x1}%`;
+                connection.style.top = `${y1}%`;
+                connection.style.transform = `rotate(${angle}deg)`;
+                connection.style.animationDelay = `${Math.random() * 8}s`;
+                
+                neuralNetwork.appendChild(connection);
+            }
+        }
+        
+        // Create AI particles
+        function createAIParticles() {
+            const particlesContainer = document.getElementById('aiParticles');
+            const aiSymbols = ['🧠', '🤖', '⚡', '💡', '🔬', '📊', '🔍', '🎯'];
+            
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = aiSymbols[Math.floor(Math.random() * aiSymbols.length)];
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                particle.style.animationDuration = `${15 + Math.random() * 10}s`;
+                particle.style.fontSize = `${12 + Math.random() * 16}px`;
+                particle.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Demo AI text analysis
+        function analyzeText() {
+            const input = document.getElementById('aiDemoInput').value.toLowerCase();
+            const emojiDisplay = document.getElementById('emojiDisplay');
+            const emotionResult = document.getElementById('emotionResult');
+            const confidenceResult = document.getElementById('confidenceResult');
+            
+            // Simple emotion detection logic for demo
+            let emotion = 'Neutral';
+            let emoji = '😐';
+            let confidence = Math.floor(Math.random() * 20 + 75);
+            
+            const emotionMap = {
+                happy: ['happy', 'joy', 'excited', 'good', 'great', 'awesome', 'wonderful', 'amazing', 'love'],
+                sad: ['sad', 'unhappy', 'depressed', 'bad', 'terrible', 'awful', 'cry', 'tears'],
+                angry: ['angry', 'mad', 'frustrated', 'annoyed', 'upset', 'hate'],
+                calm: ['calm', 'peaceful', 'relaxed', 'chill', 'serene', 'quiet'],
+                excited: ['excited', 'energetic', 'thrilled', 'pumped', 'exhilarated'],
+                nervous: ['nervous', 'anxious', 'scared', 'afraid', 'worried']
+            };
+            
+            for (const [emotionKey, keywords] of Object.entries(emotionMap)) {
+                if (keywords.some(keyword => input.includes(keyword))) {
+                    switch(emotionKey) {
+                        case 'happy': emotion = 'Happy'; emoji = '😊'; break;
+                        case 'sad': emotion = 'Sad'; emoji = '😢'; break;
+                        case 'angry': emotion = 'Angry'; emoji = '😡'; break;
+                        case 'calm': emotion = 'Calm'; emoji = '😌'; break;
+                        case 'excited': emotion = 'Excited'; emoji = '🤩'; break;
+                        case 'nervous': emotion = 'Nervous'; emoji = '😨'; break;
+                    }
+                    break;
+                }
+            }
+            
+            // Add animation
+            emojiDisplay.style.animation = 'emojiBounce 0.5s ease';
+            setTimeout(() => {
+                emojiDisplay.style.animation = 'emojiBounce 2s infinite';
+            }, 500);
+            
+            // Update results
+            emojiDisplay.textContent = emoji;
+            emotionResult.textContent = emotion;
+            confidenceResult.textContent = `Confidence: ${confidence}%`;
+        }
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

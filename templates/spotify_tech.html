@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Integration | SoulStrings</title>
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-dark: #191414;
+            --spotify-light: #1ed760;
+            --dark-bg: #121212;
+            --card-bg: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+            --accent-green: #1ed760;
+            --accent-blue: #509bf5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #191414 0%, #121212 50%, #000000 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Spotify Wave Animation */
+        .spotify-waves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .music-wave {
+            position: absolute;
+            bottom: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to top, transparent, var(--spotify-green), transparent);
+            opacity: 0.1;
+            animation: waveMove 8s ease-in-out infinite;
+        }
+        
+        @keyframes waveMove {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-20px) scaleY(1.5); }
+        }
+        
+        /* Floating Music Notes */
+        .music-notes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .music-note {
+            position: absolute;
+            font-size: 20px;
+            color: var(--spotify-green);
+            opacity: 0.1;
+            animation: noteFloat 15s linear infinite;
+        }
+        
+        @keyframes noteFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Equalizer Animation */
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            height: 40px;
+            gap: 4px;
+        }
+        
+        .eq-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--spotify-green), var(--accent-green));
+            border-radius: 2px;
+            animation: eqMove 1.5s ease-in-out infinite;
+        }
+        
+        .eq-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .eq-bar:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+        .eq-bar:nth-child(3) { height: 30px; animation-delay: 0.2s; }
+        .eq-bar:nth-child(4) { height: 25px; animation-delay: 0.3s; }
+        .eq-bar:nth-child(5) { height: 15px; animation-delay: 0.4s; }
+        .eq-bar:nth-child(6) { height: 35px; animation-delay: 0.5s; }
+        
+        @keyframes eqMove {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(25, 20, 20, 0.95);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--spotify-green);
+            font-size: 28px;
+        }
+        
+        .logo span {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--spotify-green), #1ed760);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active {
+            color: var(--spotify-green);
+        }
+        
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--spotify-green);
+            border-radius: 2px;
+        }
+        
+        .user {
+            color: var(--spotify-green);
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .spotify-hero {
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .spotify-hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(29, 185, 84, 0.15) 0%, transparent 70%);
+            animation: spotifyPulse 4s infinite;
+        }
+        
+        @keyframes spotifyPulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        }
+        
+        .spotify-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--spotify-green), #1ed760, #509bf5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        /* Integration Cards */
+        .integration-cards {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .integration-card {
+            background: rgba(24, 24, 24, 0.9);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+        
+        .integration-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .integration-card:hover::before {
+            left: 100%;
+        }
+        
+        .integration-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--spotify-green);
+            box-shadow: 0 25px 50px rgba(29, 185, 84, 0.2);
+        }
+        
+        .spotify-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--spotify-green), var(--accent-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: white;
+            animation: iconBounce 3s ease-in-out infinite;
+        }
+        
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+        
+        /* API Flow Diagram */
+        .api-flow {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .flow-container {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--spotify-green), var(--accent-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-right: 30px;
+            flex-shrink: 0;
+            animation: stepPulse 2s infinite;
+        }
+        
+        @keyframes stepPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(29, 185, 84, 0); }
+        }
+        
+        .step-arrow {
+            margin: 0 20px;
+            color: var(--spotify-green);
+            font-size: 24px;
+            animation: arrowBounce 1.5s infinite;
+        }
+        
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        /* Demo Player */
+        .demo-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .player-demo {
+            background: rgba(24, 24, 24, 0.9);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player-demo::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(29, 185, 84, 0.05) 50%, transparent 70%);
+            animation: demoShine 3s infinite linear;
+        }
+        
+        @keyframes demoShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .player-container {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid var(--spotify-green);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .album-art {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #333, #555);
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .album-art::before {
+            content: '🎵';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent-green);
+            box-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+        
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 45%;
+            background: var(--spotify-green);
+            border-radius: 2px;
+            animation: progressMove 20s linear infinite;
+        }
+        
+        @keyframes progressMove {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(80, 155, 245, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(29, 185, 84, 0.2);
+            border-color: var(--spotify-green);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--spotify-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .stat-card {
+            background: rgba(24, 24, 24, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--spotify-green);
+            box-shadow: 0 20px 40px rgba(29, 185, 84, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--spotify-green), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(25, 20, 20, 0.95);
+            padding: 40px;
+            margin-top: 150px;
+            border-top: 1px solid rgba(29, 185, 84, 0.3);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        footer h5 {
+            color: var(--spotify-green);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        footer a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 8px 0;
+            transition: 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--spotify-green);
+            transform: translateX(5px);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .spotify-title {
+                font-size: 2.5rem;
+            }
+            
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                text-align: center;
+            }
+            
+            .flow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .step-arrow {
+                transform: rotate(90deg);
+                margin: 15px 0;
+            }
+            
+            .player-controls {
+                gap: 15px;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .play-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Spotify Waves -->
+    <div class="spotify-waves" id="spotifyWaves"></div>
+    
+    <!-- Music Notes -->
+    <div class="music-notes" id="musicNotes"></div>
+    
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <i class="fab fa-headphones"></i>
+            <span>SoulStrings</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('land') }}">Home</a>
+            <a href="{{ url_for('aboubt') }}">About</a>
+            <a href="#">Features</a>
+            <a href="{{ url_for('index') }}">Input</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('meet') }}">Contact</a>
+            <!--<a href="{{ url_for('ai_mood') }}">AI Tech</a>
+            <a href="{{ url_for('ml_tech') }}">ML</a>
+            <a href="{{ url_for('spotify_tech') }}" class="active">Spotify</a>-->
+        </nav>
+        <div class="user">👋 {{ session['username'] if session['username'] else 'Stream Music' }}</div>
+    </header>
+    
+    <!-- HERO SECTION -->
+    <section class="spotify-hero animate__animated animate__fadeIn">
+        <div class="container">
+            <h1 class="spotify-title">🎵 Spotify Web API Integration</h1>
+            <p class="hero-subtitle">
+                Seamlessly connect with Spotify's vast music library to deliver personalized mood-based playlists in real-time
+            </p>
+            <div class="mt-4">
+                <div class="equalizer">
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                    <div class="eq-bar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- INTEGRATION CARDS -->
+    <section class="integration-cards">
+        <div class="integration-card" data-aos="fade-up">
+            <div class="spotify-icon">
+                <i class="fab fa-spotify"></i>
+            </div>
+            <h3>OAuth 2.0 Authentication</h3>
+            <p style="color: var(--text-secondary);">
+                Secure user authentication using Spotify's OAuth 2.0 protocol. 
+                Users can safely connect their Spotify accounts with granular permission controls.
+            </p>
+            <div class="mt-3">
+                <span class="badge" style="background: var(--spotify-green);">OAuth 2.0</span>
+                <span class="badge" style="background: #509bf5;">Authorization</span>
+                <span class="badge" style="background: #1ed760;">Secure Login</span>
+            </div>
+        </div>
+        
+        <div class="integration-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="spotify-icon">
+                <i class="fas fa-music"></i>
+            </div>
+            <h3>Music Recommendation Engine</h3>
+            <p style="color: var(--text-secondary);">
+                Advanced algorithms that analyze user's emotional state and match it with 
+                Spotify's extensive music catalog using audio features and mood-based filtering.
+            </p>
+            <div class="mt-3">
+                <span class="badge" style="background: var(--spotify-green);">Audio Features</span>
+                <span class="badge" style="background: #509bf5;">Recommendations</span>
+                <span class="badge" style="background: #1ed760;">Personalization</span>
+            </div>
+        </div>
+        
+        <div class="integration-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="spotify-icon">
+                <i class="fas fa-play-circle"></i>
+            </div>
+            <h3>Real-time Playback Control</h3>
+            <p style="color: var(--text-secondary);">
+                Direct control over Spotify playback. Play, pause, skip, and control volume 
+                directly from SoulStrings interface using Spotify Web Playback SDK.
+            </p>
+            <div class="mt-3">
+                <span class="badge" style="background: var(--spotify-green);">Playback SDK</span>
+                <span class="badge" style="background: #509bf5;">Real-time Control</span>
+                <span class="badge" style="background: #1ed760;">Cross-device</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- API FLOW DIAGRAM -->
+    <section class="api-flow">
+        <h2 class="text-center mb-5" data-aos="fade-up">🔗 API Integration Flow</h2>
+        
+        <div class="flow-container" data-aos="zoom-in">
+            <div class="flow-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h4>User Authorization</h4>
+                    <p style="color: var(--text-secondary);">
+                        User grants permission via Spotify OAuth. We obtain access and refresh tokens.
+                    </p>
+                </div>
+                <div class="step-arrow">➜</div>
+                <div class="step-number">2</div>
+                <div>
+                    <h4>Mood Analysis</h4>
+                    <p style="color: var(--text-secondary);">
+                        AI analyzes user's emotion through text, voice, or facial expression.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flow-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h4>Music Search</h4>
+                    <p style="color: var(--text-secondary);">
+                        Query Spotify API with emotion-based parameters and audio features.
+                    </p>
+                </div>
+                <div class="step-arrow">➜</div>
+                <div class="step-number">4</div>
+                <div>
+                    <h4>Playlist Creation</h4>
+                    <p style="color: var(--text-secondary);">
+                        Generate personalized playlists based on mood analysis results.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flow-step">
+                <div class="step-number">5</div>
+                <div>
+                    <h4>Playback Initiation</h4>
+                    <p style="color: var(--text-secondary);">
+                        Start playing recommended tracks directly on user's Spotify device.
+                    </p>
+                </div>
+                <div class="step-arrow">➜</div>
+                <div class="step-number">6</div>
+                <div>
+                    <h4>Feedback Loop</h4>
+                    <p style="color: var(--text-secondary);">
+                        Track user interactions to improve future recommendations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- DEMO PLAYER -->
+    <section class="demo-section">
+        <h2 class="mb-4" data-aos="fade-up">🎧 Interactive Spotify Player Demo</h2>
+        <p class="text-muted mb-5" data-aos="fade-up" data-aos-delay="100">
+            Experience our Spotify integration with this interactive player
+        </p>
+        
+        <div class="player-demo" data-aos="zoom-in">
+            <div class="player-container">
+                <div class="album-art"></div>
+                
+                <h4 id="songTitle">Blinding Lights</h4>
+                <p style="color: var(--text-secondary);" id="songArtist">The Weeknd</p>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                
+                <div class="player-controls">
+                    <button class="control-btn" onclick="prevSong()">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    
+                    <button class="control-btn play-btn" onclick="togglePlay()">
+                        <i class="fas fa-play" id="playIcon"></i>
+                    </button>
+                    
+                    <button class="control-btn" onclick="nextSong()">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+                
+                <div style="color: var(--text-secondary); font-size: 0.9rem;">
+                    <i class="fas fa-volume-up me-2"></i>
+                    <span id="currentTime">1:23</span> / <span id="totalTime">3:45</span>
+                </div>
+            </div>
+            
+            <p class="mt-3" style="color: var(--text-secondary);">
+                <i class="fas fa-info-circle me-2"></i>
+                This demo simulates Spotify Web Playback SDK integration
+            </p>
+        </div>
+    </section>
+    
+    <!-- FEATURES GRID -->
+    <section class="features-grid">
+        <div class="feature-card" data-aos="flip-left">
+            <div class="feature-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h4>Advanced Search</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Search across Spotify's 70M+ track library with emotion-based filters
+            </p>
+        </div>
+        
+        <div class="feature-card" data-aos="flip-left" data-aos-delay="100">
+            <div class="feature-icon">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <h4>Audio Analysis</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Access detailed audio features like danceability, energy, and valence
+            </p>
+        </div>
+        
+        <div class="feature-card" data-aos="flip-left" data-aos-delay="200">
+            <div class="feature-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h4>Listening History</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Access user's listening history for personalized recommendations
+            </p>
+        </div>
+        
+        <div class="feature-card" data-aos="flip-left" data-aos-delay="300">
+            <div class="feature-icon">
+                <i class="fas fa-sync"></i>
+            </div>
+            <h4>Real-time Sync</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Sync playback across all user's connected Spotify devices
+            </p>
+        </div>
+    </section>
+    
+    <!-- STATS GRID -->
+    <section class="stats-grid">
+        <div class="stat-card" data-aos="zoom-in">
+            <i class="fab fa-spotify fa-2x mb-3" style="color: var(--spotify-green);"></i>
+            <div class="stat-number">70M+</div>
+            <h5>Tracks Available</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Access to Spotify's complete music library
+            </p>
+        </div>
+        
+        <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fas fa-bolt fa-2x mb-3" style="color: var(--accent-green);"></i>
+            <div class="stat-number">&lt;200ms</div>
+            <h5>API Response</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Average Spotify Web API response time
+            </p>
+        </div>
+        
+        <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+            <i class="fas fa-chart-line fa-2x mb-3" style="color: var(--accent-blue);"></i>
+            <div class="stat-number">99.9%</div>
+            <h5>Uptime</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Spotify Web API reliability and availability
+            </p>
+        </div>
+        
+        <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+            <i class="fas fa-globe fa-2x mb-3" style="color: var(--spotify-green);"></i>
+            <div class="stat-number">180+</div>
+            <h5>Countries</h5>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Worldwide Spotify API coverage
+            </p>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h5>SoulStrings Spotify</h5>
+                <p style="color: var(--text-secondary);">
+                    Deep integration with Spotify Web API for emotion-aware music streaming. 
+                    Personal playlists, real-time control, and intelligent recommendations.
+                </p>
+            </div>
+            <div>
+                <h5>Technology</h5>
+                <a href="{{ url_for('ai_mood') }}">AI Mood Detection</a>
+                <a href="{{ url_for('ml_tech') }}">Machine Learning</a>
+                <a href="{{ url_for('spotify_tech') }}" class="active">Spotify Integration</a>
+                <a href="{{ url_for('youtube_tech') }}">YouTube Integration</a>
+            </div>
+            <div>
+                <h5>API Resources</h5>
+                <a href="https://developer.spotify.com/documentation/web-api/" target="_blank">Spotify Web API Docs</a>
+                <a href="https://developer.spotify.com/documentation/web-playback-sdk/" target="_blank">Playback SDK</a>
+                <a href="https://developer.spotify.com/documentation/general/guides/authorization/" target="_blank">Authorization Guide</a>
+                <a href="https://developer.spotify.com/documentation/web-api/reference/#/" target="_blank">API Reference</a>
+            </div>
+            <div>
+                <h5>Connect</h5>
+                <a href="#"><i class="fab fa-github me-2"></i>GitHub</a>
+                <a href="https://open.spotify.com/" target="_blank"><i class="fab fa-spotify me-2"></i>Spotify</a>
+                <a href="#"><i class="fab fa-youtube me-2"></i>YouTube</a>
+                <a href="#"><i class="fas fa-envelope me-2"></i>Contact</a>
+            </div>
+        </div>
+        <div class="copy">
+            © 2025 SoulStrings Spotify Integration | Powered by Spotify Web API | Team9 Moodify
+        </div>
+    </footer>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
+            
+            // Create Spotify waves
+            createSpotifyWaves();
+            
+            // Create music notes
+            createMusicNotes();
+            
+            // Initialize player demo
+            initPlayerDemo();
+        });
+        
+        // Create Spotify waves animation
+        function createSpotifyWaves() {
+            const wavesContainer = document.getElementById('spotifyWaves');
+            
+            for (let i = 0; i < 40; i++) {
+                const wave = document.createElement('div');
+                wave.className = 'music-wave';
+                wave.style.left = `${(i + 1) * 2.5}%`;
+                wave.style.animationDelay = `${i * 0.2}s`;
+                wave.style.animationDuration = `${6 + Math.random() * 4}s`;
+                wave.style.height = `${40 + Math.random() * 60}%`;
+                wavesContainer.appendChild(wave);
+            }
+        }
+        
+        // Create floating music notes
+        function createMusicNotes() {
+            const notesContainer = document.getElementById('musicNotes');
+            const noteSymbols = ['♪', '♫', '♬', '🎵', '🎶', '🎼'];
+            
+            for (let i = 0; i < 25; i++) {
+                const note = document.createElement('div');
+                note.className = 'music-note';
+                note.textContent = noteSymbols[Math.floor(Math.random() * noteSymbols.length)];
+                note.style.left = `${Math.random() * 100}%`;
+                note.style.animationDelay = `${Math.random() * 20}s`;
+                note.style.animationDuration = `${12 + Math.random() * 12}s`;
+                note.style.fontSize = `${16 + Math.random() * 24}px`;
+                note.style.color = `hsl(${100 + Math.random() * 60}, 100%, ${50 + Math.random() * 30}%)`;
+                notesContainer.appendChild(note);
+            }
+        }
+        
+        // Player Demo Functionality
+        let isPlaying = false;
+        let currentSong = 0;
+        const demoPlaylist = [
+            { title: "Blinding Lights", artist: "The Weeknd", duration: "3:45" },
+            { title: "Stay", artist: "The Kid LAROI, Justin Bieber", duration: "2:23" },
+            { title: "Good 4 U", artist: "Olivia Rodrigo", duration: "2:58" },
+            { title: "Levitating", artist: "Dua Lipa", duration: "3:24" },
+            { title: "Save Your Tears", artist: "The Weeknd", duration: "3:36" }
+        ];
+        
+        function initPlayerDemo() {
+            updateSongDisplay();
+            
+            // Simulate progress bar
+            setInterval(() => {
+                if (isPlaying) {
+                    const currentTime = document.getElementById('currentTime');
+                    const times = currentTime.textContent.split(':');
+                    let minutes = parseInt(times[0]);
+                    let seconds = parseInt(times[1]);
+                    
+                    seconds++;
+                    if (seconds >= 60) {
+                        minutes++;
+                        seconds = 0;
+                    }
+                    
+                    currentTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+        
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playIcon = document.getElementById('playIcon');
+            const progressFill = document.querySelector('.progress-fill');
+            
+            if (isPlaying) {
+                playIcon.className = 'fas fa-pause';
+                progressFill.style.animationPlayState = 'running';
+            } else {
+                playIcon.className = 'fas fa-play';
+                progressFill.style.animationPlayState = 'paused';
+            }
+        }
+        
+        function prevSong() {
+            currentSong = (currentSong - 1 + demoPlaylist.length) % demoPlaylist.length;
+            updateSongDisplay();
+        }
+        
+        function nextSong() {
+            currentSong = (currentSong + 1) % demoPlaylist.length;
+            updateSongDisplay();
+        }
+        
+        function updateSongDisplay() {
+            const song = demoPlaylist[currentSong];
+            document.getElementById('songTitle').textContent = song.title;
+            document.getElementById('songArtist').textContent = song.artist;
+            document.getElementById('totalTime').textContent = song.duration;
+            document.getElementById('currentTime').textContent = "0:00";
+            
+            // Reset progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            progressFill.style.animation = 'none';
+            setTimeout(() => {
+                progressFill.style.animation = 'progressMove 20s linear infinite';
+                if (!isPlaying) {
+                    progressFill.style.animationPlayState = 'paused';
+                }
+            }, 10);
+        }
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
